@@ -4,6 +4,8 @@ import { PropTypes } from 'prop-types';
 import './appMenu.css';
 import { Menu } from 'semantic-ui-react';
 
+const menuItems = ['Home', 'Search Player', 'Compare Players'];
+
 function handleItemClick(item) {
   this.setState({ activeItem: item });
 }
@@ -12,19 +14,22 @@ const AppMenu = props => {
   return (
     <Menu className="App-menu">
       <Menu.Item
-        name='Search Player'
-        active={props.activeItem === 'Search Player'}
-        onClick={handleItemClick.bind(props.app, 'Search Player')}>
-        Search Player
+        name={menuItems[0]}
+        active={props.activeItem === menuItems[0]}
+        onClick={handleItemClick.bind(props.app, menuItems[0])}>
+        {menuItems[0]}
       </Menu.Item>
       <Menu.Item
-        name='Compare Players'
-        active={props.activeItem === 'Compare Players'}
-        onClick={handleItemClick.bind(props.app, 'Compare Players')}>
-        Compare Players
+        name={menuItems[1]}
+        active={props.activeItem === menuItems[1]}
+        onClick={handleItemClick.bind(props.app, menuItems[1])}>
+        {menuItems[1]}
       </Menu.Item>
-      <Menu.Item>
-        Blank 3
+      <Menu.Item
+        name={menuItems[2]}
+        active={props.activeItem === menuItems[2]}
+        onClick={handleItemClick.bind(props.app, menuItems[2])}>
+        {menuItems[2]}
       </Menu.Item>
     </Menu>
   );
