@@ -1,0 +1,23 @@
+{
+    "extends": ["standard", "plugin:react/recommended", "plugin:import/errors"],
+    "rules": {
+      "arrow-parens": ["error", "as-needed"],
+      "object-curly-spacing": ["error", "always"],
+      "no-console": ["error", { "allow": ["warn", "error", "info"] }],
+      "space-before-function-paren": ["error", "never"],
+      "semi": [2, "always"],
+      "react/no-deprecated": ["off"],
+      "react/jsx-wrap-multilines": ["error", {
+        "declaration": "parens",
+        "assignment": "parens",
+        "return": "parens-new-line",
+        "arrow": "parens",
+        "condition": "ignore",
+        "logical": "ignore",
+        "prop": "ignore"
+      }]
+    },
+    "env": {
+      "browser": true
+    }
+}
