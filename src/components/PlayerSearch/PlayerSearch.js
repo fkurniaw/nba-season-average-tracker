@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
 import Sources from '../../util/sources.js';
 
 import './playerSearch.css';
+import * as actions from './playerSearchActionCreators';
 import { Input } from 'semantic-ui-react';
 
 function onChange(e) {
@@ -11,14 +14,14 @@ function onChange(e) {
 
 function onKeyPress(e) {
   if (e.charCode === 13) {
-    this.props.setState({ loading: true });
+    this.setState({ loading: true });
     Sources.getPlayers(this.state.currentInput).then(res => {
-      this.setState({ playerList: res.data });
+      this.props.setAllPlayers(res);
     });
   }
 }
 
-export default class PlayerSearch extends Component {
+class PlayerSearch extends Component {
   constructor() {
     super();
     this.state = { currentInput: '' };
@@ -31,6 +34,15 @@ export default class PlayerSearch extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {};
+};
+
+const actionCreators = { ...actions };
+
 PlayerSearch.propTypes = {
+  setAllPlayers: PropTypes.func,
   setLoading: PropTypes.func
 };
+
+export default connect(mapStateToProps, actionCreators)(PlayerSearch);

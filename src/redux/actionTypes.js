@@ -1,0 +1,1 @@
+export const SET_ALL_PLAYERS = 'SET_ALL_PLAYERS';
