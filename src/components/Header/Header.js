@@ -5,10 +5,12 @@ import './header.css';
 import AppMenu from '../Menu/AppMenu.js';
 
 class Header extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    let activeItem;
+    for (let i = 0; i < props.links.length; i++) if (window.location.href.indexOf(props.links[i]) > -1) activeItem = i;
     this.state = {
-      activeItem: 0
+      activeItem
     };
   }
   render() {

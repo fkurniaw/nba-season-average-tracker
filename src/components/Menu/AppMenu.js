@@ -8,27 +8,23 @@ function handleItemClick(item) {
   this.setState({ activeItem: item });
 }
 
+function renderLink(activeItem, index, link, menuItem, app) {
+  return (
+    <Link
+      className={`menu-item${activeItem === index ? '-active' : ''}`}
+      onClick={handleItemClick.bind(app, index)}
+      to={`${link}`}>
+      {menuItem}
+    </Link>
+  );
+}
+
 const AppMenu = props => {
   return (
     <nav className='app-menu'>
-      <Link
-        className={`menu-item${props.activeItem === 0 ? '-active' : ''}`}
-        onClick={handleItemClick.bind(props.app, 0)}
-        to={`/${props.links[0]}`}>
-        {props.menuItems[0]}
-      </Link>
-      <Link
-        className={`menu-item${props.activeItem === 1 ? '-active' : ''}`}
-        onClick={handleItemClick.bind(props.app, 1)}
-        to={`/${props.links[1]}`}>
-        {props.menuItems[1]}
-      </Link>
-      <Link
-        className={`menu-item${props.activeItem === 2 ? '-active' : ''}`}
-        onClick={handleItemClick.bind(props.app, 2)}
-        to={`/${props.links[2]}`}>
-        {props.menuItems[2]}
-      </Link>
+      {renderLink(props.activeItem, 0, props.links[0], props.menuItems[0], props.app)}
+      {renderLink(props.activeItem, 1, props.links[1], props.menuItems[1], props.app)}
+      {renderLink(props.activeItem, 2, props.links[2], props.menuItems[2], props.app)}
     </nav>
   );
 };
