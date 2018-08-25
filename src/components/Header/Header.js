@@ -14,7 +14,7 @@ class Header extends Component {
   render() {
     return (
       <header className="App-header">
-        <AppMenu activeItem={this.state.activeItem} app={this} links={this.props.links}/>
+        <AppMenu activeItem={this.state.activeItem} app={this} links={this.props.links} menuItems={this.props.headerNames}/>
         <div className='App-title-wrapper'>
           <h1 className="App-title">{this.props.headerNames[this.state.activeItem]}</h1>
         </div>

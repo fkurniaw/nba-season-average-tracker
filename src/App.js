@@ -27,7 +27,7 @@ const App = props => {
             <Route path={`/${links[2]}`} component={ComparePlayers}/>
           </Switch>
         </div>
-      </ BrowserRouter>
+      </BrowserRouter>
     </Provider>
   );
 };
