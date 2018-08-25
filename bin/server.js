@@ -35,13 +35,14 @@ app.get('/', (req, res) => {
 app.get('/allPlayers', (req, res) => {
   try {
     // NOTE: user-agent must be changed to Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36
-    const Season = `${req.query.year}-${Math.abs(parseInt(req.query.year) - 1999)}`;
-    nba.stats.allPlayers({ Season, IsOnlyCurrentSeason: '0', LeagueId: '00' }).then(nbaRes => {
-      res.send(nbaRes.CommonAllPlayers);
-    }).catch(err => {
-      console.info(err);
-      res.send([]);
-    });
+    // const Season = `${req.query.year}-${Math.abs(parseInt(req.query.year) - 1999)}`;
+    // nba.stats.allPlayers({ Season, IsOnlyCurrentSeason: '0', LeagueId: '00' }).then(nbaRes => {
+    //   res.send(nbaRes.CommonAllPlayers);
+    // }).catch(err => {
+    //   console.info(err);
+    //   res.send([]);
+    // });
+    res.sendFile(path.join(__dirname, '/players.json'));
   } catch (e) {
     console.info(e);
     return res.send([]);

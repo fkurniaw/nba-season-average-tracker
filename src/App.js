@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
@@ -15,37 +15,21 @@ const store = configureStore();
 const links = ['Home', 'SearchPlayer', 'ComparePlayers'];
 const headerNames = ['Home', 'Search Player', 'Compare Players'];
 
-class App extends Component {
-  componentDidMount() {
-    // Sources.getPlayers(this.state.currentInput).then(res => {
-    //   let players = res.data.map(player => {
-    //     return {
-    //       id: player.person_id,
-    //       nameLastFirst: player.display_last_comma_first,
-    //       nameFirstLast: player.display_first_last
-    //     };
-    //   });
-    //   this.props.setAllPlayers(players);
-    // }).catch(err => {
-    //   if (err) console.info('Network Error');
-    // });
-  }
-  render() {
-    return (
-      <Provider store={store}>
-        <BrowserRouter>
-          <div className="App">
-            <Header headerNames={headerNames} links={links}/>
-            <Switch>
-              <Route path={`/${links[0]}`} component={Home}/>
-              <Route path={`/${links[1]}`} component={PlayerSearch}/>
-              <Route path={`/${links[2]}`} component={ComparePlayers}/>
-            </Switch>
-          </div>
-        </ BrowserRouter>
-      </Provider>
-    );
-  }
-}
+const App = props => {
+  return (
+    <Provider store={store}>
+      <BrowserRouter>
+        <div className="App">
+          <Header headerNames={headerNames} links={links}/>
+          <Switch>
+            <Route path={`/${links[0]}`} component={Home}/>
+            <Route path={`/${links[1]}`} component={PlayerSearch}/>
+            <Route path={`/${links[2]}`} component={ComparePlayers}/>
+          </Switch>
+        </div>
+      </ BrowserRouter>
+    </Provider>
+  );
+};
 
 export default App;

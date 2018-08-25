@@ -11,8 +11,9 @@
   border-radius: 3px;
   color: black;
   display: inline-block;
-  min-width: calc(60% / 3);
-  padding: 15px;
+  min-width: 150px;
+  width: calc(40% / 3);
+  padding: 12px;
   text-align: center;
 }
 .menu-item-active {
