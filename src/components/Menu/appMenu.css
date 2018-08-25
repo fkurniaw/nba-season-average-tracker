@@ -1,4 +1,17 @@
-.App-Menu {
-  border-radius: 0px solid #000000 !important;
+.app-menu {
+  text-align: left;
   width: 100%
+}
+.menu-item, .menu-item-active {
+  background-color: white;
+  border: 1px solid grey;
+  border-radius: 3px;
+  color: black;
+  display: inline-block;
+  min-width: calc(100% / 3);
+  padding: 10px;
+  text-align: center;
+}
+.menu-item-active {
+  color: #00A0FF
 }

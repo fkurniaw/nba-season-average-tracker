@@ -1,8 +1,8 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import './appMenu.css';
-import { Menu } from 'semantic-ui-react';
 
 const menuItems = ['Home', 'Search Player', 'Compare Players'];
 
@@ -12,32 +12,33 @@ function handleItemClick(item) {
 
 const AppMenu = props => {
   return (
-    <Menu className="App-menu">
-      <Menu.Item
-        name={menuItems[0]}
-        active={props.activeItem === menuItems[0]}
-        onClick={handleItemClick.bind(props.app, menuItems[0])}>
+    <nav className='app-menu'>
+      <Link
+        className={`menu-item${props.activeItem === 0 ? '-active' : ''}`}
+        onClick={handleItemClick.bind(props.app, 0)}
+        to={`/${props.links[0]}`}>
         {menuItems[0]}
-      </Menu.Item>
-      <Menu.Item
-        name={menuItems[1]}
-        active={props.activeItem === menuItems[1]}
-        onClick={handleItemClick.bind(props.app, menuItems[1])}>
+      </Link>
+      <Link
+        className={`menu-item${props.activeItem === 1 ? '-active' : ''}`}
+        onClick={handleItemClick.bind(props.app, 1)}
+        to={`/${props.links[1]}`}>
         {menuItems[1]}
-      </Menu.Item>
-      <Menu.Item
-        name={menuItems[2]}
-        active={props.activeItem === menuItems[2]}
-        onClick={handleItemClick.bind(props.app, menuItems[2])}>
+      </Link>
+      <Link
+        className={`menu-item${props.activeItem === 2 ? '-active' : ''}`}
+        onClick={handleItemClick.bind(props.app, 2)}
+        to={`/${props.links[2]}`}>
         {menuItems[2]}
-      </Menu.Item>
-    </Menu>
+      </Link>
+    </nav>
   );
 };
 
 AppMenu.propTypes = {
-  activeItem: PropTypes.string,
-  app: PropTypes.object
+  activeItem: PropTypes.number,
+  app: PropTypes.object,
+  links: PropTypes.array
 };
 
 export default AppMenu;

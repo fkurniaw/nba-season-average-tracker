@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import Sources from '../../util/sources.js';
-
 import './playerSearch.css';
 import * as actions from './playerSearchActionCreators';
 import { Input } from 'semantic-ui-react';
@@ -13,12 +11,7 @@ function onChange(e) {
 }
 
 function onKeyPress(e) {
-  if (e.charCode === 13) {
-    this.setState({ loading: true });
-    Sources.getPlayers(this.state.currentInput).then(res => {
-      this.props.setAllPlayers(res);
-    });
-  }
+  if (e.charCode === 13) {}
 }
 
 class PlayerSearch extends Component {
