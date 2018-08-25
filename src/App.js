@@ -5,8 +5,8 @@ import { Provider } from 'react-redux';
 import configureStore from './redux/store';
 
 import './App.css';
-import AppMenu from './components/Menu/AppMenu.js';
 import ComparePlayers from './components/ComparePlayers/ComparePlayers.js';
+import Header from './components/Header/Header.js';
 import Home from './components/Home/Home.js';
 import PlayerSearch from './components/PlayerSearch/PlayerSearch';
 
@@ -42,12 +42,7 @@ class App extends Component {
       <Provider store={store}>
         <BrowserRouter>
           <div className="App">
-            <header className="App-header">
-              <AppMenu activeItem={this.state.activeItem} app={this} links={links}/>
-              <div className='App-title-wrapper'>
-                <h1 className="App-title">{headerNames[this.state.activeItem]}</h1>
-              </div>
-            </header>
+            <Header headerNames={headerNames} links={links}/>
             <Switch>
               <Route path={`/${links[0]}`} component={Home}/>
               <Route path={`/${links[1]}`} component={PlayerSearch}/>
