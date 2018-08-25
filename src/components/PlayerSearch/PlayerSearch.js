@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import './playerSearch.css';
 import * as actions from './playerSearchActionCreators';
-import { Input } from 'semantic-ui-react';
+import { Search } from 'semantic-ui-react';
 
 function onChange(e) {
   this.setState({ currentInput: e.target.value });
@@ -22,7 +22,7 @@ class PlayerSearch extends Component {
 
   render() {
     return (
-      <Input className='year-input' onChange={onChange.bind(this)} onKeyPress={onKeyPress.bind(this)}/>
+      <Search className='year-input' onChange={onChange.bind(this)} onKeyPress={onKeyPress.bind(this)}/>
     );
   }
 }

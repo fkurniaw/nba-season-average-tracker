@@ -16,13 +16,6 @@ const links = ['Home', 'SearchPlayer', 'ComparePlayers'];
 const headerNames = ['Home', 'Search Player', 'Compare Players'];
 
 class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      activeItem: 0,
-      loading: false
-    };
-  }
   componentDidMount() {
     // Sources.getPlayers(this.state.currentInput).then(res => {
     //   let players = res.data.map(player => {
