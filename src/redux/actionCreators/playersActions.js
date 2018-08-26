@@ -27,3 +27,10 @@ export function setPlayerGameLog(playerGameLog) {
     playerGameLog
   };
 }
+
+export function setPlayerId(playerId) {
+  return {
+    type: types.SET_PLAYER_ID,
+    playerId
+  };
+}

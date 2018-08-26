@@ -22,6 +22,7 @@ class PlayerStats extends Component {
     this.state = {};
   }
   componentDidMount() {
+    this.props.setPlayerId(this.props.match.params.id);
     Sources.getPlayer(this.props.match.params.id).then(res => {
       console.info(res.data);
       this.props.setCurrentPlayer(res.data);
@@ -33,7 +34,10 @@ class PlayerStats extends Component {
     return (
       <Table.Row key={`${stat.season_id} ${i}`}>
         <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>
-          {i === 'career' ? 'Career' : <Link to={`/players/${this.props.match.params.id}/gamelog/${stat.season_id}`}>{stat.season_id}</Link> || '-'}
+          {i === 'career' ? 'Career'
+            : <Link to={`/players/${this.props.match.params.id}/gamelog/${stat.season_id}`} onClick={() => this.props.setPlayerGameLog([])}>
+              {stat.season_id}
+            </Link> || '-'}
         </Table.Cell>
         <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.team_abbreviation || '-'}</Table.Cell>
         <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.gp || '-'}</Table.Cell>
@@ -100,7 +104,9 @@ PlayerStats.propTypes = {
   currentPlayer: PropTypes.object,
   match: PropTypes.object,
   playerName: PropTypes.string,
-  setCurrentPlayer: PropTypes.func
+  setCurrentPlayer: PropTypes.func,
+  setPlayerGameLog: PropTypes.func,
+  setPlayerId: PropTypes.func
 };
 
 const mapStateToProps = (state, ownProps) => {
@@ -111,7 +117,9 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const actionCreators = {
-  setCurrentPlayer: actions.setCurrentPlayer
+  setCurrentPlayer: actions.setCurrentPlayer,
+  setPlayerGameLog: actions.setPlayerGameLog,
+  setPlayerId: actions.setPlayerId
 };
 
 export default connect(mapStateToProps, actionCreators)(PlayerStats);

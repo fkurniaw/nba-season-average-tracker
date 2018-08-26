@@ -1,0 +1,11 @@
+.player-game-log {
+  display: inline-block;
+  margin: 20px auto;
+}
+.player-game-log-headers {
+  text-align: left !important;
+}
+.player-game-log-stat, .player-game-log-headers {
+  font-size: 0.9em;
+  padding: 2px 7px !important;
+}

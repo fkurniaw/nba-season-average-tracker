@@ -11,6 +11,8 @@ export function players(state = initialPlayersState, action) {
       return Object.assign({}, state, { playerName: action.playerName });
     case types.SET_PLAYER_GAME_LOG:
       return Object.assign({}, state, { playerGameLog: action.playerGameLog });
+    case types.SET_PLAYER_ID:
+      return Object.assign({}, state, { playerId: action.playerId });
     default:
       return state;
   }
