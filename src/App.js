@@ -25,7 +25,7 @@ const App = props => {
           <Switch>
             <Route exact path={`/${links[0]}`} component={Home}/>
             <Route exact path={`/${links[2]}`} component={ComparePlayers}/>
-            <Route exact path={`/player/:id`} component={PlayerStats}/>
+            <Route exact path={`/players/:id`} component={PlayerStats}/>
           </Switch>
         </div>
       </BrowserRouter>

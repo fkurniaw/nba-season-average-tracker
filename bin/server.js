@@ -52,9 +52,14 @@ app.get('/allPlayers', (req, res) => {
 
 app.get('/player', (req, res) => {
   try {
-    const PlayerId = res.query.playerId;
-    nba.stats.playerProfile({ PlayerId, PerMode: 'PerGame' }).then(nbaRes => {
-      let results = [];
+    const PlayerID = req.query.playerId;
+    nba.stats.playerProfile({ PlayerID, PerMode: 'PerGame', LeagueID: '00' }).then(nbaRes => {
+      let results = {
+        careerTotalsPost: nbaRes.CareerTotalsPostSeason,
+        careerTotalsRegular: nbaRes.CareerTotalsRegularSeason,
+        postSeasonAvg: nbaRes.SeasonTotalsPostSeason,
+        regularSeasonAvg: nbaRes.SeasonTotalsRegularSeason
+      };
       return res.send(results);
     });
   } catch (e) {

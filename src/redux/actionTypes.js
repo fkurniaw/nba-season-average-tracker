@@ -1,1 +1,2 @@
 export const SET_ALL_PLAYERS = 'SET_ALL_PLAYERS';
+export const SET_CURRENT_PLAYER = 'SET_CURRENT_PLAYER';
