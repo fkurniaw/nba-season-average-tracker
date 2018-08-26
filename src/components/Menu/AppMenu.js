@@ -10,13 +10,14 @@ function handleItemClick(item) {
   this.setState({ activeItem: item });
 }
 
-function renderLink(activeItem, index, link, menuItem, app) {
+function renderLink(props, index) {
   return (
     <Link
-      className={`menu-item${activeItem === index ? '-active' : ''}`}
-      onClick={handleItemClick.bind(app, index)}
-      to={`${link}`}>
-      {menuItem}
+      to={`/${props.links[index]}`}
+      replace
+      className={`menu-item${props.activeItem === index ? '-active' : ''}`}
+      onClick={handleItemClick.bind(props.app, index)}>
+      {props.menuItems[index]}
     </Link>
   );
 }
@@ -24,8 +25,8 @@ function renderLink(activeItem, index, link, menuItem, app) {
 const AppMenu = props => {
   return (
     <nav className='app-menu'>
-      {renderLink(props.activeItem, 0, props.links[0], props.menuItems[0], props.app)}
-      {renderLink(props.activeItem, 2, props.links[2], props.menuItems[2], props.app)}
+      {renderLink(props, 0)}
+      {renderLink(props, 2)}
       <div className='player-search'>
         <PlayerSearch />
       </div>
@@ -36,6 +37,15 @@ const AppMenu = props => {
 AppMenu.propTypes = {
   activeItem: PropTypes.number,
   app: PropTypes.object,
+  baseUrl: PropTypes.string,
+  links: PropTypes.array,
+  menuItems: PropTypes.array
+};
+
+renderLink.propTypes = {
+  activeItem: PropTypes.number,
+  app: PropTypes.object,
+  baseUrl: PropTypes.string,
   links: PropTypes.array,
   menuItems: PropTypes.array
 };

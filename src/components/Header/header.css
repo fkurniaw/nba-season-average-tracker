@@ -2,6 +2,7 @@
   background-color: #222;
   /* padding: 20px; */
   color: white;
+  overflow-y: visible;
 }
 
 .App-title-wrapper {

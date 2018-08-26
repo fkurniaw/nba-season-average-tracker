@@ -8,8 +8,10 @@ import './App.css';
 import ComparePlayers from './components/ComparePlayers/ComparePlayers.js';
 import Header from './components/Header/Header.js';
 import Home from './components/Home/Home.js';
+import PlayerStats from './components/PlayerStats/PlayerStats.js';
 
 const store = configureStore();
+const baseUrl = `${window.location.origin}`;
 
 const links = ['Home', 'SearchPlayer', 'ComparePlayers'];
 const headerNames = ['Home', 'Search Player', 'Compare Players'];
@@ -17,12 +19,13 @@ const headerNames = ['Home', 'Search Player', 'Compare Players'];
 const App = props => {
   return (
     <Provider store={store}>
-      <BrowserRouter>
+      <BrowserRouter baseName={baseUrl}>
         <div className="App">
-          <Header headerNames={headerNames} links={links}/>
+          <Header baseUrl={baseUrl} headerNames={headerNames} links={links}/>
           <Switch>
-            <Route path={`/${links[0]}`} component={Home}/>
-            <Route path={`/${links[2]}`} component={ComparePlayers}/>
+            <Route exact path={`/${links[0]}`} component={Home}/>
+            <Route exact path={`/${links[2]}`} component={ComparePlayers}/>
+            <Route exact path={`/player/:id`} component={PlayerStats}/>
           </Switch>
         </div>
       </BrowserRouter>

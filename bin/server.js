@@ -5,7 +5,6 @@ const path = require('path');
 const app = express();
 const port = 8080;
 const nba = require('nba.js');
-// const statsNBA = 'http://stats.nba.com/stats';
 
 app.use(express.static(path.join(__dirname, 'build')));
 app.use(bodyParser.json());
@@ -35,16 +34,31 @@ app.get('/', (req, res) => {
 app.get('/allPlayers', (req, res) => {
   try {
     // NOTE: user-agent must be changed to Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36
-    // const Season = `${req.query.year}-${Math.abs(parseInt(req.query.year) - 1999)}`;
-    // nba.stats.allPlayers({ Season, IsOnlyCurrentSeason: '0', LeagueId: '00' }).then(nbaRes => {
-    //   res.send(nbaRes.CommonAllPlayers);
-    // }).catch(err => {
-    //   console.info(err);
-    //   res.send([]);
-    // });
-    res.sendFile(path.join(__dirname, '/players.json'));
+    const Season = `${req.query.year}-${Math.abs(parseInt(req.query.year) - 1999)}`;
+    nba.stats.allPlayers({ Season, IsOnlyCurrentSeason: '0', LeagueId: '00' }).then(nbaRes => {
+      res.send(nbaRes.CommonAllPlayers.map(player => {
+        return { id: player.person_id, firstLast: player.display_first_last, lastFirst: player.display_last_comma_first };
+      }));
+    }).catch(err => {
+      console.info(err);
+      res.sendFile(path.join(__dirname, '/players.json'));
+    });
+    // res.sendFile(path.join(__dirname, '/players.json'));
   } catch (e) {
     console.info(e);
     return res.send([]);
+  }
+});
+
+app.get('/player', (req, res) => {
+  try {
+    const PlayerId = res.query.playerId;
+    nba.stats.playerProfile({ PlayerId, PerMode: 'PerGame' }).then(nbaRes => {
+      let results = [];
+      return res.send(results);
+    });
+  } catch (e) {
+    console.info(e);
+    return res.send({});
   }
 });
