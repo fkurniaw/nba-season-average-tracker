@@ -64,21 +64,35 @@ app.get('/player', (req, res) => {
     // });
     switch (PlayerID) { // mock
       case '977':
-        res.sendFile(path.join(__dirname, 'samplePlayerStatsKobe.json'));
+        res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsKobe.json'));
         break;
       case '76003':
-        res.sendFile(path.join(__dirname, 'samplePlayerStatsKareem.json'));
+        res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsKareem.json'));
         break;
       case '893': // Jordan
-        res.sendFile(path.join(__dirname, 'samplePlayerStats.json'));
+        res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStats.json'));
         break;
       case '2544':
-        res.sendFile(path.join(__dirname, 'samplePlayerStatsLeBron.json'));
+        res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsLeBron.json'));
         break;
       default:
-        res.sendFile(path.join(__dirname, 'samplePlayerStatsLeBron.json'));
+        res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsLeBron.json'));
         break;
     }
+  } catch (e) {
+    console.info(e);
+    return res.send({});
+  }
+});
+
+app.get('/getPlayerGamelog', (req, res) => {
+  try {
+    const Season = req.query.season || '2012-13';
+    // const PlayerID = req.query.playerId;
+    // nba.stats.playerGamelog({ 'Season': '2012-13', PlayerID: '977', LeagueID: '00', SeasonType: 'Regular Season' }).then(nbaRes => {
+    //   return res.send(nbaRes);
+    // });
+    res.sendFile(path.join(__dirname, '/sampleData/gameLog', `Kobe${Season}Game.json`));
   } catch (e) {
     console.info(e);
     return res.send({});
