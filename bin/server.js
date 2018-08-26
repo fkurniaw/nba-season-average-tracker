@@ -53,15 +53,32 @@ app.get('/allPlayers', (req, res) => {
 app.get('/player', (req, res) => {
   try {
     const PlayerID = req.query.playerId;
-    nba.stats.playerProfile({ PlayerID, PerMode: 'PerGame', LeagueID: '00' }).then(nbaRes => {
-      let results = {
-        careerTotalsPost: nbaRes.CareerTotalsPostSeason,
-        careerTotalsRegular: nbaRes.CareerTotalsRegularSeason,
-        postSeasonAvg: nbaRes.SeasonTotalsPostSeason,
-        regularSeasonAvg: nbaRes.SeasonTotalsRegularSeason
-      };
-      return res.send(results);
-    });
+    // nba.stats.playerProfile({ PlayerID, PerMode: 'PerGame', LeagueID: '00' }).then(nbaRes => {
+    //   let results = {
+    //     careerTotalsPost: nbaRes.CareerTotalsPostSeason,
+    //     careerTotalsRegular: nbaRes.CareerTotalsRegularSeason,
+    //     postSeasonAvg: nbaRes.SeasonTotalsPostSeason,
+    //     regularSeasonAvg: nbaRes.SeasonTotalsRegularSeason
+    //   };
+    //   return res.send(results);
+    // });
+    switch (PlayerID) { // mock
+      case '977':
+        res.sendFile(path.join(__dirname, 'samplePlayerStatsKobe.json'));
+        break;
+      case '76003':
+        res.sendFile(path.join(__dirname, 'samplePlayerStatsKareem.json'));
+        break;
+      case '893': // Jordan
+        res.sendFile(path.join(__dirname, 'samplePlayerStats.json'));
+        break;
+      case '2544':
+        res.sendFile(path.join(__dirname, 'samplePlayerStatsLeBron.json'));
+        break;
+      default:
+        res.sendFile(path.join(__dirname, 'samplePlayerStatsLeBron.json'));
+        break;
+    }
   } catch (e) {
     console.info(e);
     return res.send({});

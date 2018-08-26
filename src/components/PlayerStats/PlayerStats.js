@@ -11,6 +11,10 @@ import { Table } from 'semantic-ui-react';
 const headers = ['Year', 'Team', 'GP', 'GS', 'MPG', 'FGM', 'FGA', 'FG%', '3PM', '3PA', '3P%',
   'FTM', 'FTA', 'FT%', 'ORPG', 'DRPG', 'RPG', 'APG', 'SPG', 'BPG', 'TOV', 'PF', 'PPG'];
 
+function filter(num, decimalPlaces) {
+  return typeof (num) === 'number' ? Math.round(num * decimalPlaces) / decimalPlaces : '-';
+}
+
 class PlayerStats extends Component {
   constructor() {
     super();
@@ -35,30 +39,30 @@ class PlayerStats extends Component {
     });
     this.props.currentPlayer.regularSeasonAvg.forEach((season, i) => {
       rows.push(
-        <Table.Row key={`${season.season_id} i`}>
+        <Table.Row key={`${season.season_id} ${i}`}>
           <Table.Cell>{season.season_id || '-'}</Table.Cell>
           <Table.Cell>{season.team_abbreviation || '-'}</Table.Cell>
           <Table.Cell>{season.gp || '-'}</Table.Cell>
           <Table.Cell>{season.gs || '-'}</Table.Cell>
-          <Table.Cell>{season.min || '-'}</Table.Cell>
-          <Table.Cell>{season.fgm || '-'}</Table.Cell>
-          <Table.Cell>{season.fga || '-'}</Table.Cell>
+          <Table.Cell>{filter(season.min, 10)}</Table.Cell>
+          <Table.Cell>{filter(season.fgm, 10)}</Table.Cell>
+          <Table.Cell>{filter(season.fga, 10)}</Table.Cell>
           <Table.Cell>{season.fg_pct || '-'}</Table.Cell>
-          <Table.Cell>{season.fg3m || '-'}</Table.Cell>
-          <Table.Cell>{season.fg3a || '-'}</Table.Cell>
+          <Table.Cell>{filter(season.fg3m, 10)}</Table.Cell>
+          <Table.Cell>{filter(season.fg3a, 10)}</Table.Cell>
           <Table.Cell>{season.fg3_pct || '-'}</Table.Cell>
-          <Table.Cell>{season.ftm || '-'}</Table.Cell>
-          <Table.Cell>{season.fta || '-'}</Table.Cell>
+          <Table.Cell>{filter(season.ftm, 10)}</Table.Cell>
+          <Table.Cell>{filter(season.fta, 10)}</Table.Cell>
           <Table.Cell>{season.ft_pct || '-'}</Table.Cell>
-          <Table.Cell>{season.oreb || '-'}</Table.Cell>
-          <Table.Cell>{season.dreb || '-'}</Table.Cell>
-          <Table.Cell>{season.reb || '-'}</Table.Cell>
-          <Table.Cell>{season.ast || '-'}</Table.Cell>
-          <Table.Cell>{season.stl}</Table.Cell>
-          <Table.Cell>{season.blk || '-'}</Table.Cell>
-          <Table.Cell>{season.tov || '-'}</Table.Cell>
-          <Table.Cell>{season.pf || '-'}</Table.Cell>
-          <Table.Cell>{season.pts || '-'}</Table.Cell>
+          <Table.Cell>{filter(season.oreb, 10)}</Table.Cell>
+          <Table.Cell>{filter(season.dreb, 10)}</Table.Cell>
+          <Table.Cell>{filter(season.reb, 10)}</Table.Cell>
+          <Table.Cell>{filter(season.ast, 10)}</Table.Cell>
+          <Table.Cell>{filter(season.stl, 10)}</Table.Cell>
+          <Table.Cell>{filter(season.blk, 10)}</Table.Cell>
+          <Table.Cell>{filter(season.tov, 10)}</Table.Cell>
+          <Table.Cell>{filter(season.pf, 10)}</Table.Cell>
+          <Table.Cell>{filter(season.pts, 10)}</Table.Cell>
         </ Table.Row>
       );
     });
@@ -78,6 +82,7 @@ class PlayerStats extends Component {
   render() {
     return (
       <div className='player-stats-table'>
+        <h1>{this.props.playerName}</h1>
         {Object.keys(this.props.currentPlayer).length > 0 && this.renderTable()}
       </div>
     );
@@ -87,12 +92,14 @@ class PlayerStats extends Component {
 PlayerStats.propTypes = {
   currentPlayer: PropTypes.object,
   match: PropTypes.object,
+  playerName: PropTypes.string,
   setCurrentPlayer: PropTypes.func
 };
 
 const mapStateToProps = state => {
   return {
-    currentPlayer: state.players.currentPlayer
+    currentPlayer: state.players.currentPlayer,
+    playerName: state.players.playerName
   };
 };
 
