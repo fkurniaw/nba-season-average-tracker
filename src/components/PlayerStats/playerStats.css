@@ -1,10 +1,16 @@
 .career-stat {
   font-weight: bold;
 }
-.player-stats-table {
+.player-stats-table-header {
+  padding: 7px !important;
+  text-align: left !important;
+}
+.player-stats-table
+{
+  display: inline-block;
   font-size: 0.9em;
-  margin: 20px 130px;
+  margin: 20px auto;
 }
 .season-stat, .career-stat {
-  padding: 0.4em !important;
+  padding: 7px !important;
 }

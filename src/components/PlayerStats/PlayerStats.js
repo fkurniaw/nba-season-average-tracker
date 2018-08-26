@@ -61,7 +61,7 @@ class PlayerStats extends Component {
     let rows = [];
     let headerCells = headers.map(header => {
       return (
-        <Table.HeaderCell key={header}>
+        <Table.HeaderCell key={header} className='player-stats-table-header'>
           {header}
         </Table.HeaderCell>
       );
@@ -71,7 +71,7 @@ class PlayerStats extends Component {
     });
     return (
       <Table className='player-table-stats' collapsing stackable>
-        <Table.Header>
+        <Table.Header className='player-stats-table-header'>
           <Table.Row>
             {headerCells}
           </Table.Row>
