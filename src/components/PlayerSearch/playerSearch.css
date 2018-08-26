@@ -1,3 +1,10 @@
+.player-search-link {
+  display: block;
+  padding: 10px;
+}
+.result.player-search-result {
+  padding: 0px !important;
+}
 .year-input {
   display: inline-block;
   margin-top: 10px;

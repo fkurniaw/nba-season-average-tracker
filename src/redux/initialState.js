@@ -1,4 +1,5 @@
 export const initialPlayersState = {
   currentPlayer: {},
-  players: []
+  players: [],
+  playerName: ''
 };

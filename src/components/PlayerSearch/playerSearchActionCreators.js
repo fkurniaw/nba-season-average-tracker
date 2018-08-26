@@ -6,3 +6,10 @@ export function setAllPlayers(players) {
     players
   };
 }
+
+export function setPlayerName(playerName) {
+  return {
+    type: types.SET_PLAYER_NAME,
+    playerName
+  };
+};

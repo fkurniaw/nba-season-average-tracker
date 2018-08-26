@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import Sources from '../../util/sources';
 import * as actions from './playerStatsActionCreators';
 
+import './playerStats.css';
 import { Table } from 'semantic-ui-react';
 
 const headers = ['Year', 'Team', 'GP', 'GS', 'MPG', 'FGM', 'FGA', 'FG%', '3PM', '3PA', '3P%',
@@ -33,8 +34,6 @@ class PlayerStats extends Component {
       );
     });
     this.props.currentPlayer.regularSeasonAvg.forEach((season, i) => {
-      console.log(season.tov);
-      console.log(season.pf);
       rows.push(
         <Table.Row key={`${season.season_id} i`}>
           <Table.Cell>{season.season_id || '-'}</Table.Cell>
