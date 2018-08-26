@@ -95,6 +95,6 @@ app.get('/getPlayerGamelog', (req, res) => {
     res.sendFile(path.join(__dirname, '/sampleData/gameLog', `Kobe${Season}Game.json`));
   } catch (e) {
     console.info(e);
-    return res.send({});
+    res.sendFile(path.join(__dirname, '/sampleData/gameLog', `Kobe2012-13Game.json`));
   }
 });

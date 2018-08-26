@@ -1,4 +1,10 @@
+.career-stat {
+  font-weight: bold;
+}
 .player-stats-table {
   font-size: 0.9em;
   margin: 20px 130px;
+}
+.season-stat, .career-stat {
+  padding: 0.4em !important;
 }

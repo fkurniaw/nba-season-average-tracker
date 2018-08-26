@@ -28,6 +28,35 @@ class PlayerStats extends Component {
       console.info(err);
     });
   }
+  addMainStats(stat, i) {
+    return (
+      <Table.Row key={`${stat.season_id} ${i}`}>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{i === 'career' ? 'Career' : stat.season_id || '-'}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.team_abbreviation || '-'}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.gp || '-'}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.gs || '-'}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{filter(stat.min, 10)}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{filter(stat.fgm, 10)}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{filter(stat.fga, 10)}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.fg_pct || '-'}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{filter(stat.fg3m, 10)}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{filter(stat.fg3a, 10)}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.fg3_pct || '-'}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{filter(stat.ftm, 10)}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{filter(stat.fta, 10)}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.ft_pct || '-'}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{filter(stat.oreb, 10)}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{filter(stat.dreb, 10)}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{filter(stat.reb, 10)}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{filter(stat.ast, 10)}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{filter(stat.stl, 10)}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{filter(stat.blk, 10)}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{filter(stat.tov, 10)}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{filter(stat.pf, 10)}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{filter(stat.pts, 10)}</Table.Cell>
+      </ Table.Row>
+    );
+  }
   renderTable() {
     let rows = [];
     let headerCells = headers.map(header => {
@@ -38,36 +67,10 @@ class PlayerStats extends Component {
       );
     });
     this.props.currentPlayer.regularSeasonAvg.forEach((season, i) => {
-      rows.push(
-        <Table.Row key={`${season.season_id} ${i}`}>
-          <Table.Cell>{season.season_id || '-'}</Table.Cell>
-          <Table.Cell>{season.team_abbreviation || '-'}</Table.Cell>
-          <Table.Cell>{season.gp || '-'}</Table.Cell>
-          <Table.Cell>{season.gs || '-'}</Table.Cell>
-          <Table.Cell>{filter(season.min, 10)}</Table.Cell>
-          <Table.Cell>{filter(season.fgm, 10)}</Table.Cell>
-          <Table.Cell>{filter(season.fga, 10)}</Table.Cell>
-          <Table.Cell>{season.fg_pct || '-'}</Table.Cell>
-          <Table.Cell>{filter(season.fg3m, 10)}</Table.Cell>
-          <Table.Cell>{filter(season.fg3a, 10)}</Table.Cell>
-          <Table.Cell>{season.fg3_pct || '-'}</Table.Cell>
-          <Table.Cell>{filter(season.ftm, 10)}</Table.Cell>
-          <Table.Cell>{filter(season.fta, 10)}</Table.Cell>
-          <Table.Cell>{season.ft_pct || '-'}</Table.Cell>
-          <Table.Cell>{filter(season.oreb, 10)}</Table.Cell>
-          <Table.Cell>{filter(season.dreb, 10)}</Table.Cell>
-          <Table.Cell>{filter(season.reb, 10)}</Table.Cell>
-          <Table.Cell>{filter(season.ast, 10)}</Table.Cell>
-          <Table.Cell>{filter(season.stl, 10)}</Table.Cell>
-          <Table.Cell>{filter(season.blk, 10)}</Table.Cell>
-          <Table.Cell>{filter(season.tov, 10)}</Table.Cell>
-          <Table.Cell>{filter(season.pf, 10)}</Table.Cell>
-          <Table.Cell>{filter(season.pts, 10)}</Table.Cell>
-        </ Table.Row>
-      );
+      rows.push(this.addMainStats(season, i));
     });
     return (
-      <Table className='player-table-stats'>
+      <Table className='player-table-stats' collapsing stackable>
         <Table.Header>
           <Table.Row>
             {headerCells}
@@ -75,6 +78,7 @@ class PlayerStats extends Component {
         </Table.Header>
         <Table.Body>
           {rows}
+          {this.addMainStats(this.props.currentPlayer.careerTotalsRegular[0], 'career')}
         </Table.Body>
       </Table>
     );
@@ -96,7 +100,7 @@ PlayerStats.propTypes = {
   setCurrentPlayer: PropTypes.func
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
   return {
     currentPlayer: state.players.currentPlayer,
     playerName: state.players.playerName

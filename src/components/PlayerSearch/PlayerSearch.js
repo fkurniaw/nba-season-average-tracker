@@ -53,9 +53,8 @@ class PlayerSearch extends Component {
   componentDidMount() {
     if (this.props.players.length === 0) {
       Sources.getPlayers('2017').then(res => {
-        let players = res.data.map((player, i) => {
-          return { title: player.firstLast, id: player.id, key: `${player.firstLast}-${i}` };
-        });
+        let players = {};
+        res.data.forEach((player, i) => { players[player.id] = { 'title': player.firstLast, key: `${player.firstLast}-${i}` }; });
         this.props.setAllPlayers(players);
       }).catch(err => {
         if (err) console.info('Network Error');
@@ -75,17 +74,20 @@ class PlayerSearch extends Component {
 
 const mapStateToProps = state => {
   return {
-    players: state.players.players
+    players: Object.keys(state.players.players).map(id => {
+      return { id, title: state.players.players[id].title, key: state.players.players[id].key };
+    })
   };
 };
 
 const actionCreators = { ...actions, setCurrentPlayer };
 
 PlayerSearch.propTypes = {
+  match: PropTypes.object,
   players: PropTypes.array,
   setAllPlayers: PropTypes.func,
   setCurrentPlayer: PropTypes.func,
-setPlayerName: PropTypes.func,
+  setPlayerName: PropTypes.func,
   setLoading: PropTypes.func
 };
 
