@@ -5,8 +5,7 @@ import PropTypes from 'prop-types';
 import Sources from '../../util/sources';
 
 import './playerSearch.css';
-import * as actions from './playerSearchActionCreators';
-import { setCurrentPlayer } from '../PlayerStats/playerStatsActionCreators';
+import * as actions from '../../redux/actionCreators/playersActions';
 import { Link } from 'react-router-dom';
 import { Search } from 'semantic-ui-react';
 
@@ -80,7 +79,7 @@ const mapStateToProps = state => {
   };
 };
 
-const actionCreators = { ...actions, setCurrentPlayer };
+const actionCreators = { ...actions };
 
 PlayerSearch.propTypes = {
   match: PropTypes.object,

@@ -22,11 +22,6 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.get('/ping', (req, res) => {
-  console.info('pinged');
-  return res.send('pong');
-});
-
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
@@ -85,11 +80,11 @@ app.get('/player', (req, res) => {
   }
 });
 
-app.get('/getPlayerGamelog', (req, res) => {
+app.get('/getPlayerGameLog', (req, res) => {
   try {
     const Season = req.query.season || '2012-13';
     // const PlayerID = req.query.playerId;
-    // nba.stats.playerGamelog({ 'Season': '2012-13', PlayerID: '977', LeagueID: '00', SeasonType: 'Regular Season' }).then(nbaRes => {
+    // nba.stats.playerGameLog({ 'Season': '2012-13', PlayerID: '977', LeagueID: '00', SeasonType: 'Regular Season' }).then(nbaRes => {
     //   return res.send(nbaRes);
     // });
     res.sendFile(path.join(__dirname, '/sampleData/gameLog', `Kobe${Season}Game.json`));

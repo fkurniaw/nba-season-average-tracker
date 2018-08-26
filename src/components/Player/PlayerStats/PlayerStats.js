@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import Sources from '../../util/sources';
-import * as actions from './playerStatsActionCreators';
+import Sources from '../../../util/sources';
+import * as actions from '../../../redux/actionCreators/playersActions';
 
 import './playerStats.css';
+import { Link } from 'react-router-dom';
 import { Table } from 'semantic-ui-react';
 
 const headers = ['Year', 'Team', 'GP', 'GS', 'MPG', 'FGM', 'FGA', 'FG%', '3PM', '3PA', '3P%',
@@ -31,7 +32,9 @@ class PlayerStats extends Component {
   addMainStats(stat, i) {
     return (
       <Table.Row key={`${stat.season_id} ${i}`}>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{i === 'career' ? 'Career' : stat.season_id || '-'}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>
+          {i === 'career' ? 'Career' : <Link to={`/players/${this.props.match.params.id}/gamelog/${stat.season_id}`}>{stat.season_id}</Link> || '-'}
+        </Table.Cell>
         <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.team_abbreviation || '-'}</Table.Cell>
         <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.gp || '-'}</Table.Cell>
         <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.gs || '-'}</Table.Cell>

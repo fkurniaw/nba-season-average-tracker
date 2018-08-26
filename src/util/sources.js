@@ -8,6 +8,10 @@ const Sources = {
 
   getPlayer: id => {
     return axios.get(`${url}player?playerId=${id}`);
+  },
+
+  getGameLog: (id, season) => {
+    return axios.get(`${url}getPlayerGameLog?playerId=${id}&season=${season}`);
   }
 };
 
