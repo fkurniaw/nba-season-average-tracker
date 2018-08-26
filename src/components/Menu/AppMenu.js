@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 
 import './appMenu.css';
 
+import PlayerSearch from '../PlayerSearch/PlayerSearch.js';
+
 function handleItemClick(item) {
   this.setState({ activeItem: item });
 }
@@ -23,8 +25,10 @@ const AppMenu = props => {
   return (
     <nav className='app-menu'>
       {renderLink(props.activeItem, 0, props.links[0], props.menuItems[0], props.app)}
-      {renderLink(props.activeItem, 1, props.links[1], props.menuItems[1], props.app)}
       {renderLink(props.activeItem, 2, props.links[2], props.menuItems[2], props.app)}
+      <div className='player-search'>
+        <PlayerSearch />
+      </div>
     </nav>
   );
 };

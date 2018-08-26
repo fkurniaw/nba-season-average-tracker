@@ -8,7 +8,6 @@ import './App.css';
 import ComparePlayers from './components/ComparePlayers/ComparePlayers.js';
 import Header from './components/Header/Header.js';
 import Home from './components/Home/Home.js';
-import PlayerSearch from './components/PlayerSearch/PlayerSearch';
 
 const store = configureStore();
 
@@ -23,7 +22,6 @@ const App = props => {
           <Header headerNames={headerNames} links={links}/>
           <Switch>
             <Route path={`/${links[0]}`} component={Home}/>
-            <Route path={`/${links[1]}`} component={PlayerSearch}/>
             <Route path={`/${links[2]}`} component={ComparePlayers}/>
           </Switch>
         </div>

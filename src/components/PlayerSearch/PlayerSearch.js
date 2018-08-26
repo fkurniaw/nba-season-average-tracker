@@ -8,6 +8,8 @@ import './playerSearch.css';
 import * as actions from './playerSearchActionCreators';
 import { Search } from 'semantic-ui-react';
 
+const placeholder = 'Enter a player name';
+
 function onChange(e) {
   this.setState({ currentInput: e.target.value });
 }
@@ -23,20 +25,22 @@ class PlayerSearch extends Component {
   }
   componentDidMount() {
     if (this.props.players.length === 0) {
-      Sources.getPlayers(this.state.currentInput).then(res => {
-        this.props.setAllPlayers(res.data);
-      }).catch(err => {
-        if (err) console.info('Network Error');
-      });
+      Sources.getPlayers(this.state.currentInput).then(res => this.props.setAllPlayers(res.data))
+        .catch(err => {
+          if (err) console.info('Network Error');
+        });
     }
   }
   render() {
     return (
       <Search
         className='year-input'
+        placeholder={placeholder}
         onChange={onChange.bind(this)}
         onKeyPress={onKeyPress.bind(this)}
-        values={this.props.players}/>
+        values={this.props.players.map(player => {
+          return { key: player.firstLast, text: player.firstLast, value: player.firstLast };
+        })}/>
     );
   }
 }

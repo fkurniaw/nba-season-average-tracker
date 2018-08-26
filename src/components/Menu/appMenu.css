@@ -13,9 +13,13 @@
   display: inline-block;
   min-width: 150px;
   width: calc(40% / 3);
-  padding: 12px;
+  padding: 20px;
   text-align: center;
 }
 .menu-item-active {
   color: #00A0FF
+}
+.player-search {
+  display: inline-block;
+  margin-left: 20%
 }
