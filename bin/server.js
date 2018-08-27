@@ -94,11 +94,11 @@ app.get('/getPlayerBio', (req, res) => {
 app.get('/getPlayerGameLog', (req, res) => {
   try {
     const Season = req.query.season;
-    const PlayerID = req.query.playerId;
-    nba.stats.playerGamelog({ Season, PlayerID, LeagueID: '00', SeasonType: 'Regular Season' }).then(nbaRes => {
-      return res.send(nbaRes);
-    });
-    // res.sendFile(path.join(__dirname, '/sampleData/gameLog', `Kobe${Season}Game.json`));
+    // const PlayerID = req.query.playerId;
+    // nba.stats.playerGamelog({ Season, PlayerID, LeagueID: '00', SeasonType: 'Regular Season' }).then(nbaRes => {
+    //   return res.send(nbaRes);
+    // });
+    res.sendFile(path.join(__dirname, '/sampleData/gameLog', `Kobe${Season}Game.json`));
   } catch (e) {
     console.info(e);
     res.sendFile(path.join(__dirname, '/sampleData/gameLog', `Kobe2012-13Game.json`));

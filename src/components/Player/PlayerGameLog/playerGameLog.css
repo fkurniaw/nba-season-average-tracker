@@ -12,6 +12,9 @@
 .player-game-log-header {
   text-align: left;
 }
+.player-game-log-menu-item {
+  width: calc(100% / 2);
+}
 .player-game-log-table-wrapper {
   margin: 20px 0px
 }

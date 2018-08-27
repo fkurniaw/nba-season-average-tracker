@@ -6,16 +6,20 @@ import Sources from '../../../util/sources';
 import * as actions from '../../../redux/actionCreators/playersActions';
 
 import './playerGameLog.css';
-import { Table } from 'semantic-ui-react';
+import { Menu, Tab, Table } from 'semantic-ui-react';
 import PlayerGameLogChart from './PlayerGameLogChart';
 
 const headers = ['Game', 'Date', 'Matchup', 'W/L', 'Min', 'FGM', 'FGA', 'FG%',
-  '3PM', '3PA', '3P%', 'FTM', 'FTA', 'FT%', 'OREB', 'DREB', 'AST', 'STL', 'BLK', 'PF', 'TOV', '+/-', 'PTS'];
+  '3PM', '3PA', '3P%', 'FTM', 'FTA', 'FT%', 'OREB', 'DREB', 'REB', 'AST', 'STL', 'BLK', 'PF', 'TOV', '+/-', 'PTS'];
+
+const statsFields = ['game_date', 'matchup', 'wl', 'min', 'fgm', 'fga', 'fg_pct',
+  'fg3m', 'fg3a', 'fg3_pct', 'ftm', 'fta', 'ft_pct', 'oreb', 'dreb', 'reb', 'ast', 'stl', 'blk', 'pf', 'tov', 'plus_minus', 'pts'];
 
 class PlayerGameLog extends React.Component {
   constructor() {
     super();
     this.state = {
+      gameLogTab: 1,
       loading: true
     };
   }
@@ -64,7 +68,7 @@ class PlayerGameLog extends React.Component {
         </Table.HeaderCell>
       );
     });
-    let averages = new Array(23).fill(0, 0, 23);
+    let averages = new Array(headers.length).fill(0, 0, headers.length);
 
     let rows = this.props.playerGameLog.map((game, i) => {
       averages[0] = i + 1;
@@ -83,13 +87,14 @@ class PlayerGameLog extends React.Component {
       averages[13] = averages[12] === 0 ? 0 : Math.round((averages[11] / averages[12]) * 1000) / 1000;
       averages[14] += game.oreb;
       averages[15] += game.dreb;
-      averages[16] += game.ast;
-      averages[17] += game.stl;
-      averages[18] += game.blk;
-      averages[19] += game.pf;
-      averages[20] += game.tov;
-      averages[21] += game.plus_minus;
-      averages[22] += game.pts;
+      averages[16] += game.reb;
+      averages[17] += game.ast;
+      averages[18] += game.stl;
+      averages[19] += game.blk;
+      averages[20] += game.pf;
+      averages[21] += game.tov;
+      averages[22] += game.plus_minus;
+      averages[23] += game.pts;
       let cells = averages.map((stat, j) => (
         <Table.Cell className='player-game-log-stat' key={j}>
           {j < 4 || rowsToSkip.includes(j) ? stat || '-' : Math.round((stat / (i + 1)) * 10) / 10}
@@ -127,33 +132,16 @@ class PlayerGameLog extends React.Component {
         </Table.HeaderCell>
       );
     });
-
     this.props.playerGameLog.forEach((game, i) => {
+      let cells = statsFields.map(field => {
+        return (
+          <Table.Cell key={field} className='player-game-log-stat'>{game[field]}</Table.Cell>
+        );
+      });
       rows.push(
         <Table.Row key={`game-${i}`}>
           <Table.Cell className='player-game-log-stat'>{i + 1}</Table.Cell>
-          <Table.Cell className='player-game-log-stat'>{game.game_date}</Table.Cell>
-          <Table.Cell className='player-game-log-stat'>{game.matchup}</Table.Cell>
-          <Table.Cell className='player-game-log-stat'>{game.wl}</Table.Cell>
-          <Table.Cell className='player-game-log-stat'>{game.min}</Table.Cell>
-          <Table.Cell className='player-game-log-stat'>{game.fgm}</Table.Cell>
-          <Table.Cell className='player-game-log-stat'>{game.fga}</Table.Cell>
-          <Table.Cell className='player-game-log-stat'>{game.fg_pct}</Table.Cell>
-          <Table.Cell className='player-game-log-stat'>{game.fg3m}</Table.Cell>
-          <Table.Cell className='player-game-log-stat'>{game.fg3a}</Table.Cell>
-          <Table.Cell className='player-game-log-stat'>{game.fg3_pct}</Table.Cell>
-          <Table.Cell className='player-game-log-stat'>{game.ftm}</Table.Cell>
-          <Table.Cell className='player-game-log-stat'>{game.fta}</Table.Cell>
-          <Table.Cell className='player-game-log-stat'>{game.ft_pct}</Table.Cell>
-          <Table.Cell className='player-game-log-stat'>{game.oreb}</Table.Cell>
-          <Table.Cell className='player-game-log-stat'>{game.dreb}</Table.Cell>
-          <Table.Cell className='player-game-log-stat'>{game.ast}</Table.Cell>
-          <Table.Cell className='player-game-log-stat'>{game.stl}</Table.Cell>
-          <Table.Cell className='player-game-log-stat'>{game.blk}</Table.Cell>
-          <Table.Cell className='player-game-log-stat'>{game.pf}</Table.Cell>
-          <Table.Cell className='player-game-log-stat'>{game.tov}</Table.Cell>
-          <Table.Cell className='player-game-log-stat'>{game.plus_minus}</Table.Cell>
-          <Table.Cell className='player-game-log-stat'>{game.pts}</Table.Cell>
+          {cells}
         </Table.Row>
       );
     });
@@ -173,12 +161,52 @@ class PlayerGameLog extends React.Component {
       </div>
     );
   }
+  renderGameLogTabs() {
+    let panes = [
+      {
+        menuItem:
+          (<Menu.Item
+            className='player-game-log-menu-item'
+            onClick={() => this.setState({ gameLogTab: 0 })}>
+            Regular Season Game Log
+          </Menu.Item>),
+        render: () => (
+          <Tab.Pane>
+            {this.renderGameLog()}
+          </Tab.Pane>
+        )
+      },
+      {
+        menuItem:
+          (<Menu.Item
+            className='player-game-log-menu-item'
+            onClick={() => this.setState({ gameLogTab: 1 })}>
+            Cumulative Season Averages Game Log
+          </Menu.Item>),
+        render: () => (
+          <Tab.Pane>
+            {this.renderCumulativeAverages()}
+          </Tab.Pane>
+        )
+      }
+    ];
+    return (
+      <Tab
+        menu={{
+          color: 'blue',
+          secondary: true,
+          pointing: true
+        }}
+        className='player-game-log-tabs'
+        defaultActiveIndex={this.state.gameLogTab}
+        panes={panes}/>
+    );
+  }
   render() {
     return (
       <div className='player-game-log'>
         <h1>{this.props.playerName}</h1>
-        {this.props.playerGameLog.length > 0 && this.renderGameLog()}
-        {this.props.playerGameLog.length > 0 && this.renderCumulativeAverages()}
+        {this.props.playerGameLog.length > 0 && this.renderGameLogTabs()}
         {this.props.playerGameLog.length > 0 && this.renderCumulativeChart('counting')}
       </div>
     );
