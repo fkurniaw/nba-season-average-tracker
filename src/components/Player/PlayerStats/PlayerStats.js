@@ -13,7 +13,7 @@ const headers = ['Year', 'Team', 'GP', 'GS', 'MPG', 'FGM', 'FGA', 'FG%', '3PM', 
   'FTM', 'FTA', 'FT%', 'ORPG', 'DRPG', 'RPG', 'APG', 'SPG', 'BPG', 'TOV', 'PF', 'PPG'];
 
 function filter(num, decimalPlaces) {
-  return typeof (num) === 'number' ? Math.round(num * decimalPlaces) / decimalPlaces : '-';
+  return typeof (num) === 'number' ? (Math.round(num * decimalPlaces) / decimalPlaces).toFixed(1) : '-';
 }
 
 class PlayerStats extends Component {
@@ -24,7 +24,6 @@ class PlayerStats extends Component {
   componentDidMount() {
     this.props.setPlayerId(this.props.match.params.id);
     Sources.getPlayer(this.props.match.params.id).then(res => {
-      console.info(res.data);
       this.props.setCurrentPlayer(res.data);
     }).catch(err => {
       console.info(err);
@@ -45,13 +44,13 @@ class PlayerStats extends Component {
         <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{filter(stat.min, 10)}</Table.Cell>
         <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{filter(stat.fgm, 10)}</Table.Cell>
         <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{filter(stat.fga, 10)}</Table.Cell>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.fg_pct || '-'}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.fg_pct.toFixed(3) || '-'}</Table.Cell>
         <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{filter(stat.fg3m, 10)}</Table.Cell>
         <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{filter(stat.fg3a, 10)}</Table.Cell>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.fg3_pct || '-'}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.fg3_pct.toFixed(3) || '-'}</Table.Cell>
         <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{filter(stat.ftm, 10)}</Table.Cell>
         <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{filter(stat.fta, 10)}</Table.Cell>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.ft_pct || '-'}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.ft_pct.toFixed(3) || '-'}</Table.Cell>
         <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{filter(stat.oreb, 10)}</Table.Cell>
         <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{filter(stat.dreb, 10)}</Table.Cell>
         <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{filter(stat.reb, 10)}</Table.Cell>
