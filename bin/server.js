@@ -29,19 +29,19 @@ app.get('/', (req, res) => {
 app.get('/allPlayers', (req, res) => {
   try {
     // NOTE: user-agent must be changed to Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36
-    const Season = `${req.query.year}-${Math.abs(parseInt(req.query.year) - 1999)}`;
-    nba.stats.allPlayers({ Season, IsOnlyCurrentSeason: '0', LeagueId: '00' }).then(nbaRes => {
-      res.send(nbaRes.CommonAllPlayers.map(player => {
-        return { id: player.person_id, firstLast: player.display_first_last, lastFirst: player.display_last_comma_first };
-      }));
-    }).catch(err => {
-      console.info(err);
-      res.sendFile(path.join(__dirname, '/players.json'));
-    });
-    // res.sendFile(path.join(__dirname, '/players.json'));
+    // const Season = `${req.query.year}-${Math.abs(parseInt(req.query.year) - 1999)}`;
+    // nba.stats.allPlayers({ Season, IsOnlyCurrentSeason: '0', LeagueId: '00' }).then(nbaRes => {
+    //   res.send(nbaRes.CommonAllPlayers.map(player => {
+    //     return { id: player.person_id, firstLast: player.display_first_last, lastFirst: player.display_last_comma_first };
+    //   }));
+    // }).catch(err => {
+    //   console.info(err);
+    //   res.sendFile(path.join(__dirname, '/players.json'));
+    // });
+    res.sendFile(path.join(__dirname, '/players.json'));
   } catch (e) {
     console.info(e);
-    return res.send([]);
+    res.sendFile(path.join(__dirname, '/players.json'));
   }
 });
 
@@ -57,23 +57,23 @@ app.get('/playerStats', (req, res) => {
       };
       return res.send(results);
     });
-    switch (PlayerID) { // mock
-      case '977':
-        res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsKobe.json'));
-        break;
-      case '76003':
-        res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsKareem.json'));
-        break;
-      case '893': // Jordan
-        res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStats.json'));
-        break;
-      case '2544':
-        res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsLeBron.json'));
-        break;
-      default:
-        res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsLeBron.json'));
-        break;
-    }
+    // switch (PlayerID) { // mock
+    //   case '977':
+    //     res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsKobe.json'));
+    //     break;
+    //   case '76003':
+    //     res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsKareem.json'));
+    //     break;
+    //   case '893': // Jordan
+    //     res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStats.json'));
+    //     break;
+    //   case '2544':
+    //     res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsLeBron.json'));
+    //     break;
+    //   default:
+    //     res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsLeBron.json'));
+    //     break;
+    // }
   } catch (e) {
     console.info(e);
     return res.send({});
@@ -94,11 +94,11 @@ app.get('/getPlayerBio', (req, res) => {
 app.get('/getPlayerGameLog', (req, res) => {
   try {
     const Season = req.query.season;
-    // const PlayerID = req.query.playerId;
-    // nba.stats.playerGamelog({ Season, PlayerID, LeagueID: '00', SeasonType: 'Regular Season' }).then(nbaRes => {
-    //   return res.send(nbaRes);
-    // });
-    res.sendFile(path.join(__dirname, '/sampleData/gameLog', `Kobe${Season}Game.json`));
+    const PlayerID = req.query.playerId;
+    nba.stats.playerGamelog({ Season, PlayerID, LeagueID: '00', SeasonType: 'Regular Season' }).then(nbaRes => {
+      return res.send(nbaRes);
+    });
+    // res.sendFile(path.join(__dirname, '/sampleData/gameLog', `Kobe${Season}Game.json`));
   } catch (e) {
     console.info(e);
     res.sendFile(path.join(__dirname, '/sampleData/gameLog', `Kobe2012-13Game.json`));

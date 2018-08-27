@@ -75,8 +75,9 @@ class PlayerGameLog extends React.Component {
     );
   }
   renderCumulativeAverages() {
-    const rowsToSkip = [7, 10, 13, 21];
+    const rowsToSkip = [7, 10, 13];
     let averages = new Array(headerCells.length).fill(0, 0, headerCells.length);
+    let maxes = new Array(headerCells.length - 4).fill([0, 0], 0, headerCells.length - 4); // style cells with max values
 
     let rows = this.props.playerGameLog.map((game, i) => {
       averages[0] = i + 1;
@@ -91,9 +92,15 @@ class PlayerGameLog extends React.Component {
         </Table.Cell>
       ));
       return (
-        <Table.Row key={i}>{cells}</Table.Row>
+        <Table.Row key={i} active={(i + 1) % 10 === 0}>{cells}</Table.Row>
       );
     });
+
+    console.info(rows);
+
+    // maxes.forEach((maxIndex, i) => {
+    //   averages.props.children[i + 4][maxIndex];
+    // });
 
     return (
       <div className='player-game-log-table-wrapper'>
@@ -111,7 +118,7 @@ class PlayerGameLog extends React.Component {
         );
       });
       rows.push(
-        <Table.Row key={`game-${i}`}>
+        <Table.Row key={`game-${i}`} active={(i + 1) % 10 === 0}>
           <Table.Cell className='player-game-log-stat'>{i + 1}</Table.Cell>
           {cells}
         </Table.Row>
@@ -150,6 +157,7 @@ class PlayerGameLog extends React.Component {
           </Menu.Item>),
         render: () => (
           <Tab.Pane>
+            {this.props.playerGameLog.length > 0 && this.renderCumulativeChart('counting')}
             {this.renderCumulativeAverages()}
           </Tab.Pane>
         )
@@ -168,7 +176,6 @@ class PlayerGameLog extends React.Component {
       <div className='player-game-log'>
         <h1>{this.props.playerName}</h1>
         {this.props.playerGameLog.length > 0 && this.renderGameLogTabs()}
-        {this.props.playerGameLog.length > 0 && this.renderCumulativeChart('counting')}
       </div>
     );
   }

@@ -5,9 +5,15 @@
 .player-game-log-cell-headers {
   text-align: left !important;
 }
-.player-game-log-stat, .player-game-log-cell-headers {
+.player-game-log-stat, .player-game-log-cell-headers, .player-game-log-stat-bad .player-game-log-stat-good {
   font-size: 0.9em;
   padding: 2px 7px !important;
+}
+.player-game-log-stat-bad {
+  background-color: #CC8080;
+}
+.player-game-log-stat-good {
+  background-color: #00FF80;
 }
 .player-game-log-header {
   text-align: left;
