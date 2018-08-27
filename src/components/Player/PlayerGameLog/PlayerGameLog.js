@@ -9,8 +9,13 @@ import './playerGameLog.css';
 import { Menu, Tab, Table } from 'semantic-ui-react';
 import PlayerGameLogChart from './PlayerGameLogChart';
 
-const headers = ['Game', 'Date', 'Matchup', 'W/L', 'Min', 'FGM', 'FGA', 'FG%',
-  '3PM', '3PA', '3P%', 'FTM', 'FTA', 'FT%', 'OREB', 'DREB', 'REB', 'AST', 'STL', 'BLK', 'PF', 'TOV', '+/-', 'PTS'];
+const headerCells = ['Game', 'Date', 'Matchup', 'W/L', 'Min', 'FGM', 'FGA', 'FG%',
+  '3PM', '3PA', '3P%', 'FTM', 'FTA', 'FT%', 'OREB', 'DREB', 'REB', 'AST', 'STL', 'BLK', 'PF', 'TOV', '+/-', 'PTS'].map(stat => {
+  return (
+    <Table.HeaderCell key={stat}
+      className='player-game-log-cell-headers'>{stat}</Table.HeaderCell>
+  );
+});
 
 const statsFields = ['game_date', 'matchup', 'wl', 'min', 'fgm', 'fga', 'fg_pct',
   'fg3m', 'fg3a', 'fg3_pct', 'ftm', 'fta', 'ft_pct', 'oreb', 'dreb', 'reb', 'ast', 'stl', 'blk', 'pf', 'tov', 'plus_minus', 'pts'];
@@ -31,6 +36,16 @@ class PlayerGameLog extends React.Component {
     }).catch(err => {
       console.info(err);
     });
+  }
+  addTable(className, headerCells, bodyRows) {
+    return (
+      <Table className='className' collapsing stackable>
+        <Table.Header>
+          <Table.Row>{headerCells}</Table.Row>
+        </Table.Header>
+        <Table.Body>{bodyRows}</Table.Body>
+      </Table>
+    );
   }
   renderCumulativeChart(type) {
     let totals = [0, 0, 0];
@@ -61,77 +76,34 @@ class PlayerGameLog extends React.Component {
   }
   renderCumulativeAverages() {
     const rowsToSkip = [7, 10, 13, 21];
-    let headerCells = headers.map(stat => {
-      return (
-        <Table.HeaderCell key={stat} className='player-game-log-cell-headers'>
-          {stat}
-        </Table.HeaderCell>
-      );
-    });
-    let averages = new Array(headers.length).fill(0, 0, headers.length);
+    let averages = new Array(headerCells.length).fill(0, 0, headerCells.length);
 
     let rows = this.props.playerGameLog.map((game, i) => {
       averages[0] = i + 1;
-      averages[1] = game.game_date;
-      averages[2] = game.matchup;
-      averages[3] = game.wl;
-      averages[4] += game.min;
-      averages[5] += game.fgm;
-      averages[6] += game.fga;
-      averages[7] = averages[6] === 0 ? 0 : Math.round((averages[5] / averages[6]) * 1000) / 1000;
-      averages[8] += game.fg3m;
-      averages[9] += game.fg3a;
-      averages[10] = averages[9] === 0 ? 0 : Math.round((averages[8] / averages[9]) * 1000) / 1000;
-      averages[11] += game.ftm;
-      averages[12] += game.fta;
-      averages[13] = averages[12] === 0 ? 0 : Math.round((averages[11] / averages[12]) * 1000) / 1000;
-      averages[14] += game.oreb;
-      averages[15] += game.dreb;
-      averages[16] += game.reb;
-      averages[17] += game.ast;
-      averages[18] += game.stl;
-      averages[19] += game.blk;
-      averages[20] += game.pf;
-      averages[21] += game.tov;
-      averages[22] += game.plus_minus;
-      averages[23] += game.pts;
+      statsFields.forEach((field, j) => {
+        if (j + 1 < 4) averages[j + 1] = game[field];
+        else if ([7, 10, 13].includes(j + 1)) averages[j + 1] = averages[j] === 0 ? 0 : Math.round((averages[j - 1] / averages[j]) * 1000) / 1000;
+        else averages[j + 1] += game[field];
+      });
       let cells = averages.map((stat, j) => (
         <Table.Cell className='player-game-log-stat' key={j}>
           {j < 4 || rowsToSkip.includes(j) ? stat || '-' : Math.round((stat / (i + 1)) * 10) / 10}
         </Table.Cell>
       ));
       return (
-        <Table.Row key={i}>
-          {cells}
-        </Table.Row>
+        <Table.Row key={i}>{cells}</Table.Row>
       );
     });
 
     return (
       <div className='player-game-log-table-wrapper'>
         <h3 className='player-game-log-header'>Cumulative Season Average Game Log</h3>
-        <Table className='player-game-log-table'>
-          <Table.Header>
-            <Table.Row>
-              {headerCells}
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            {rows}
-          </Table.Body>
-        </Table>
+        {this.addTable('player-game-log-table', headerCells, rows)}
       </div>
     );
   }
   renderGameLog() {
     let rows = [];
-    let headerCells = headers.map(stat => {
-      return (
-        <Table.HeaderCell key={stat} className='player-game-log-cell-headers'>
-          {stat}
-        </Table.HeaderCell>
-      );
-    });
     this.props.playerGameLog.forEach((game, i) => {
       let cells = statsFields.map(field => {
         return (
@@ -148,16 +120,7 @@ class PlayerGameLog extends React.Component {
     return (
       <div className='player-game-log-table-wrapper'>
         <h3 className='player-game-log-header'>Regular Season Game Log</h3>
-        <Table className='player-game-log-table' collapsing stackable>
-          <Table.Header>
-            <Table.Row>
-              {headerCells}
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            {rows}
-          </Table.Body>
-        </Table>
+        {this.addTable('player-game-log-table', headerCells, rows)}
       </div>
     );
   }
@@ -167,6 +130,7 @@ class PlayerGameLog extends React.Component {
         menuItem:
           (<Menu.Item
             className='player-game-log-menu-item'
+            key={0}
             onClick={() => this.setState({ gameLogTab: 0 })}>
             Regular Season Game Log
           </Menu.Item>),
@@ -180,6 +144,7 @@ class PlayerGameLog extends React.Component {
         menuItem:
           (<Menu.Item
             className='player-game-log-menu-item'
+            key={1}
             onClick={() => this.setState({ gameLogTab: 1 })}>
             Cumulative Season Averages Game Log
           </Menu.Item>),
@@ -192,11 +157,7 @@ class PlayerGameLog extends React.Component {
     ];
     return (
       <Tab
-        menu={{
-          color: 'blue',
-          secondary: true,
-          pointing: true
-        }}
+        menu={{ color: 'blue', secondary: true, pointing: true }}
         className='player-game-log-tabs'
         defaultActiveIndex={this.state.gameLogTab}
         panes={panes}/>
