@@ -2,7 +2,7 @@ An NBA cumulative season average tracker that allows you to visualize the change
 Useful for determining their peak performance in the middle of a season.
 
 ### Running
-**npm start** to run react app
+**npm start** to run react app\
 **npm run start:dev** to run node.js backend
 
 ### Npm packages
