@@ -57,23 +57,23 @@ app.get('/playerStats', (req, res) => {
       };
       return res.send(results);
     });
-    // switch (PlayerID) { // mock
-    //   case '977':
-    //     res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsKobe.json'));
-    //     break;
-    //   case '76003':
-    //     res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsKareem.json'));
-    //     break;
-    //   case '893': // Jordan
-    //     res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStats.json'));
-    //     break;
-    //   case '2544':
-    //     res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsLeBron.json'));
-    //     break;
-    //   default:
-    //     res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsLeBron.json'));
-    //     break;
-    // }
+    switch (PlayerID) { // mock
+      case '977':
+        res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsKobe.json'));
+        break;
+      case '76003':
+        res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsKareem.json'));
+        break;
+      case '893': // Jordan
+        res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStats.json'));
+        break;
+      case '2544':
+        res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsLeBron.json'));
+        break;
+      default:
+        res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsLeBron.json'));
+        break;
+    }
   } catch (e) {
     console.info(e);
     return res.send({});

@@ -12,6 +12,11 @@ import { Table } from 'semantic-ui-react';
 const headers = ['Year', 'Team', 'GP', 'GS', 'MPG', 'FGM', 'FGA', 'FG%', '3PM', '3PA', '3P%',
   'FTM', 'FTA', 'FT%', 'ORPG', 'DRPG', 'RPG', 'APG', 'SPG', 'BPG', 'TOV', 'PF', 'PPG'];
 
+const fields = ['team_abbreviation', 'gp', 'gs', 'min', 'fgm', 'fga', 'fg_pct', 'fg3m', 'fg3a', 'fg3_pct',
+  'ftm', 'fta', 'ft_pct', 'oreb', 'dreb', 'reb', 'ast', 'stl', 'blk', 'tov', 'pf', 'pts'];
+
+const nonRoundedFields = ['team_abbreviation', 'gp', 'gs'];
+
 function filter(num, decimalPlaces) {
   return typeof (num) === 'number' ? (Math.round(num * decimalPlaces) / decimalPlaces).toFixed(1) : '-';
 }
@@ -30,6 +35,20 @@ class PlayerStats extends Component {
     });
   }
   addMainStats(stat, i) {
+    let cells = [];
+    fields.forEach(field => {
+      let fieldString;
+      if (nonRoundedFields.includes(field)) fieldString = stat[field] || '-';
+      else if (field.indexOf('_pct') > -1) fieldString = typeof (stat[field]) === 'number' ? stat[field].toFixed(3) : '-';
+      else fieldString = typeof (stat[field]) === 'number' ? filter(stat[field], 10) : '-';
+      cells.push(
+        <Table.Cell
+          key={field}
+          className={i === 'career' ? 'career-stat' : 'season-stat'}>
+          {fieldString}
+        </Table.Cell>
+      );
+    });
     return (
       <Table.Row key={`${stat.season_id} ${i}`}>
         <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>
@@ -38,28 +57,7 @@ class PlayerStats extends Component {
               {stat.season_id}
             </Link> || '-'}
         </Table.Cell>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.team_abbreviation || '-'}</Table.Cell>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.gp || '-'}</Table.Cell>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.gs || '-'}</Table.Cell>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.min ? filter(stat.min, 10) : '-'}</Table.Cell>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.fgm ? filter(stat.fgm, 10) : '-'}</Table.Cell>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.fga ? filter(stat.fga, 10) : '-'}</Table.Cell>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.fg_pct ? stat.fg_pct.toFixed(3) : '-'}</Table.Cell>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.fg3m ? filter(stat.fg3m, 10) : '-'}</Table.Cell>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.fg3a ? filter(stat.fg3a, 10) : '-'}</Table.Cell>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.fg3_pct ? stat.fg3_pct.toFixed(3) : '-'}</Table.Cell>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.ftm ? filter(stat.ftm, 10) : '-'}</Table.Cell>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.fta ? filter(stat.fta, 10) : '-'}</Table.Cell>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.ft_pct ? stat.ft_pct.toFixed(3) : '-'}</Table.Cell>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.oreb ? filter(stat.oreb, 10) : '-'}</Table.Cell>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.dreb ? filter(stat.dreb, 10) : '-'}</Table.Cell>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.reb ? filter(stat.reb, 10) : '-'}</Table.Cell>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.ast ? filter(stat.ast, 10) : '-'}</Table.Cell>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.stl ? filter(stat.stl, 10) : '-'}</Table.Cell>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.blk ? filter(stat.blk, 10) : '-'}</Table.Cell>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.tov ? filter(stat.tov, 10) : '-'}</Table.Cell>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.pf ? filter(stat.pf, 10) : '-'}</Table.Cell>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.pts ? filter(stat.pts, 10) : '-'}</Table.Cell>
+        {cells}
       </ Table.Row>
     );
   }

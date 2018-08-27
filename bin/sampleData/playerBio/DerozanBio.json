@@ -1,0 +1,18 @@
+{
+  "resource": "commonplayerinfo",
+  "parameters": [{"PlayerID":201942},{"LeagueID":"00"}],
+  "resultSets": [
+    {
+      "name":"CommonPlayerInfo",
+      "headers": ["PERSON_ID","FIRST_NAME","LAST_NAME","DISPLAY_FIRST_LAST","DISPLAY_LAST_COMMA_FIRST","DISPLAY_FI_LAST","BIRTHDATE","SCHOOL","COUNTRY","LAST_AFFILIATION","HEIGHT","WEIGHT","SEASON_EXP","JERSEY","POSITION","ROSTERSTATUS","TEAM_ID","TEAM_NAME","TEAM_ABBREVIATION","TEAM_CODE","TEAM_CITY","PLAYERCODE","FROM_YEAR","TO_YEAR","DLEAGUE_FLAG","GAMES_PLAYED_FLAG","DRAFT_YEAR","DRAFT_ROUND","DRAFT_NUMBER"],
+      "rowSet":[
+        [201942,"DeMar","DeRozan","DeMar DeRozan","DeRozan, DeMar","D. DeRozan","1989-08-07T00:00:00","Southern California","USA","USC/USA","6-7","220",9,"10","Guard","Active",1610612759,"Spurs","SAS","spurs","San Antonio","demar_derozan",2009,2018,"N","Y","2009","1","9"]]},
+        {
+          "name": "PlayerHeadlineStats",
+          "headers":["PLAYER_ID","PLAYER_NAME","TimeFrame","PTS","AST","REB","PIE"],
+          "rowSet":[
+            [201942,"DeMar DeRozan","2017-18",23.000000,5.200000,3.900000,0.135]
+          ]},
+          {
+            "name":"AvailableSeasons","headers":["SEASON_ID"],
+            "rowSet":[["12009"],["22009"],["12010"],["22010"],["12011"],["22011"],["12012"],["22012"],["12013"],["22013"],["32013"],["42013"],["12014"],["22014"],["42014"],["12015"],["22015"],["32015"],["42015"],["12016"],["22016"],["32016"],["42016"],["12017"],["22017"],["32017"],["42017"]]}]}
