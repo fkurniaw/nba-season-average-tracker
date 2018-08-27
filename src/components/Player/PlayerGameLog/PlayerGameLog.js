@@ -7,6 +7,7 @@ import * as actions from '../../../redux/actionCreators/playersActions';
 
 import './playerGameLog.css';
 import { Table } from 'semantic-ui-react';
+import PlayerGameLogChart from './PlayerGameLogChart';
 
 const headers = ['Game', 'Date', 'Matchup', 'W/L', 'Min', 'FGM', 'FGA', 'FG%',
   '3PM', '3PA', '3P%', 'FTM', 'FTA', 'FT%', 'OREB', 'DREB', 'AST', 'STL', 'BLK', 'PF', 'TOV', '+/-', 'PTS'];
@@ -14,7 +15,9 @@ const headers = ['Game', 'Date', 'Matchup', 'W/L', 'Min', 'FGM', 'FGA', 'FG%',
 class PlayerGameLog extends React.Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      loading: true
+    };
   }
   componentDidMount() {
     this.props.setPlayerId(this.props.match.id);
@@ -24,6 +27,33 @@ class PlayerGameLog extends React.Component {
     }).catch(err => {
       console.info(err);
     });
+  }
+  renderCumulativeChart(type) {
+    let totals = [0, 0, 0];
+    let data = this.props.playerGameLog.map((game, i) => {
+      switch (type) {
+        case 'counting':
+          totals[0] += game.pts;
+          totals[1] += game.reb;
+          totals[2] += game.ast;
+          return [i + 1, totals[0] / (i + 1), totals[1] / (i + 1), totals[2] / (i + 1)];
+        case 'defense':
+          totals[0] += game.blk;
+          totals[1] += game.stl;
+          totals[2] += game.pf;
+          return [i + 1, totals[0] / (i + 1), totals[1] / (i + 1), totals[2] / (i + 1)];
+        default:
+          totals[0] += game.pts;
+          totals[1] += game.reb;
+          totals[2] += game.ast;
+          return [i + 1, totals[0] / (i + 1), totals[1] / (i + 1), totals[2] / (i + 1)];
+      }
+    });
+    return (
+      <PlayerGameLogChart
+        data={data}
+        type={type} />
+    );
   }
   renderCumulativeAverages() {
     const rowsToSkip = [7, 10, 13, 21];
@@ -62,7 +92,7 @@ class PlayerGameLog extends React.Component {
       averages[22] += game.pts;
       let cells = averages.map((stat, j) => (
         <Table.Cell className='player-game-log-stat' key={j}>
-          {j < 4 || rowsToSkip.includes(j) ? stat : Math.round((stat / (i + 1)) * 10) / 10}
+          {j < 4 || rowsToSkip.includes(j) ? stat || '-' : Math.round((stat / (i + 1)) * 10) / 10}
         </Table.Cell>
       ));
       return (
@@ -149,6 +179,7 @@ class PlayerGameLog extends React.Component {
         <h1>{this.props.playerName}</h1>
         {this.props.playerGameLog.length > 0 && this.renderGameLog()}
         {this.props.playerGameLog.length > 0 && this.renderCumulativeAverages()}
+        {this.props.playerGameLog.length > 0 && this.renderCumulativeChart('counting')}
       </div>
     );
   }

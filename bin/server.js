@@ -80,6 +80,17 @@ app.get('/playerStats', (req, res) => {
   }
 });
 
+app.get('/getPlayerBio', (req, res) => {
+  try {
+    const PlayerID = req.query.playerId;
+    nba.stats.playerInfo({ PlayerID, LeagueID: '00' }).then(nbaRes => {
+      return res.send(nbaRes);
+    });
+  } catch (e) {
+    return res.send({});
+  }
+});
+
 app.get('/getPlayerGameLog', (req, res) => {
   try {
     const Season = req.query.season;

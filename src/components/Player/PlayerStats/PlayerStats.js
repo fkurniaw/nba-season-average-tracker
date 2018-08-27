@@ -41,25 +41,25 @@ class PlayerStats extends Component {
         <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.team_abbreviation || '-'}</Table.Cell>
         <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.gp || '-'}</Table.Cell>
         <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.gs || '-'}</Table.Cell>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{filter(stat.min, 10)}</Table.Cell>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{filter(stat.fgm, 10)}</Table.Cell>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{filter(stat.fga, 10)}</Table.Cell>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.fg_pct.toFixed(3) || '-'}</Table.Cell>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{filter(stat.fg3m, 10)}</Table.Cell>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{filter(stat.fg3a, 10)}</Table.Cell>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.fg3_pct.toFixed(3) || '-'}</Table.Cell>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{filter(stat.ftm, 10)}</Table.Cell>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{filter(stat.fta, 10)}</Table.Cell>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.ft_pct.toFixed(3) || '-'}</Table.Cell>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{filter(stat.oreb, 10)}</Table.Cell>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{filter(stat.dreb, 10)}</Table.Cell>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{filter(stat.reb, 10)}</Table.Cell>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{filter(stat.ast, 10)}</Table.Cell>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{filter(stat.stl, 10)}</Table.Cell>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{filter(stat.blk, 10)}</Table.Cell>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{filter(stat.tov, 10)}</Table.Cell>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{filter(stat.pf, 10)}</Table.Cell>
-        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{filter(stat.pts, 10)}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.min ? filter(stat.min, 10) : '-'}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.fgm ? filter(stat.fgm, 10) : '-'}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.fga ? filter(stat.fga, 10) : '-'}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.fg_pct ? stat.fg_pct.toFixed(3) : '-'}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.fg3m ? filter(stat.fg3m, 10) : '-'}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.fg3a ? filter(stat.fg3a, 10) : '-'}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.fg3_pct ? stat.fg3_pct.toFixed(3) : '-'}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.ftm ? filter(stat.ftm, 10) : '-'}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.fta ? filter(stat.fta, 10) : '-'}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.ft_pct ? stat.ft_pct.toFixed(3) : '-'}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.oreb ? filter(stat.oreb, 10) : '-'}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.dreb ? filter(stat.dreb, 10) : '-'}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.reb ? filter(stat.reb, 10) : '-'}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.ast ? filter(stat.ast, 10) : '-'}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.stl ? filter(stat.stl, 10) : '-'}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.blk ? filter(stat.blk, 10) : '-'}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.tov ? filter(stat.tov, 10) : '-'}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.pf ? filter(stat.pf, 10) : '-'}</Table.Cell>
+        <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>{stat.pts ? filter(stat.pts, 10) : '-'}</Table.Cell>
       </ Table.Row>
     );
   }
