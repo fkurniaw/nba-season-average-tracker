@@ -1,3 +1,10 @@
+An NBA cumulative season average tracker that allows you to visualize the changes in a player's season averages as the season progresses.
+Useful for determining their peak performance in the middle of a season.
+
+### Running
+**npm start** to run react app
+**npm run start:dev** to run node.js backend
+
 ### Npm packages
 - npm install --save create-react-app
 - npm install --save axios
