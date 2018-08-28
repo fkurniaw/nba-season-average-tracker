@@ -10,9 +10,15 @@
   padding: 2px 7px !important;
 }
 .player-game-log-stat-bad {
+  font-weight: 900;
+  font-size: 0.9em;
+  padding: 2px 7px !important;
   background-color: #CC8080;
 }
 .player-game-log-stat-good {
+  font-weight: 900;
+  font-size: 0.9em;
+  padding: 2px 7px !important;
   background-color: #00FF80;
 }
 .player-game-log-header {

@@ -9,6 +9,9 @@ import './playerGameLog.css';
 import { Menu, Tab, Table } from 'semantic-ui-react';
 import PlayerGameLogChart from './PlayerGameLogChart';
 
+const MIN_GAMES = 15;
+const MIN_INDEX = 6;
+
 const headerCells = ['Game', 'Date', 'Matchup', 'W/L', 'Min', 'FGM', 'FGA', 'FG%',
   '3PM', '3PA', '3P%', 'FTM', 'FTA', 'FT%', 'OREB', 'DREB', 'REB', 'AST', 'STL', 'BLK', 'PF', 'TOV', '+/-', 'PTS'].map(stat => {
   return (
@@ -19,6 +22,8 @@ const headerCells = ['Game', 'Date', 'Matchup', 'W/L', 'Min', 'FGM', 'FGA', 'FG%
 
 const statsFields = ['game_date', 'matchup', 'wl', 'min', 'fgm', 'fga', 'fg_pct',
   'fg3m', 'fg3a', 'fg3_pct', 'ftm', 'fta', 'ft_pct', 'oreb', 'dreb', 'reb', 'ast', 'stl', 'blk', 'pf', 'tov', 'plus_minus', 'pts'];
+
+const cellsToSkip = [7, 10, 13];
 
 class PlayerGameLog extends React.Component {
   constructor() {
@@ -75,32 +80,49 @@ class PlayerGameLog extends React.Component {
     );
   }
   renderCumulativeAverages() {
-    const rowsToSkip = [7, 10, 13];
-    let averages = new Array(headerCells.length).fill(0, 0, headerCells.length);
-    let maxes = new Array(headerCells.length - 4).fill([0, 0], 0, headerCells.length - 4); // style cells with max values
-
+    let averages = new Array(headerCells.length).fill(0, 0, headerCells.length); // running total for each stat
+    let maxes = []; // style cells with max values
+    for (let i = 0; i < headerCells.length - 4; i++) maxes.push({ val: -Infinity, row: 0 });
     let rows = this.props.playerGameLog.map((game, i) => {
       averages[0] = i + 1;
       statsFields.forEach((field, j) => {
         if (j + 1 < 4) averages[j + 1] = game[field];
-        else if ([7, 10, 13].includes(j + 1)) averages[j + 1] = averages[j] === 0 ? 0 : Math.round((averages[j - 1] / averages[j]) * 1000) / 1000;
+        else if (cellsToSkip.includes(j + 1)) averages[j + 1] = averages[j] === 0 ? 0 : Math.round((averages[j - 1] / averages[j]) * 1000) / 1000;
         else averages[j + 1] += game[field];
       });
-      let cells = averages.map((stat, j) => (
-        <Table.Cell className='player-game-log-stat' key={j}>
-          {j < 4 || rowsToSkip.includes(j) ? stat || '-' : Math.round((stat / (i + 1)) * 10) / 10}
-        </Table.Cell>
-      ));
+      let cells = averages.map((stat, j) => {
+        // store max val for each cell after 10 games; skip the first 4 columns (game number, date, matchup, W/L)
+        if (j > 3 && this.props.playerGameLog.length > MIN_GAMES && i >= MIN_INDEX) {
+          if (cellsToSkip.includes(j) && maxes[j - 4].val < stat) {
+            maxes[j - 4].val = stat;
+            maxes[j - 4].row = i;
+          } else if (!cellsToSkip.includes(j) && maxes[j - 4].val < stat / (i + 1)) {
+            maxes[j - 4].val = stat / (i + 1);
+            maxes[j - 4].row = i;
+          }
+        };
+
+        let formattedStat;
+        if (j < 4) formattedStat = stat;
+        else if (cellsToSkip.includes(j)) formattedStat = !isNaN(stat) ? stat.toFixed(3) : '-';
+        else formattedStat = !isNaN(stat) ? (stat / (i + 1)).toFixed(1) : '-';
+        return (<Table.Cell className='player-game-log-stat' key={j}>{formattedStat}</Table.Cell>);
+      });
+
       return (
         <Table.Row key={i} active={(i + 1) % 10 === 0}>{cells}</Table.Row>
       );
     });
 
-    console.info(rows);
-
-    // maxes.forEach((maxIndex, i) => {
-    //   averages.props.children[i + 4][maxIndex];
-    // });
+    maxes.forEach((maxIndex, i) => { // rewrite cells to change className since className is read-only
+      if (maxIndex.val === -Infinity) return;
+      let isGood = i === maxes.length - 3 || i === maxes.length - 4 ? 'bad' : 'good';
+      rows[maxIndex.row].props.children[i + 4] = (
+        <Table.Cell className={`player-game-log-stat-${isGood}`} key={i + 4}>
+          {maxIndex.val.toFixed(cellsToSkip.includes(i + 4) ? 3 : 1)}
+        </Table.Cell>
+      );
+    });
 
     return (
       <div className='player-game-log-table-wrapper'>
@@ -112,9 +134,12 @@ class PlayerGameLog extends React.Component {
   renderGameLog() {
     let rows = [];
     this.props.playerGameLog.forEach((game, i) => {
-      let cells = statsFields.map(field => {
+      let cells = statsFields.map((field, j) => {
+        let formattedStat = game[field];
+        if (cellsToSkip.includes(j + 1)) formattedStat = !isNaN(game[field]) ? formattedStat.toFixed(3) : '-';
+        else if (j > 3) formattedStat = !isNaN(game[field]) ? formattedStat : '-';
         return (
-          <Table.Cell key={field} className='player-game-log-stat'>{game[field]}</Table.Cell>
+          <Table.Cell key={field} className='player-game-log-stat'>{formattedStat}</Table.Cell>
         );
       });
       rows.push(
