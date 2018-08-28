@@ -23,7 +23,8 @@ const headerCells = ['Game', 'Date', 'Matchup', 'W/L', 'Min', 'FGM', 'FGA', 'FG%
 const statsFields = ['game_date', 'matchup', 'wl', 'min', 'fgm', 'fga', 'fg_pct',
   'fg3m', 'fg3a', 'fg3_pct', 'ftm', 'fta', 'ft_pct', 'oreb', 'dreb', 'reb', 'ast', 'stl', 'blk', 'pf', 'tov', 'plus_minus', 'pts'];
 
-const cellsToSkip = [7, 10, 13];
+const cellsToSkip = ['fg_pct', 'fg3_pct', 'ft_pct']; // for game log array
+const indexesToSkip = [7, 10, 13]; // for maxes array
 
 class PlayerGameLog extends React.Component {
   constructor() {
@@ -36,8 +37,8 @@ class PlayerGameLog extends React.Component {
   componentDidMount() {
     this.props.setPlayerId(this.props.match.id);
     Sources.getGameLog(this.props.match.params.id, this.props.match.params.season).then(res => {
-      res.data.PlayerGameLog.reverse();
       this.props.setPlayerGameLog(res.data.PlayerGameLog);
+      this.props.setPlayerCumulativeAverageGameLog(res.data.CumulativeAverageGameLog);
     }).catch(err => {
       console.info(err);
     });
@@ -80,33 +81,20 @@ class PlayerGameLog extends React.Component {
     );
   }
   renderCumulativeAverages() {
-    let averages = new Array(headerCells.length).fill(0, 0, headerCells.length); // running total for each stat
     let maxes = []; // style cells with max values
-    for (let i = 0; i < headerCells.length - 4; i++) maxes.push({ val: -Infinity, row: 0 });
-    let rows = this.props.playerGameLog.map((game, i) => {
-      averages[0] = i + 1;
-      statsFields.forEach((field, j) => {
-        if (j + 1 < 4) averages[j + 1] = game[field];
-        else if (cellsToSkip.includes(j + 1)) averages[j + 1] = averages[j] === 0 ? 0 : Math.round((averages[j - 1] / averages[j]) * 1000) / 1000;
-        else averages[j + 1] += game[field];
-      });
-      let cells = averages.map((stat, j) => {
-        // store max val for each cell after 10 games; skip the first 4 columns (game number, date, matchup, W/L)
-        if (j > 3 && this.props.playerGameLog.length > MIN_GAMES && i >= MIN_INDEX) {
-          if (cellsToSkip.includes(j) && maxes[j - 4].val < stat) {
-            maxes[j - 4].val = stat;
-            maxes[j - 4].row = i;
-          } else if (!cellsToSkip.includes(j) && maxes[j - 4].val < stat / (i + 1)) {
-            maxes[j - 4].val = stat / (i + 1);
-            maxes[j - 4].row = i;
-          }
-        };
+    for (let i = 0; i < statsFields.length - 3; i++) maxes.push({ val: -Infinity, row: 0 });
 
-        let formattedStat;
-        if (j < 4) formattedStat = stat;
-        else if (cellsToSkip.includes(j)) formattedStat = !isNaN(stat) ? stat.toFixed(3) : '-';
-        else formattedStat = !isNaN(stat) ? (stat / (i + 1)).toFixed(1) : '-';
-        return (<Table.Cell className='player-game-log-stat' key={j}>{formattedStat}</Table.Cell>);
+    let rows = this.props.playerCumulativeAverageGameLog.map((game, i) => {
+      let cells = [<Table.Cell key={0} active={(i + 1) % 10 === 0}>{i + 1}</Table.Cell>]; // initial game
+      statsFields.forEach((field, j) => { // add all stats other than game number
+        // store max val for each cell after 10 games; skip the first 3 columns (date, matchup, W/L)
+        if (j > 2 && this.props.playerCumulativeAverageGameLog.length > MIN_GAMES && i >= MIN_INDEX && maxes[j - 3].val <= game[field]) {
+          // store the latest occurrence of the game log high
+          maxes[j - 3].val = game[field];
+          maxes[j - 3].row = i;
+        };
+        let formattedField = j < 3 ? game[field] : game[field].toFixed(cellsToSkip.includes(field) ? 3 : 1); // round percentages to 3 decimal places
+        cells[j + 1] = (<Table.Cell className='player-game-log-stat' key={j + 1}>{formattedField}</Table.Cell>);
       });
 
       return (
@@ -119,7 +107,7 @@ class PlayerGameLog extends React.Component {
       let isGood = i === maxes.length - 3 || i === maxes.length - 4 ? 'bad' : 'good';
       rows[maxIndex.row].props.children[i + 4] = (
         <Table.Cell className={`player-game-log-stat-${isGood}`} key={i + 4}>
-          {maxIndex.val.toFixed(cellsToSkip.includes(i + 4) ? 3 : 1)}
+          {maxIndex.val.toFixed(indexesToSkip.includes(i + 4) ? 3 : 1)}
         </Table.Cell>
       );
     });
@@ -136,8 +124,8 @@ class PlayerGameLog extends React.Component {
     this.props.playerGameLog.forEach((game, i) => {
       let cells = statsFields.map((field, j) => {
         let formattedStat = game[field];
-        if (cellsToSkip.includes(j + 1)) formattedStat = !isNaN(game[field]) ? formattedStat.toFixed(3) : '-';
-        else if (j > 3) formattedStat = !isNaN(game[field]) ? formattedStat : '-';
+        if (cellsToSkip.includes(j + 1)) formattedStat = !isNaN(game[field]) && game[field] !== null ? formattedStat.toFixed(3) : '-';
+        else if (j > 3) formattedStat = !isNaN(game[field]) && game[field] !== null ? formattedStat : '-';
         return (
           <Table.Cell key={field} className='player-game-log-stat'>{formattedStat}</Table.Cell>
         );
@@ -208,14 +196,17 @@ class PlayerGameLog extends React.Component {
 
 PlayerGameLog.propTypes = {
   match: PropTypes.object,
+  playerCumulativeAverageGameLog: PropTypes.array,
   playerGameLog: PropTypes.array,
   playerName: PropTypes.string,
+  setPlayerCumulativeAverageGameLog: PropTypes.func,
   setPlayerGameLog: PropTypes.func,
   setPlayerId: PropTypes.func
 };
 
 const mapStateToProps = state => {
   return {
+    playerCumulativeAverageGameLog: state.players.playerCumulativeAverageGameLog || [],
     playerGameLog: state.players.playerGameLog || [],
     playerName: state.players.playerName
   };

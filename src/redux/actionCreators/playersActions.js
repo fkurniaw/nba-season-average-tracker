@@ -21,6 +21,13 @@ export function setCurrentPlayer(currentPlayer) {
   };
 }
 
+export function setPlayerCumulativeAverageGameLog(playerCumulativeAverageGameLog) {
+  return {
+    type: types.SET_PLAYER_CUMULATIVE_AVERAGE_GAME_LOG,
+    playerCumulativeAverageGameLog
+  };
+}
+
 export function setPlayerGameLog(playerGameLog) {
   return {
     type: types.SET_PLAYER_GAME_LOG,

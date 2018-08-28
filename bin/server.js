@@ -2,9 +2,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 const path = require('path');
+const fs = require('fs');
 const app = express();
 const port = 8080;
 const nba = require('nba.js');
+
+const cumulativeFiltering = require(path.join(__dirname, '/gameLogFiltering', '/cumulativeSeasonAverageFiltering.js'));
 
 app.use(express.static(path.join(__dirname, 'build')));
 app.use(bodyParser.json());
@@ -48,32 +51,35 @@ app.get('/allPlayers', (req, res) => {
 app.get('/playerStats', (req, res) => {
   try {
     const PlayerID = req.query.playerId;
-    nba.stats.playerProfile({ PlayerID, PerMode: 'PerGame', LeagueID: '00' }).then(nbaRes => {
-      let results = {
-        careerTotalsPost: nbaRes.CareerTotalsPostSeason,
-        careerTotalsRegular: nbaRes.CareerTotalsRegularSeason,
-        postSeasonAvg: nbaRes.SeasonTotalsPostSeason,
-        regularSeasonAvg: nbaRes.SeasonTotalsRegularSeason
-      };
-      return res.send(results);
-    });
-    // switch (PlayerID) { // mock
-    //   case '977':
-    //     res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsKobe.json'));
-    //     break;
-    //   case '76003':
-    //     res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsKareem.json'));
-    //     break;
-    //   case '893': // Jordan
-    //     res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStats.json'));
-    //     break;
-    //   case '2544':
-    //     res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsLeBron.json'));
-    //     break;
-    //   default:
-    //     res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsLeBron.json'));
-    //     break;
-    // }
+    // nba.stats.playerProfile({ PlayerID, PerMode: 'PerGame', LeagueID: '00' }).then(nbaRes => {
+    //   let results = {
+    //     careerTotalsPost: nbaRes.CareerTotalsPostSeason,
+    //     careerTotalsRegular: nbaRes.CareerTotalsRegularSeason,
+    //     postSeasonAvg: nbaRes.SeasonTotalsPostSeason,
+    //     regularSeasonAvg: nbaRes.SeasonTotalsRegularSeason
+    //   };
+    //   return res.send(results);
+    // });
+    switch (PlayerID) { // mock
+      case '977':
+        res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsKobe.json'));
+        break;
+      case '76003':
+        res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsKareem.json'));
+        break;
+      case '893': // Jordan
+        res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStats.json'));
+        break;
+      case '2544':
+        res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsLeBron.json'));
+        break;
+      // case '76375':
+      //   res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsWilt.json'));
+      //   break;
+      default:
+        res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsLeBron.json'));
+        break;
+    }
   } catch (e) {
     console.info(e);
     return res.send({});
@@ -95,8 +101,23 @@ app.get('/getPlayerGameLog', (req, res) => {
   try {
     const Season = req.query.season;
     const PlayerID = req.query.playerId;
-    nba.stats.playerGamelog({ Season, PlayerID, LeagueID: '00', SeasonType: 'Regular Season' }).then(nbaRes => {
-      return res.send(nbaRes);
+    // nba.stats.playerGamelog({ Season, PlayerID, LeagueID: '00', SeasonType: 'Regular Season' }).then(nbaRes => {
+    //   nbaRes.PlayerGameLog.reverse();
+    //   nbaRes.cumulativeAverageGameLog = cumulativeFiltering(gameLog.PlayerGameLog);
+    //   console.log(JSON.stringify(gameLog.cumulativeAverageGameLog));
+    //   return res.send(nbaRes);
+    // });
+    const playerIdMap = { '977': 'Kobe', '76375': 'Wilt' };
+    // for offline testing
+    let gameLogDir = path.join(__dirname, '/sampleData/gameLog', `${playerIdMap[PlayerID]}${Season}Game.json`);
+    fs.readFile(gameLogDir, 'utf8', (err, data) => {
+      if (err && err.code === 'ENOENT') console.error('Invalid filename provided');
+      try {
+        var gameLog = JSON.parse(data);
+        gameLog.PlayerGameLog.reverse();
+        gameLog.CumulativeAverageGameLog = cumulativeFiltering(gameLog.PlayerGameLog);
+        return res.send(gameLog);
+      } catch (err) {}
     });
     // res.sendFile(path.join(__dirname, '/sampleData/gameLog', `Kobe${Season}Game.json`));
   } catch (e) {
