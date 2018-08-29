@@ -1,4 +1,7 @@
 .player-bio-left-headers {
   display: inline-block;
-  margin-right: 2px;
+  margin: 0px 2px 0px 5px;
+}
+.player-bio-name-link:hover {
+  text-decoration: underline
 }

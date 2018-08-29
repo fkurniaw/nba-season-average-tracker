@@ -7,6 +7,20 @@ import * as actions from '../../../redux/actionCreators/playersActions';
 
 import './playerBio.css';
 
+import { Loader } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
+
+const bioHeadersMap = {
+  'birthdate': 'Birth Date',
+  'school': 'School',
+  'height': 'Height',
+  'weight': 'Weight',
+  'position': 'Position',
+  'draft_year': 'Draft Year',
+  'draft_round': 'Draft Round',
+  'draft_number': 'Draft Overall'
+};
+
 class PlayerBio extends Component {
   componentDidMount() {
     Sources.getPlayerBio(this.props.id).then(res => {
@@ -17,13 +31,28 @@ class PlayerBio extends Component {
       });
     }).catch(err => console.info(err));
   }
+  addBioHeaders() {
+    let headers = [];
+    Object.keys(bioHeadersMap).forEach(header => {
+      headers.push(
+        <div className='player-bio-header' key={header}>
+          <h5 className='player-bio-left-headers'>{bioHeadersMap[header]}:</h5>
+          <span>{this.props.playerInfo[header]}</span>
+        </div>
+      );
+    });
+    return headers;
+  }
   render() {
     return (
       <div className='player-bio'>
-        <h5 className='player-bio-left-headers'>Birth Date:</h5>
-        <span>{this.props.playerBio.playerInfo ? this.props.playerBio.playerInfo.birthdate.slice(0, 10) : ''}</span>
-        <h5 className='player-bio-left-headers'>School:</h5>
-        <span>{this.props.playerBio.playerInfo ? this.props.playerBio.playerInfo.school : ''}</span>
+        <h1 className='player-bio-name'>
+          <Link to={`/players/${this.props.id}`}
+            className='player-bio-name-link'>
+            {this.props.playerName}
+          </Link>
+        </h1>
+        {Object.keys(this.props.playerInfo).length > 0 ? this.addBioHeaders() : <Loader />}
       </div>
     );
   }
@@ -31,7 +60,9 @@ class PlayerBio extends Component {
 
 const mapStateToProps = state => {
   return {
-    playerBio: state.players.playerBio
+    headlineStats: state.players.playerBio.headlineStats || {},
+    playerInfo: state.players.playerBio.playerInfo || {},
+    playerName: state.players.playerName || ''
   };
 };
 
@@ -41,8 +72,10 @@ const actionCreators = {
 };
 
 PlayerBio.propTypes = {
+  headlineStats: PropTypes.object,
   id: PropTypes.string,
-  playerBio: PropTypes.object,
+  playerInfo: PropTypes.object,
+  playerName: PropTypes.string,
   setPlayerBio: PropTypes.func,
   setPlayerName: PropTypes.func
 };

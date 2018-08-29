@@ -155,7 +155,6 @@ class PlayerGameLog extends React.Component {
   render() {
     return (
       <div className='player-game-log'>
-        <h1>{this.props.playerName}</h1>
         {this.props.playerGameLog.length > 0 && this.renderGameLogTabs()}
       </div>
     );

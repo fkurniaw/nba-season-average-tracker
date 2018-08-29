@@ -92,7 +92,15 @@ app.get('/getPlayerBio', (req, res) => {
     // nba.stats.playerInfo({ PlayerID, LeagueID: '00' }).then(nbaRes => {
     //   return res.send(nbaRes);
     // });
-    res.sendFile(path.join(__dirname, 'sampleData', 'playerBio', 'KobeBio.json')); // offline testing
+    fs.readFile(path.join(__dirname, 'sampleData', 'playerBio', 'KobeBio.json'), (err, data) => {
+      if (err && err.code === 'ENOENT') console.error('Invalid filename provided');
+      try {
+        var playerBio = JSON.parse(data);
+        playerBio.CommonPlayerInfo[0].birthdate = playerBio.CommonPlayerInfo[0].birthdate.slice(0, 10);
+        return res.send(playerBio);
+      } catch (err) { console.info(err); }
+    });
+    // res.sendFile(path.join(__dirname, 'sampleData', 'playerBio', 'KobeBio.json')); // offline testing
   } catch (e) {
     return res.send({});
   }
