@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import './header.css';
-import AppMenu from '../Menu/AppMenu.js';
+import AppMenu from './Menu/AppMenu.js';
 
 class Header extends Component {
   constructor(props) {

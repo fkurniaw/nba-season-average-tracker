@@ -117,7 +117,7 @@ app.get('/getPlayerGameLog', (req, res) => {
         gameLog.PlayerGameLog.reverse();
         const { averages, totals } = cumulativeFiltering(gameLog.PlayerGameLog);
         gameLog.CumulativeAverageGameLog = averages;
-        gameLog.CumulativeTotalsGameLog = totals;
+        gameLog.CumulativeTotalGameLog = totals;
         return res.send(gameLog);
       } catch (err) {}
     });

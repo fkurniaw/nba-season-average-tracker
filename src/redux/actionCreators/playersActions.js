@@ -28,6 +28,13 @@ export function setPlayerCumulativeAverageGameLog(playerCumulativeAverageGameLog
   };
 }
 
+export function setPlayerCumulativeTotalGameLog(playerCumulativeTotalGameLog) {
+  return {
+    type: types.SET_PLAYER_CUMULATIVE_TOTAL_GAME_LOG,
+    playerCumulativeTotalGameLog
+  };
+}
+
 export function setPlayerGameLog(playerGameLog) {
   return {
     type: types.SET_PLAYER_GAME_LOG,

@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 
 import { Table } from 'semantic-ui-react';
 
-const PlayerGameLogRegular = props => {
+const PlayerGameLogGeneric = props => {
   let rows = [];
   props.playerGameLog.forEach((game, i) => {
     let cells = props.statsFields.map((field, j) => {
       let formattedStat = game[field];
-      if (props.cellsToSkip.includes(j + 1)) formattedStat = !isNaN(game[field]) && game[field] !== null ? formattedStat.toFixed(3) : '-';
+      if (props.cellsToSkip.includes(field)) formattedStat = !isNaN(game[field]) && game[field] !== null ? formattedStat.toFixed(3) : '-';
       else if (j > 3) formattedStat = !isNaN(game[field]) && game[field] !== null ? formattedStat : '-';
       return (
         <Table.Cell key={field} className='player-game-log-stat'>{formattedStat}</Table.Cell>
@@ -24,24 +24,28 @@ const PlayerGameLogRegular = props => {
   });
   return (
     <div className='player-game-log-table-wrapper'>
-      <h3 className='player-game-log-header'>Regular Season Game Log</h3>
+      <h3 className='player-game-log-header'>
+        {props.type === 'totals' ? 'Cumulative Season Totals Game Log' : 'Regular Season Game Log'}
+      </h3>
       {props.addTable('player-game-log-table', props.headerCells, rows)}
     </div>
   );
 };
 
-PlayerGameLogRegular.propTypes = {
+PlayerGameLogGeneric.propTypes = {
   addTable: PropTypes.func,
   cellsToSkip: PropTypes.array,
   headerCells: PropTypes.array,
   playerGameLog: PropTypes.array,
-  statsFields: PropTypes.array
+  statsFields: PropTypes.array,
+  type: PropTypes.string
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
   return {
-    playerGameLog: state.players.playerGameLog || []
+    playerGameLog: ownProps.type === 'totals' ? state.players.playerCumulativeTotalGameLog || []
+      : state.players.playerGameLog || []
   };
 };
 
-export default connect(mapStateToProps)(PlayerGameLogRegular);
+export default connect(mapStateToProps)(PlayerGameLogGeneric);

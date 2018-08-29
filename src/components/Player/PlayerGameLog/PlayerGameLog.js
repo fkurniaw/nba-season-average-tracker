@@ -8,7 +8,7 @@ import * as actions from '../../../redux/actionCreators/playersActions';
 import './playerGameLog.css';
 import { Menu, Tab, Table } from 'semantic-ui-react';
 import PlayerGameLogChart from './PlayerGameLogChart';
-import PlayerGameLogRegular from './GameLogTypes/PlayerGameLogRegular';
+import PlayerGameLogGeneric from './GameLogTypes/PlayerGameLogGeneric';
 import PlayerGameLogCumulativeAverage from './GameLogTypes/PlayerGameLogCumulativeAverage';
 
 const MIN_GAMES = 15;
@@ -37,6 +37,7 @@ class PlayerGameLog extends React.Component {
     Sources.getGameLog(this.props.match.params.id, this.props.match.params.season).then(res => {
       this.props.setPlayerGameLog(res.data.PlayerGameLog);
       this.props.setPlayerCumulativeAverageGameLog(res.data.CumulativeAverageGameLog);
+      this.props.setPlayerCumulativeTotalGameLog(res.data.CumulativeTotalGameLog);
     }).catch(err => {
       console.info(err);
     });
@@ -69,6 +70,16 @@ class PlayerGameLog extends React.Component {
         type={type} />
     );
   }
+  renderCumulativeTotals() {
+    return (
+      <PlayerGameLogGeneric
+        addTable={this.addTable.bind(this)}
+        cellsToSkip={cellsToSkip}
+        headerCells={headerCells}
+        statsFields={statsFields}
+        type='totals' />
+    );
+  }
   renderCumulativeAverages() {
     return (
       <PlayerGameLogCumulativeAverage
@@ -83,7 +94,7 @@ class PlayerGameLog extends React.Component {
   }
   renderGameLog() {
     return (
-      <PlayerGameLogRegular
+      <PlayerGameLogGeneric
         addTable={this.addTable.bind(this)}
         cellsToSkip={cellsToSkip}
         headerCells={headerCells}
@@ -116,6 +127,21 @@ class PlayerGameLog extends React.Component {
             {this.renderCumulativeAverages()}
           </Tab.Pane>
         )
+      },
+      {
+        menuItem:
+          (<Menu.Item
+            className='player-game-log-menu-item'
+            key={2}
+            onClick={() => this.setState({ gameLogTab: 2 })}>
+            Cumulative Season Totals Game Log
+          </Menu.Item>),
+        render: () => (
+          <Tab.Pane>
+            {this.props.playerGameLog.length > 0 && this.renderCumulativeChart('counting')}
+            {this.renderCumulativeTotals()}
+          </Tab.Pane>
+        )
       }
     ];
     return (
@@ -138,17 +164,16 @@ class PlayerGameLog extends React.Component {
 
 PlayerGameLog.propTypes = {
   match: PropTypes.object,
-  playerCumulativeAverageGameLog: PropTypes.array,
   playerGameLog: PropTypes.array,
   playerName: PropTypes.string,
   setPlayerCumulativeAverageGameLog: PropTypes.func,
+  setPlayerCumulativeTotalGameLog: PropTypes.func,
   setPlayerGameLog: PropTypes.func,
   setPlayerId: PropTypes.func
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
   return {
-    playerCumulativeAverageGameLog: state.players.playerCumulativeAverageGameLog || [],
     playerGameLog: state.players.playerGameLog || [],
     playerName: state.players.playerName
   };

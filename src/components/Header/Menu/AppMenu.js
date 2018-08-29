@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import './appMenu.css';
 
-import PlayerSearch from '../PlayerSearch/PlayerSearch.js';
+import PlayerSearch from '../../PlayerSearch/PlayerSearch.js';
 
 function handleItemClick(item) {
   this.setState({ activeItem: item });
