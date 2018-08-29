@@ -179,6 +179,11 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-const actionCreators = { ...actions };
+const actionCreators = {
+  setPlayerCumulativeAverageGameLog: actions.setPlayerCumulativeAverageGameLog,
+  setPlayerCumulativeTotalGameLog: actions.setPlayerCumulativeTotalGameLog,
+  setPlayerGameLog: actions.setPlayerGameLog,
+  setPlayerId: actions.setPlayerId
+};
 
 export default connect(mapStateToProps, actionCreators)(PlayerGameLog);

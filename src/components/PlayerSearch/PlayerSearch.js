@@ -79,7 +79,11 @@ const mapStateToProps = state => {
   };
 };
 
-const actionCreators = { ...actions };
+const actionCreators = {
+  setAllPlayers: actions.setAllPlayers,
+  setCurrentPlayer: actions.setCurrentPlayer,
+  setPlayerName: actions.setPlayerName
+};
 
 PlayerSearch.propTypes = {
   match: PropTypes.object,

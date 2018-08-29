@@ -60,7 +60,7 @@ app.get('/playerStats', (req, res) => {
     //   };
     //   return res.send(results);
     // });
-    switch (PlayerID) { // mock
+    switch (PlayerID) { // offline testing
       case '977':
         res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsKobe.json'));
         break;
@@ -88,10 +88,11 @@ app.get('/playerStats', (req, res) => {
 
 app.get('/getPlayerBio', (req, res) => {
   try {
-    const PlayerID = req.query.playerId;
-    nba.stats.playerInfo({ PlayerID, LeagueID: '00' }).then(nbaRes => {
-      return res.send(nbaRes);
-    });
+    // const PlayerID = req.query.playerId;
+    // nba.stats.playerInfo({ PlayerID, LeagueID: '00' }).then(nbaRes => {
+    //   return res.send(nbaRes);
+    // });
+    res.sendFile(path.join(__dirname, 'sampleData', 'playerBio', 'KobeBio.json')); // offline testing
   } catch (e) {
     return res.send({});
   }

@@ -9,6 +9,8 @@ export function players(state = initialPlayersState, action) {
       return Object.assign({}, state, { currentPlayer: action.currentPlayer });
     case types.SET_PLAYER_NAME:
       return Object.assign({}, state, { playerName: action.playerName });
+    case types.SET_PLAYER_BIO:
+      return Object.assign({}, state, { playerBio: action.playerBio });
     case types.SET_PLAYER_CUMULATIVE_AVERAGE_GAME_LOG:
       return Object.assign({}, state, { playerCumulativeAverageGameLog: action.playerCumulativeAverageGameLog });
     case types.SET_PLAYER_CUMULATIVE_TOTAL_GAME_LOG:

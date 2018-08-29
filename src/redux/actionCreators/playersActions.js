@@ -7,6 +7,13 @@ export function setAllPlayers(players) {
   };
 }
 
+export function setPlayerBio(playerBio) {
+  return {
+    type: types.SET_PLAYER_BIO,
+    playerBio
+  };
+};
+
 export function setPlayerName(playerName) {
   return {
     type: types.SET_PLAYER_NAME,

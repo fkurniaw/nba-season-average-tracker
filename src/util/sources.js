@@ -10,6 +10,10 @@ const Sources = {
     return axios.get(`${url}playerStats?playerId=${id}`);
   },
 
+  getPlayerBio: id => {
+    return axios.get(`${url}getPlayerBio?playerId=${id}`);
+  },
+
   getGameLog: (id, season) => {
     return axios.get(`${url}getPlayerGameLog?playerId=${id}&season=${season}`);
   }
