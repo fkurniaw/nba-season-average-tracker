@@ -75,8 +75,8 @@ class PlayerGameLog extends React.Component {
         addTable={this.addTable.bind(this)}
         cellsToSkip={cellsToSkip}
         headerCells={headerCells}
-        MIN_GAMES={MIN_GAMES}
-        MIN_INDEX={MIN_INDEX}
+        minGames={MIN_GAMES}
+        minIndex={MIN_INDEX}
         statsFields={statsFields}
       />
     );
