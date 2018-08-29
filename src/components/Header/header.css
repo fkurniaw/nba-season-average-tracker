@@ -2,7 +2,10 @@
   background-color: #222;
   /* padding: 20px; */
   color: white;
+  position: fixed;
   overflow-y: visible;
+  width: 100%;
+  z-index: 100;
 }
 
 .App-title-wrapper {

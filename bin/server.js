@@ -115,7 +115,9 @@ app.get('/getPlayerGameLog', (req, res) => {
       try {
         var gameLog = JSON.parse(data);
         gameLog.PlayerGameLog.reverse();
-        gameLog.CumulativeAverageGameLog = cumulativeFiltering(gameLog.PlayerGameLog);
+        const { averages, totals } = cumulativeFiltering(gameLog.PlayerGameLog);
+        gameLog.CumulativeAverageGameLog = averages;
+        gameLog.CumulativeTotalsGameLog = totals;
         return res.send(gameLog);
       } catch (err) {}
     });

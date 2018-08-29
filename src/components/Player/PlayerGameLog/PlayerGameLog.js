@@ -8,6 +8,8 @@ import * as actions from '../../../redux/actionCreators/playersActions';
 import './playerGameLog.css';
 import { Menu, Tab, Table } from 'semantic-ui-react';
 import PlayerGameLogChart from './PlayerGameLogChart';
+import PlayerGameLogRegular from './GameLogTypes/PlayerGameLogRegular';
+import PlayerGameLogCumulativeAverage from './GameLogTypes/PlayerGameLogCumulativeAverage';
 
 const MIN_GAMES = 15;
 const MIN_INDEX = 6;
@@ -21,7 +23,6 @@ const statsFields = ['game_date', 'matchup', 'wl', 'min', 'fgm', 'fga', 'fg_pct'
   'fg3m', 'fg3a', 'fg3_pct', 'ftm', 'fta', 'ft_pct', 'oreb', 'dreb', 'reb', 'ast', 'stl', 'blk', 'pf', 'tov', 'plus_minus', 'pts'];
 
 const cellsToSkip = ['fg_pct', 'fg3_pct', 'ft_pct']; // for game log array
-const indexesToSkip = [7, 10, 13]; // for maxes array
 
 class PlayerGameLog extends React.Component {
   constructor() {
@@ -56,14 +57,10 @@ class PlayerGameLog extends React.Component {
       switch (type) {
         case 'counting':
           totals[0] += game.pts;
-          totals[1] += game.reb;
-          totals[2] += game.ast;
-          return [i + 1, totals[0] / (i + 1), totals[1] / (i + 1), totals[2] / (i + 1)];
+          return [i + 1, totals[0] / (i + 1)];
         default:
           totals[0] += game.pts;
-          totals[1] += game.reb;
-          totals[2] += game.ast;
-          return [i + 1, totals[0] / (i + 1), totals[1] / (i + 1), totals[2] / (i + 1)];
+          return [i + 1, totals[0] / (i + 1)];
       }
     });
     return (
@@ -73,67 +70,24 @@ class PlayerGameLog extends React.Component {
     );
   }
   renderCumulativeAverages() {
-    let maxes = []; // style cells with max values
-    for (let i = 0; i < statsFields.length - 3; i++) maxes.push({ val: -Infinity, row: 0 });
-
-    let rows = this.props.playerCumulativeAverageGameLog.map((game, i) => {
-      let cells = [<Table.Cell key={0} active={(i + 1) % 10 === 0}>{i + 1}</Table.Cell>]; // initial game
-      statsFields.forEach((field, j) => { // add all stats other than game number
-        // store max val for each cell after 10 games; skip the first 3 columns (date, matchup, W/L)
-        if (j > 2 && this.props.playerCumulativeAverageGameLog.length > MIN_GAMES && i >= MIN_INDEX && game[field] !== null && maxes[j - 3].val <= game[field]) {
-          // store the latest occurrence of the game log high
-          maxes[j - 3].val = game[field];
-          maxes[j - 3].row = i;
-        };
-        let formattedField = j < 3 ? game[field] : game[field] !== null ? game[field].toFixed(cellsToSkip.includes(field) ? 3 : 1) : '-'; // round percentages to 3 decimal places
-        cells[j + 1] = (<Table.Cell className='player-game-log-stat' key={j + 1}>{formattedField}</Table.Cell>);
-      });
-
-      return (
-        <Table.Row key={i} active={(i + 1) % 10 === 0}>{cells}</Table.Row>
-      );
-    });
-
-    maxes.forEach((maxIndex, i) => { // rewrite cells to change className since className is read-only
-      if (maxIndex.val === -Infinity) return;
-      let isGood = i === maxes.length - 3 || i === maxes.length - 4 ? 'bad' : 'good';
-      rows[maxIndex.row].props.children[i + 4] = (
-        <Table.Cell className={`player-game-log-stat-${isGood}`} key={i + 4}>
-          {maxIndex.val.toFixed(indexesToSkip.includes(i + 4) ? 3 : 1)}
-        </Table.Cell>
-      );
-    });
-
     return (
-      <div className='player-game-log-table-wrapper'>
-        <h3 className='player-game-log-header'>Cumulative Season Average Game Log</h3>
-        {this.addTable('player-game-log-table', headerCells, rows)}
-      </div>
+      <PlayerGameLogCumulativeAverage
+        addTable={this.addTable.bind(this)}
+        cellsToSkip={cellsToSkip}
+        headerCells={headerCells}
+        MIN_GAMES={MIN_GAMES}
+        MIN_INDEX={MIN_INDEX}
+        statsFields={statsFields}
+      />
     );
   }
   renderGameLog() {
-    let rows = [];
-    this.props.playerGameLog.forEach((game, i) => {
-      let cells = statsFields.map((field, j) => {
-        let formattedStat = game[field];
-        if (cellsToSkip.includes(j + 1)) formattedStat = !isNaN(game[field]) && game[field] !== null ? formattedStat.toFixed(3) : '-';
-        else if (j > 3) formattedStat = !isNaN(game[field]) && game[field] !== null ? formattedStat : '-';
-        return (
-          <Table.Cell key={field} className='player-game-log-stat'>{formattedStat}</Table.Cell>
-        );
-      });
-      rows.push(
-        <Table.Row key={`game-${i}`} active={(i + 1) % 10 === 0}>
-          <Table.Cell className='player-game-log-stat'>{i + 1}</Table.Cell>
-          {cells}
-        </Table.Row>
-      );
-    });
     return (
-      <div className='player-game-log-table-wrapper'>
-        <h3 className='player-game-log-header'>Regular Season Game Log</h3>
-        {this.addTable('player-game-log-table', headerCells, rows)}
-      </div>
+      <PlayerGameLogRegular
+        addTable={this.addTable.bind(this)}
+        cellsToSkip={cellsToSkip}
+        headerCells={headerCells}
+        statsFields={statsFields} />
     );
   }
   renderGameLogTabs() {
@@ -146,11 +100,7 @@ class PlayerGameLog extends React.Component {
             onClick={() => this.setState({ gameLogTab: 0 })}>
             Regular Season Game Log
           </Menu.Item>),
-        render: () => (
-          <Tab.Pane>
-            {this.renderGameLog()}
-          </Tab.Pane>
-        )
+        render: () => (<Tab.Pane>{this.renderGameLog()}</Tab.Pane>)
       },
       {
         menuItem:

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import Chart from 'react-google-charts';
 
-const headersCounting = [['Game', 'Points', 'Rebounds', 'Assists']];
+const headersCounting = [['Game', 'Points']];
 const headersPercentage = [['Game', 'FG%', '3P%', 'TS%']];
 const headersDefense = [['Game', 'Steals', 'Blocks', 'Personal Fouls']];
 
@@ -22,13 +22,11 @@ const PlayerGameLogChart = props => {
       options={{
         axes: {
           y: {
-            Points: { label: 'Points' },
-            'Rebounds/Assists': { label: 'Rebounds/Assists' }
+            Points: { label: 'Points' }
+          },
+          x: {
+            title: 'Games'
           }
-        },
-        series: {
-          0: { axis: 'Points' },
-          1: { axis: 'Rebounds/Assists' }
         },
         title: 'Season Average Progression',
         curveType: 'function',

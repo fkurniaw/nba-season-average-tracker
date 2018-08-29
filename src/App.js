@@ -23,12 +23,14 @@ const App = props => {
       <BrowserRouter baseName={baseUrl}>
         <div className="App">
           <Header baseUrl={baseUrl} headerNames={headerNames} links={links}/>
-          <Switch>
-            <Route exact path={`/${links[0]}`} component={Home}/>
-            <Route exact path={`/${links[2]}`} component={ComparePlayers}/>
-            <Route exact path={`/players/:id`} component={PlayerStats}/>
-            <Route exact path={`/players/:id/gamelog/:season`} component={PlayerGameLog}/>
-          </Switch>
+          <div className='App-contents'>
+            <Switch>
+              <Route exact path={`/${links[0]}`} component={Home}/>
+              <Route exact path={`/${links[2]}`} component={ComparePlayers}/>
+              <Route exact path={`/players/:id`} component={PlayerStats}/>
+              <Route exact path={`/players/:id/gamelog/:season`} component={PlayerGameLog}/>
+            </Switch>
+          </div>
         </div>
       </BrowserRouter>
     </Provider>
