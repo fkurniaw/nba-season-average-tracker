@@ -1,10 +1,48 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-export default class Home extends Component {
-  render() {
+import { Link } from 'react-router-dom';
+import { Table } from 'semantic-ui-react';
+
+const Home = props => {
+  let sortedPlayers = Object.keys(props.players);
+  sortedPlayers.sort((a, b) => a.localeCompare(b));
+  let rows = sortedPlayers.map((id, i) => {
     return (
-      <div>
-      </div>
+      <Table.Row key={props.players[id].key}>
+        <Table.Cell>
+          <Link to={`/players/${id}`}>
+            {props.players[id].title}
+          </Link>
+        </Table.Cell>
+      </Table.Row>
     );
-  }
-}
+  });
+  return (
+    <div className='players-list-table'>
+      <Table>
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell>Player</Table.HeaderCell>
+          </Table.Row>
+        </Table.Header>
+        <Table.Body>
+          {rows}
+        </Table.Body>
+      </Table>
+    </div>
+  );
+};
+
+Home.propTypes = {
+  players: PropTypes.object
+};
+
+const mapStateToProps = state => {
+  return {
+    players: state.players.players
+  };
+};
+
+export default connect(mapStateToProps)(Home);

@@ -28,7 +28,7 @@ class PlayerGameLog extends React.Component {
   constructor() {
     super();
     this.state = {
-      gameLogTab: 1,
+      gameLogTab: 0,
       loading: true
     };
   }
