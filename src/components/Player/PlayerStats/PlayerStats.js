@@ -34,9 +34,9 @@ class PlayerStats extends Component {
     let cells = [];
     fields.forEach((field, j) => {
       let fieldString;
-      if (nonRoundedFields.includes(field)) fieldString = stat[field] || '-';
+      if (nonRoundedFields.includes(field)) fieldString = typeof (stat[field]) === 'number' ? stat[field] : '-';
       else fieldString = typeof (stat[field]) === 'number' ? stat[field].toFixed(field.indexOf('_pct') > -1 ? 3 : 1) : '-';
-      if (typeof (stat[field]) === 'number' && typeof (i) === 'number' && j > 0) {
+      if (typeof (stat[field]) === 'number' && typeof (i) === 'number' && j > 0 && stat[field] > 0) {
         if (maxes[j - 1].vals.some(val => stat[field] > val)) {
           maxes[j - 1].vals = [fieldString];
           maxes[j - 1].rows = [i];
