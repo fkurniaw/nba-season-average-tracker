@@ -73,9 +73,9 @@ app.get('/playerStats', (req, res) => {
       case '2544':
         res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsLeBron.json'));
         break;
-      // case '76375':
-      //   res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsWilt.json'));
-      //   break;
+      case '76375':
+        res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsWilt.json'));
+        break;
       default:
         res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsLeBron.json'));
         break;

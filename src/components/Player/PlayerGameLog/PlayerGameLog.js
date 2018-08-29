@@ -14,10 +14,7 @@ const MIN_INDEX = 6;
 
 const headerCells = ['Game', 'Date', 'Matchup', 'W/L', 'Min', 'FGM', 'FGA', 'FG%',
   '3PM', '3PA', '3P%', 'FTM', 'FTA', 'FT%', 'OREB', 'DREB', 'REB', 'AST', 'STL', 'BLK', 'PF', 'TOV', '+/-', 'PTS'].map(stat => {
-  return (
-    <Table.HeaderCell key={stat}
-      className='player-game-log-cell-headers'>{stat}</Table.HeaderCell>
-  );
+  return (<Table.HeaderCell key={stat}className='player-game-log-cell-headers'>{stat}</Table.HeaderCell>);
 });
 
 const statsFields = ['game_date', 'matchup', 'wl', 'min', 'fgm', 'fga', 'fg_pct',
@@ -62,11 +59,6 @@ class PlayerGameLog extends React.Component {
           totals[1] += game.reb;
           totals[2] += game.ast;
           return [i + 1, totals[0] / (i + 1), totals[1] / (i + 1), totals[2] / (i + 1)];
-        case 'defense':
-          totals[0] += game.blk;
-          totals[1] += game.stl;
-          totals[2] += game.pf;
-          return [i + 1, totals[0] / (i + 1), totals[1] / (i + 1), totals[2] / (i + 1)];
         default:
           totals[0] += game.pts;
           totals[1] += game.reb;
@@ -88,12 +80,12 @@ class PlayerGameLog extends React.Component {
       let cells = [<Table.Cell key={0} active={(i + 1) % 10 === 0}>{i + 1}</Table.Cell>]; // initial game
       statsFields.forEach((field, j) => { // add all stats other than game number
         // store max val for each cell after 10 games; skip the first 3 columns (date, matchup, W/L)
-        if (j > 2 && this.props.playerCumulativeAverageGameLog.length > MIN_GAMES && i >= MIN_INDEX && maxes[j - 3].val <= game[field]) {
+        if (j > 2 && this.props.playerCumulativeAverageGameLog.length > MIN_GAMES && i >= MIN_INDEX && game[field] !== null && maxes[j - 3].val <= game[field]) {
           // store the latest occurrence of the game log high
           maxes[j - 3].val = game[field];
           maxes[j - 3].row = i;
         };
-        let formattedField = j < 3 ? game[field] : game[field].toFixed(cellsToSkip.includes(field) ? 3 : 1); // round percentages to 3 decimal places
+        let formattedField = j < 3 ? game[field] : game[field] !== null ? game[field].toFixed(cellsToSkip.includes(field) ? 3 : 1) : '-'; // round percentages to 3 decimal places
         cells[j + 1] = (<Table.Cell className='player-game-log-stat' key={j + 1}>{formattedField}</Table.Cell>);
       });
 

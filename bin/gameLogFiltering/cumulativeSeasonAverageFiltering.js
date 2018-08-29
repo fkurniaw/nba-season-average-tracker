@@ -9,8 +9,8 @@ const cumulativeFiltering = function(playerGameLog) {
   playerGameLog.forEach((game, i) => {
     averages[i] = {};
     statFields.forEach((field, j) => {
-      if (i === 0 || j < nonAvgFieldsIndex) averages[i][field] = game[field] === null ? 0 : game[field];
-      else if (game[field] === null && averages[i - 1][field] !== null) averages[i][field] += 0;
+      if (i === 0 || j < nonAvgFieldsIndex) averages[i][field] = game[field];
+      else if (game[field] === null) averages[i][field] = null;
       else {
         if (!cellsToSkip.includes(field)) {
           averages[i][field] = (averages[i - 1][field] * ((averages.length - 1) / averages.length)) + (game[field] * (1 / averages.length));
