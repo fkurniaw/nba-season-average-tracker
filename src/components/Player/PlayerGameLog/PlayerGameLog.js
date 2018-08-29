@@ -158,7 +158,6 @@ class PlayerGameLog extends React.Component {
 PlayerGameLog.propTypes = {
   match: PropTypes.object,
   playerGameLog: PropTypes.array,
-  playerName: PropTypes.string,
   setPlayerCumulativeAverageGameLog: PropTypes.func,
   setPlayerCumulativeTotalGameLog: PropTypes.func,
   setPlayerGameLog: PropTypes.func,
@@ -167,8 +166,7 @@ PlayerGameLog.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    playerGameLog: state.players.playerGameLog || [],
-    playerName: state.players.playerName
+    playerGameLog: state.players.playerGameLog || []
   };
 };
 

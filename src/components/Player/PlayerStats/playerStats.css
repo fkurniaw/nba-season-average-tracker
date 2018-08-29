@@ -1,5 +1,10 @@
 .career-stat {
+  background-color: #f9fafb !important;
+  border-top: 1px solid rgba(34,36,38,.1) !important;
   font-weight: bold;
+}
+.player-stats-table-footer {
+  border: 1px solid black;
 }
 .player-stats-table-header {
   padding: 7px !important;
@@ -12,5 +17,10 @@
   margin: 20px auto;
 }
 .season-stat, .career-stat {
+  padding: 2px 7px !important;
+}
+.season-stat-high {
+  background-color: #e6e6e6;
+  font-weight: 900;
   padding: 2px 7px !important;
 }

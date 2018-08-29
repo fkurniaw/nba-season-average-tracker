@@ -17,10 +17,6 @@ const fields = ['team_abbreviation', 'gp', 'gs', 'min', 'fgm', 'fga', 'fg_pct', 
 
 const nonRoundedFields = ['team_abbreviation', 'gp', 'gs'];
 
-function filter(num, decimalPlaces) {
-  return typeof (num) === 'number' ? (Math.round(num * decimalPlaces) / decimalPlaces).toFixed(1) : '-';
-}
-
 class PlayerStats extends Component {
   constructor() {
     super();
@@ -34,13 +30,22 @@ class PlayerStats extends Component {
       console.info(err);
     });
   }
-  addMainStats(stat, i) {
+  addMainStats(stat, i, maxes) {
     let cells = [];
-    fields.forEach(field => {
+    fields.forEach((field, j) => {
       let fieldString;
       if (nonRoundedFields.includes(field)) fieldString = stat[field] || '-';
-      else if (field.indexOf('_pct') > -1) fieldString = typeof (stat[field]) === 'number' ? stat[field].toFixed(3) : '-';
-      else fieldString = typeof (stat[field]) === 'number' ? filter(stat[field], 10) : '-';
+      else fieldString = typeof (stat[field]) === 'number' ? stat[field].toFixed(field.indexOf('_pct') > -1 ? 3 : 1) : '-';
+      if (typeof (stat[field]) === 'number' && typeof (i) === 'number' && j > 0) {
+        if (maxes[j - 1].vals.some(val => stat[field] > val)) {
+          maxes[j - 1].vals = [fieldString];
+          maxes[j - 1].rows = [i];
+        } else if (maxes[j - 1].vals.some(val => stat[field] === val)) {
+          // keep track of multiple occurrences of career highs
+          maxes[j - 1].vals.push(fieldString);
+          maxes[j - 1].rows.push(i);
+        }
+      }
       cells.push(
         <Table.Cell
           key={field}
@@ -63,6 +68,8 @@ class PlayerStats extends Component {
   }
   renderTable() {
     let rows = [];
+    let maxes = [];
+    for (let i = 0; i < fields.length - 1; i++) maxes.push({ vals: [-Infinity], rows: [0] });
     let headerCells = headers.map(header => {
       return (
         <Table.HeaderCell key={header} className='player-stats-table-header'>
@@ -71,7 +78,15 @@ class PlayerStats extends Component {
       );
     });
     this.props.currentPlayer.regularSeasonAvg.forEach((season, i) => {
-      rows.push(this.addMainStats(season, i));
+      rows.push(this.addMainStats(season, i, maxes));
+    });
+    maxes.forEach((field, i) => {
+      if (field.vals.includes(-Infinity)) return;
+      field.rows.forEach(rowIndex => {
+        rows[rowIndex].props.children[1][i + 1] = (<Table.Cell key={i + 1} className='season-stat-high'>
+          {field.vals[0]}
+        </Table.Cell>);
+      });
     });
     return (
       <Table className='player-table-stats' collapsing stackable>
@@ -82,8 +97,10 @@ class PlayerStats extends Component {
         </Table.Header>
         <Table.Body>
           {rows}
-          {this.addMainStats(this.props.currentPlayer.careerTotalsRegular[0], 'career')}
         </Table.Body>
+        <Table.Footer className='player-stats-table-footer'>
+          {this.addMainStats(this.props.currentPlayer.careerTotalsRegular[0], 'career')}
+        </Table.Footer>
       </Table>
     );
   }
@@ -99,7 +116,6 @@ class PlayerStats extends Component {
 PlayerStats.propTypes = {
   currentPlayer: PropTypes.object,
   match: PropTypes.object,
-  playerName: PropTypes.string,
   setCurrentPlayer: PropTypes.func,
   setPlayerGameLog: PropTypes.func,
   setPlayerId: PropTypes.func
@@ -107,8 +123,7 @@ PlayerStats.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    currentPlayer: state.players.currentPlayer,
-    playerName: state.players.playerName
+    currentPlayer: state.players.currentPlayer
   };
 };
 
