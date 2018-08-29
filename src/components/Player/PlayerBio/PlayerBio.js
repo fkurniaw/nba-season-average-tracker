@@ -16,9 +16,7 @@ const bioHeadersMap = {
   'height': 'Height (inches)',
   'weight': 'Weight (lbs)',
   'position': 'Position',
-  'draft_year': 'Draft Year',
-  'draft_round': 'Draft Round',
-  'draft_number': 'Draft Overall'
+  'draft': 'Draft'
 };
 
 class PlayerBio extends Component {

@@ -97,7 +97,25 @@ app.get('/getPlayerBio', (req, res) => {
       if (err && err.code === 'ENOENT') console.error('Invalid filename provided');
       try {
         var playerBio = JSON.parse(data);
+        let draftRound = playerBio.CommonPlayerInfo[0].draft_round;
+        let draftOvr = playerBio.CommonPlayerInfo[0].draft_number;
+        let lastDigit = num => {
+          num = num.toString();
+          return num.slice(num.length - 1, num.length);
+        };
+        switch (lastDigit(draftRound)) {
+          case '1': draftRound += 'st'; break;
+          case '2': draftRound += 'nd'; break;
+          case '3': draftRound += 'rd'; break;
+        }
+        switch (lastDigit(draftOvr)) {
+          case '1': draftOvr += 'st'; break;
+          case '2': draftOvr += 'nd'; break;
+          case '3': draftOvr += 'rd'; break;
+        }
         playerBio.CommonPlayerInfo[0].birthdate = playerBio.CommonPlayerInfo[0].birthdate.slice(0, 10);
+        playerBio.CommonPlayerInfo[0].draft = `${playerBio.CommonPlayerInfo[0].draft_year}
+          (${draftRound} round, ${draftOvr} overall)`;
         return res.send(playerBio);
       } catch (err) { console.info(err); }
     });
