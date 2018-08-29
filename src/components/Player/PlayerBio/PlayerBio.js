@@ -13,8 +13,8 @@ import { Link } from 'react-router-dom';
 const bioHeadersMap = {
   'birthdate': 'Birth Date',
   'school': 'School',
-  'height': 'Height',
-  'weight': 'Weight',
+  'height': 'Height (inches)',
+  'weight': 'Weight (lbs)',
   'position': 'Position',
   'draft_year': 'Draft Year',
   'draft_round': 'Draft Round',
@@ -24,6 +24,7 @@ const bioHeadersMap = {
 class PlayerBio extends Component {
   componentDidMount() {
     Sources.getPlayerBio(this.props.id).then(res => {
+      document.title = `NBA Cumulative Tracker - ${res.data.CommonPlayerInfo[0].display_first_last}`;
       this.props.setPlayerName(res.data.CommonPlayerInfo[0].display_first_last);
       this.props.setPlayerBio({
         headlineStats: res.data.PlayerHeadlineStats[0],

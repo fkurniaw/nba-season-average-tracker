@@ -88,11 +88,12 @@ app.get('/playerStats', (req, res) => {
 
 app.get('/getPlayerBio', (req, res) => {
   try {
-    // const PlayerID = req.query.playerId;
+    const PlayerID = req.query.playerId;
     // nba.stats.playerInfo({ PlayerID, LeagueID: '00' }).then(nbaRes => {
+    //   nbaRes.CommonPlayerInfo[0].birthdate = nbaRes.CommonPlayerInfo[0].birthdate.slice(0, 10);
     //   return res.send(nbaRes);
     // });
-    fs.readFile(path.join(__dirname, 'sampleData', 'playerBio', 'KobeBio.json'), (err, data) => {
+    fs.readFile(path.join(__dirname, 'sampleData', 'playerBio', `${PlayerID === '893' ? 'Michael' : 'Kobe'}Bio.json`), (err, data) => {
       if (err && err.code === 'ENOENT') console.error('Invalid filename provided');
       try {
         var playerBio = JSON.parse(data);
@@ -112,12 +113,12 @@ app.get('/getPlayerGameLog', (req, res) => {
     const PlayerID = req.query.playerId;
     // nba.stats.playerGamelog({ Season, PlayerID, LeagueID: '00', SeasonType: 'Regular Season' }).then(nbaRes => {
     //   nbaRes.PlayerGameLog.reverse();
-    //   nbaRes.cumulativeAverageGameLog = cumulativeFiltering(gameLog.PlayerGameLog);
-    //   console.log(JSON.stringify(gameLog.cumulativeAverageGameLog));
+    //   const { averages, totals } = cumulativeFiltering(nbaRes.PlayerGameLog);
+    //   nbaRes.CumulativeAverageGameLog = averages;
+    //   nbaRes.CumulativeTotalGameLog = totals;
     //   return res.send(nbaRes);
     // });
-    const playerIdMap = { '977': 'Kobe', '76375': 'Wilt' };
-    // for offline testing
+    const playerIdMap = { '977': 'Kobe', '76375': 'Wilt', '893': 'Michael' }; // for offline testing
     let gameLogDir = path.join(__dirname, '/sampleData/gameLog', `${playerIdMap[PlayerID]}${Season}Game.json`);
     fs.readFile(gameLogDir, 'utf8', (err, data) => {
       if (err && err.code === 'ENOENT') console.error('Invalid filename provided');
@@ -130,7 +131,6 @@ app.get('/getPlayerGameLog', (req, res) => {
         return res.send(gameLog);
       } catch (err) {}
     });
-    // res.sendFile(path.join(__dirname, '/sampleData/gameLog', `Kobe${Season}Game.json`));
   } catch (e) {
     console.info(e);
     res.sendFile(path.join(__dirname, '/sampleData/gameLog', `Kobe2012-13Game.json`));
