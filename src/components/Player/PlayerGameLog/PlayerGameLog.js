@@ -102,25 +102,25 @@ class PlayerGameLog extends React.Component {
     );
   }
   renderGameLogTabs() {
+    let titles = ['Regular Season Game Log', 'Cumulative Season Averages Game Log',
+      'Cumulative Season Totals Game Log'];
+    let menuItems = titles.map((title, i) => {
+      return (
+        <Menu.Item
+          className='player-game-log-menu-item'
+          key={i}
+          onClick={() => this.setState({ gameLogTab: i })}>
+          {title}
+        </Menu.Item>
+      );
+    });
     let panes = [
       {
-        menuItem:
-          (<Menu.Item
-            className='player-game-log-menu-item'
-            key={0}
-            onClick={() => this.setState({ gameLogTab: 0 })}>
-            Regular Season Game Log
-          </Menu.Item>),
+        menuItem: menuItems[0],
         render: () => (<Tab.Pane>{this.renderGameLog()}</Tab.Pane>)
       },
       {
-        menuItem:
-          (<Menu.Item
-            className='player-game-log-menu-item'
-            key={1}
-            onClick={() => this.setState({ gameLogTab: 1 })}>
-            Cumulative Season Averages Game Log
-          </Menu.Item>),
+        menuItem: menuItems[1],
         render: () => (
           <Tab.Pane>
             {this.props.playerGameLog.length > 0 && this.renderCumulativeChart('counting')}
@@ -129,13 +129,7 @@ class PlayerGameLog extends React.Component {
         )
       },
       {
-        menuItem:
-          (<Menu.Item
-            className='player-game-log-menu-item'
-            key={2}
-            onClick={() => this.setState({ gameLogTab: 2 })}>
-            Cumulative Season Totals Game Log
-          </Menu.Item>),
+        menuItem: menuItems[2],
         render: () => (
           <Tab.Pane>
             {this.props.playerGameLog.length > 0 && this.renderCumulativeChart('counting')}

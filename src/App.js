@@ -18,7 +18,7 @@ const baseUrl = `${window.location.origin}`;
 const links = ['Home', 'SearchPlayer', 'ComparePlayers'];
 const headerNames = ['Home', 'Search Player', 'Compare Players'];
 
-const App = props => {
+const App = props => { // TODO: add nested routes for game log
   return (
     <Provider store={store}>
       <BrowserRouter baseName={baseUrl}>
