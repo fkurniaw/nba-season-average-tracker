@@ -101,7 +101,6 @@ app.get('/getPlayerBio', (req, res) => {
         return res.send(playerBio);
       } catch (err) { console.info(err); }
     });
-    // res.sendFile(path.join(__dirname, 'sampleData', 'playerBio', 'KobeBio.json')); // offline testing
   } catch (e) {
     return res.send({});
   }
