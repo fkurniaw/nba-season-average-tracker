@@ -7,3 +7,6 @@ export const initialPlayersState = {
   playerGameLog: [],
   playerName: ''
 };
+export const initialUiState = {
+  bioLoading: false
+};

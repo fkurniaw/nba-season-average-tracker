@@ -40,7 +40,7 @@ const PlayerGameLogCumulativeAverage = props => {
 
   return (
     <div className='player-game-log-table-wrapper'>
-      <h3 className='player-game-log-header'>Cumulative Season Average Game Log</h3>
+      <h3 className='player-game-log-header'>{props.title}</h3>
       {props.addTable('player-game-log-table', props.headerCells, rows)}
     </div>
   );
@@ -59,7 +59,8 @@ PlayerGameLogCumulativeAverage.propTypes = {
   minGames: PropTypes.number,
   minIndex: PropTypes.number,
   playerCumulativeAverageGameLog: PropTypes.array,
-  statsFields: PropTypes.array
+  statsFields: PropTypes.array,
+  title: PropTypes.string
 };
 
 export default connect(mapStateToProps)(PlayerGameLogCumulativeAverage);

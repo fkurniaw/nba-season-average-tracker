@@ -118,14 +118,15 @@ app.get('/getPlayerBio', (req, res) => {
     //     let draftOvr = playerBio.CommonPlayerInfo[0].draft_number;
     //     const addSuperscript = draftAttr => {
     //       switch (draftAttr) {
-    //         case 1 || 21: draftAttr += 'st'; break;
-    //         case 2 || 22: draftAttr += 'nd'; break;
-    //         case 3 || 23: draftAttr += 'rd'; break;
+    //         case '1' || '21': draftAttr += 'st'; break;
+    //         case '2' || '22': draftAttr += 'nd'; break;
+    //         case '3' || '23': draftAttr += 'rd'; break;
     //         default: draftAttr += 'th'; break;
     //       }
+    //       return draftAttr;
     //     };
-    //     addSuperscript(draftRound);
-    //     addSuperscript(draftOvr);
+    //     draftRound = addSuperscript(draftRound);
+    //     draftOvr = addSuperscript(draftOvr);
     //     playerBio.CommonPlayerInfo[0].birthdate = playerBio.CommonPlayerInfo[0].birthdate.slice(0, 10);
     //     playerBio.CommonPlayerInfo[0].draft = `${playerBio.CommonPlayerInfo[0].draft_year}
     //       (${draftRound} round, ${draftOvr} overall)`;
@@ -159,7 +160,7 @@ app.get('/getPlayerGameLog', (req, res) => {
     //     gameLog.CumulativeAverageGameLog = averages;
     //     gameLog.CumulativeTotalGameLog = totals;
     //     return res.send(gameLog);
-    //   } catch (err) { console.log(err) }
+    //   } catch (err) { console.info(err); }
     // });
   } catch (e) {
     console.info(e);

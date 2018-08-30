@@ -5,6 +5,10 @@
 .player-game-log-cell-headers {
   text-align: left !important;
 }
+.player-game-log-dropdown-header {
+  display: inline-block;
+  margin-right: 3px;
+}
 .player-game-log-stat, .player-game-log-cell-headers, .player-game-log-stat-bad .player-game-log-stat-good {
   font-size: 0.9em;
   padding: 2px 7px !important;

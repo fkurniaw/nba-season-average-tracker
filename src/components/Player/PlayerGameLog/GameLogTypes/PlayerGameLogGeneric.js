@@ -24,9 +24,7 @@ const PlayerGameLogGeneric = props => {
   });
   return (
     <div className='player-game-log-table-wrapper'>
-      <h3 className='player-game-log-header'>
-        {props.type === 'totals' ? 'Cumulative Season Totals Game Log' : 'Regular Season Game Log'}
-      </h3>
+      <h3 className='player-game-log-header'>{props.title}</h3>
       {props.addTable('player-game-log-table', props.headerCells, rows)}
     </div>
   );
@@ -38,7 +36,7 @@ PlayerGameLogGeneric.propTypes = {
   headerCells: PropTypes.array,
   playerGameLog: PropTypes.array,
   statsFields: PropTypes.array,
-  type: PropTypes.string
+  title: PropTypes.string
 };
 
 const mapStateToProps = (state, ownProps) => {

@@ -6,13 +6,12 @@ import Sources from '../../../util/sources';
 import * as actions from '../../../redux/actionCreators/playersActions';
 
 import './playerGameLog.css';
-import { Menu, Tab, Table } from 'semantic-ui-react';
+import { Dropdown, Menu, Tab, Table } from 'semantic-ui-react';
 import PlayerGameLogChart from './PlayerGameLogChart';
 import PlayerGameLogGeneric from './GameLogTypes/PlayerGameLogGeneric';
 import PlayerGameLogCumulativeAverage from './GameLogTypes/PlayerGameLogCumulativeAverage';
 
 const MIN_GAMES = 15;
-const MIN_INDEX = 6;
 
 const headerCells = ['Game', 'Date', 'Matchup', 'W/L', 'Min', 'FGM', 'FGA', 'FG%',
   '3PM', '3PA', '3P%', 'FTM', 'FTA', 'FT%', 'OREB', 'DREB', 'REB', 'AST', 'STL', 'BLK', 'PF', 'TOV', '+/-', 'PTS'].map(stat => {
@@ -29,7 +28,8 @@ class PlayerGameLog extends React.Component {
     super();
     this.state = {
       gameLogTab: 0,
-      loading: true
+      loading: true,
+      minIndex: 10
     };
   }
   componentDidMount() {
@@ -70,35 +70,37 @@ class PlayerGameLog extends React.Component {
         type={type} />
     );
   }
-  renderCumulativeTotals() {
+  renderCumulativeTotals(title) {
     return (
       <PlayerGameLogGeneric
         addTable={this.addTable.bind(this)}
         cellsToSkip={cellsToSkip}
         headerCells={headerCells}
         statsFields={statsFields}
+        title={title}
         type='totals' />
     );
   }
-  renderCumulativeAverages() {
+  renderCumulativeAverages(title) {
     return (
       <PlayerGameLogCumulativeAverage
         addTable={this.addTable.bind(this)}
         cellsToSkip={cellsToSkip}
         headerCells={headerCells}
         minGames={MIN_GAMES}
-        minIndex={MIN_INDEX}
+        minIndex={this.state.minIndex - 1}
         statsFields={statsFields}
-      />
+        title={title} />
     );
   }
-  renderGameLog() {
+  renderGameLog(title) {
     return (
       <PlayerGameLogGeneric
         addTable={this.addTable.bind(this)}
         cellsToSkip={cellsToSkip}
         headerCells={headerCells}
-        statsFields={statsFields} />
+        statsFields={statsFields}
+        title={title} />
     );
   }
   renderGameLogTabs() {
@@ -117,14 +119,21 @@ class PlayerGameLog extends React.Component {
     let panes = [
       {
         menuItem: menuItems[0],
-        render: () => (<Tab.Pane>{this.renderGameLog()}</Tab.Pane>)
+        render: () => (<Tab.Pane>{this.renderGameLog(titles[0])}</Tab.Pane>)
       },
       {
         menuItem: menuItems[1],
         render: () => (
           <Tab.Pane>
             {this.props.playerGameLog.length > 0 && this.renderCumulativeChart('counting')}
-            {this.renderCumulativeAverages()}
+            {this.props.playerGameLog.length > MIN_GAMES && <div className='player-game-log-dropdown-wrapper'>
+              <h5 className='player-game-log-dropdown-header'>Highlight season highs after:</h5>
+              <Dropdown selection
+                defaultValue={this.state.minIndex}
+                onChange={(e, data) => this.setState({ minIndex: data.value })}
+                options={this.props.dropdownOptions}/>
+            </div>}
+            {this.renderCumulativeAverages(titles[1])}
           </Tab.Pane>
         )
       },
@@ -133,7 +142,7 @@ class PlayerGameLog extends React.Component {
         render: () => (
           <Tab.Pane>
             {this.props.playerGameLog.length > 0 && this.renderCumulativeChart('counting')}
-            {this.renderCumulativeTotals()}
+            {this.renderCumulativeTotals(titles[2])}
           </Tab.Pane>
         )
       }
@@ -156,6 +165,7 @@ class PlayerGameLog extends React.Component {
 }
 
 PlayerGameLog.propTypes = {
+  dropdownOptions: PropTypes.array,
   match: PropTypes.object,
   playerGameLog: PropTypes.array,
   setPlayerCumulativeAverageGameLog: PropTypes.func,
@@ -165,7 +175,12 @@ PlayerGameLog.propTypes = {
 };
 
 const mapStateToProps = (state, ownProps) => {
+  let dropdownOptions = [];
+  for (let i = 1; i < state.players.playerGameLog.length; i++) {
+    dropdownOptions.push({ key: i, value: i, text: `${i} game${i !== 1 ? 's' : ''}` });
+  }
   return {
+    dropdownOptions,
     playerGameLog: state.players.playerGameLog || []
   };
 };
