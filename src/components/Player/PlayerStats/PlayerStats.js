@@ -123,7 +123,8 @@ PlayerStats.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    currentPlayer: state.players.currentPlayer
+    currentPlayer: state.players.currentPlayer,
+    id: ownProps.id
   };
 };
 

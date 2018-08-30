@@ -47,7 +47,15 @@ class PlayerSearch extends Component {
     Sources.getPlayer(id).then(res => {
       this.props.setCurrentPlayer(res.data);
       this.props.setPlayerName(title);
-    });
+    }).catch(err => console.info(err));
+    Sources.getPlayerBio(id).then(res => {
+      document.title = `NBA Cumulative Tracker - ${res.data.CommonPlayerInfo[0].display_first_last}`;
+      this.props.setPlayerName(res.data.CommonPlayerInfo[0].display_first_last);
+      this.props.setPlayerBio({
+        headlineStats: res.data.PlayerHeadlineStats[0],
+        playerInfo: res.data.CommonPlayerInfo[0]
+      });
+    }).catch(err => console.info(err));
   }
   componentDidMount() {
     if (this.props.players.length === 0) {
@@ -82,6 +90,7 @@ const mapStateToProps = state => {
 const actionCreators = {
   setAllPlayers: actions.setAllPlayers,
   setCurrentPlayer: actions.setCurrentPlayer,
+  setPlayerBio: actions.setPlayerBio,
   setPlayerName: actions.setPlayerName
 };
 
@@ -90,6 +99,7 @@ PlayerSearch.propTypes = {
   players: PropTypes.array,
   setAllPlayers: PropTypes.func,
   setCurrentPlayer: PropTypes.func,
+  setPlayerBio: PropTypes.func,
   setPlayerName: PropTypes.func,
   setLoading: PropTypes.func
 };

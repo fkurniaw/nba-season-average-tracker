@@ -57,9 +57,10 @@ class PlayerBio extends Component {
   }
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
   return {
     headlineStats: state.players.playerBio.headlineStats || {},
+    id: ownProps.id,
     playerInfo: state.players.playerBio.playerInfo || {},
     playerName: state.players.playerName || ''
   };

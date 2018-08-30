@@ -29,9 +29,9 @@ const App = props => { // TODO: add nested routes for game log
               <Route exact path={`/${links[0]}`} component={Home}/>
               <Route exact path={`/${links[2]}`} component={ComparePlayers}/>
               <Route exact path={`/players/:id`}
-                render={({ match }) => <div><PlayerBio id={match.params.id}/><PlayerStats match={match}/></div>}/>
+                render={({ match }) => <div><PlayerBio id={match.params.id}/><PlayerStats id={match.params.id} match={match}/></div>}/>
               <Route exact path={`/players/:id/gamelog/:season`}
-                render={({ match }) => <div><PlayerBio id={match.params.id}/><PlayerGameLog match={match}/></div>}/>
+                render={({ match }) => <div><PlayerBio id={match.params.id}/><PlayerGameLog id={match.params.id} match={match}/></div>}/>
             </Switch>
           </div>
         </div>
