@@ -117,14 +117,14 @@ class PlayerGameLog extends React.Component {
     let panes = [
       {
         menuItem: menuItems[0],
-        render: () => (<Tab.Pane>{this.renderGameLog(titles[0])}</Tab.Pane>)
+        render: () => (<Tab.Pane>{this.renderGameLog(`${titles[0]} (${this.props.match.params.season})`)}</Tab.Pane>)
       },
       {
         menuItem: menuItems[1],
         render: () => (
           <Tab.Pane>
             {this.props.playerGameLog.length > 0 && this.renderCumulativeChart('counting')}
-            {this.renderCumulativeAverages(titles[1])}
+            {this.renderCumulativeAverages(`${titles[1]} (${this.props.match.params.season})`)}
           </Tab.Pane>
         )
       },
@@ -133,7 +133,7 @@ class PlayerGameLog extends React.Component {
         render: () => (
           <Tab.Pane>
             {this.props.playerGameLog.length > 0 && this.renderCumulativeChart('counting')}
-            {this.renderCumulativeTotals(titles[2])}
+            {this.renderCumulativeTotals(`${titles[2]} (${this.props.match.params.season})`)}
           </Tab.Pane>
         )
       }

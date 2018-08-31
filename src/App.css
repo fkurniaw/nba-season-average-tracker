@@ -21,3 +21,8 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+@media only screen and (max-width: 767px) {
+  .App-contents {
+    margin-top: 190px;
+  }
+}

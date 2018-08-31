@@ -16,11 +16,35 @@
   font-size: 0.9em;
   margin: 20px auto;
 }
+td.season-stat {
+  display: table-cell !important
+}
 .season-stat, .career-stat {
   padding: 2px 7px !important;
 }
 .season-stat-high {
-  background-color: #e6e6e6;
+  background-color: #e6e6e6 !important;
   font-weight: 900;
   padding: 2px 7px !important;
+}
+
+@media only screen and (max-width: 767px) {
+  .player-stats-table, .ui.collapsing.stackable.table.player-table-stats {
+    width: 100%;
+  }
+  .ui.table thead tr th.player-stats-table-header, .ui.table tfoot tr th.player-stats-table-footer {
+    display: table-cell !important;
+    width: 100% !important;
+  }
+  .ui.table tbody tr {
+    padding: 0px 0px !important;
+  }
+  .ui.table tbody tr td.season-stat, .ui.table tfoot tr td.career-stat,
+    .ui.table tbody tr td.season-stat-high {
+    padding: 2px 7px !important;
+    display: table-cell !important;
+    font-size: 0.8rem;
+    text-align: center;
+    width: 60px !important;
+  }
 }

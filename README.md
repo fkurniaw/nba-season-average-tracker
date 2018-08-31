@@ -12,7 +12,8 @@ Useful for determining their peak performance in the middle of a season.
 Website runs on localhost:3000
 Server runs on localhost:8080
 
-**!IMPORTANT! The user-agent in the nba.js module(lib/api/stats/utils/fetch.js) must be changed to\ Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36**
+**!IMPORTANT! The user-agent in the nba.js module(lib/api/stats/utils/fetch.js) must be changed to**\
+**Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36**
 
 ### Npm packages
 - npm install --save create-react-app
