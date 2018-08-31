@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { Table } from 'semantic-ui-react';
+import PlayerGameLogMinIndexDropdown from './PlayerGameLogMinIndexDropdown';
 
 const indexesToSkip = [7, 10, 13]; // for maxes array
 
@@ -41,6 +42,7 @@ const PlayerGameLogCumulativeAverage = props => {
   return (
     <div className='player-game-log-table-wrapper'>
       <h3 className='player-game-log-header'>{props.title}</h3>
+      <PlayerGameLogMinIndexDropdown />
       {props.addTable('player-game-log-table', props.headerCells, rows)}
     </div>
   );
@@ -48,6 +50,7 @@ const PlayerGameLogCumulativeAverage = props => {
 
 const mapStateToProps = state => {
   return {
+    minIndex: typeof (state.players.minIndex) === 'number' ? state.players.minIndex - 1 : 6,
     playerCumulativeAverageGameLog: state.players.playerCumulativeAverageGameLog || []
   };
 };

@@ -5,7 +5,10 @@
 .player-game-log-cell-headers {
   text-align: left !important;
 }
-.player-game-log-dropdown-header {
+.player-game-log-min-index-dropdown {
+  text-align: right;
+}
+.player-game-log-min-index-dropdown-header {
   display: inline-block;
   margin-right: 3px;
 }
@@ -26,6 +29,7 @@
   background-color: #00FF80;
 }
 .player-game-log-header {
+  margin-bottom: 0.5rem;
   text-align: left;
 }
 .player-game-log-menu-item {

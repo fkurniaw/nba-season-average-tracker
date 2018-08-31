@@ -6,7 +6,7 @@ import Sources from '../../../util/sources';
 import * as actions from '../../../redux/actionCreators/playersActions';
 
 import './playerGameLog.css';
-import { Dropdown, Menu, Tab, Table } from 'semantic-ui-react';
+import { Menu, Tab, Table } from 'semantic-ui-react';
 import PlayerGameLogChart from './PlayerGameLogChart';
 import PlayerGameLogGeneric from './GameLogTypes/PlayerGameLogGeneric';
 import PlayerGameLogCumulativeAverage from './GameLogTypes/PlayerGameLogCumulativeAverage';
@@ -28,8 +28,7 @@ class PlayerGameLog extends React.Component {
     super();
     this.state = {
       gameLogTab: 0,
-      loading: true,
-      minIndex: 10
+      loading: true
     };
   }
   componentDidMount() {
@@ -88,7 +87,6 @@ class PlayerGameLog extends React.Component {
         cellsToSkip={cellsToSkip}
         headerCells={headerCells}
         minGames={MIN_GAMES}
-        minIndex={this.state.minIndex - 1}
         statsFields={statsFields}
         title={title} />
     );
@@ -126,13 +124,6 @@ class PlayerGameLog extends React.Component {
         render: () => (
           <Tab.Pane>
             {this.props.playerGameLog.length > 0 && this.renderCumulativeChart('counting')}
-            {this.props.playerGameLog.length > MIN_GAMES && <div className='player-game-log-dropdown-wrapper'>
-              <h5 className='player-game-log-dropdown-header'>Highlight season highs after:</h5>
-              <Dropdown selection
-                defaultValue={this.state.minIndex}
-                onChange={(e, data) => this.setState({ minIndex: data.value })}
-                options={this.props.dropdownOptions}/>
-            </div>}
             {this.renderCumulativeAverages(titles[1])}
           </Tab.Pane>
         )
@@ -165,7 +156,6 @@ class PlayerGameLog extends React.Component {
 }
 
 PlayerGameLog.propTypes = {
-  dropdownOptions: PropTypes.array,
   match: PropTypes.object,
   playerGameLog: PropTypes.array,
   setPlayerCumulativeAverageGameLog: PropTypes.func,
@@ -175,12 +165,7 @@ PlayerGameLog.propTypes = {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  let dropdownOptions = [];
-  for (let i = 1; i < state.players.playerGameLog.length; i++) {
-    dropdownOptions.push({ key: i, value: i, text: `${i} game${i !== 1 ? 's' : ''}` });
-  }
   return {
-    dropdownOptions,
     playerGameLog: state.players.playerGameLog || []
   };
 };

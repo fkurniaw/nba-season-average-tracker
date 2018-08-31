@@ -7,6 +7,13 @@ export function setAllPlayers(players) {
   };
 }
 
+export function setMinIndex(minIndex) {
+  return {
+    type: types.SET_MIN_INDEX,
+    minIndex
+  };
+}
+
 export function setPlayerBio(playerBio) {
   return {
     type: types.SET_PLAYER_BIO,
