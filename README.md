@@ -1,7 +1,7 @@
 An NBA cumulative season average tracker that allows you to visualize the changes in a player's season averages as the season progresses.
 Useful for determining their peak performance in the middle of a season.
 
-![NBA Cumulative Season Average](NBA-preview.png)
+![NBA Cumulative Season Average](NBA-Preview.png)
 
 ### Running
 **npm start** to run react app\
