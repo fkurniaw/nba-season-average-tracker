@@ -5,9 +5,11 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Table } from 'semantic-ui-react';
 
+import './home.css';
+
 const Home = props => {
   let sortedPlayers = Object.keys(props.players);
-  sortedPlayers.sort((a, b) => a.localeCompare(b));
+  sortedPlayers.sort((a, b) => props.players[a].title.localeCompare(props.players[b].title));
   let rows = sortedPlayers.map((id, i) => {
     return (
       <Table.Row key={props.players[id].key}>
