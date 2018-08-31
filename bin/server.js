@@ -2,11 +2,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 const path = require('path');
-// const fs = require('fs'); // for offline testing
 const app = express();
 const port = 8080;
 const nba = require('nba.js');
 
+// const offlineServer = require('./offlineServer.js');
 const cumulativeFiltering = require(path.join(__dirname, '/gameLogFiltering', '/cumulativeSeasonAverageFiltering.js'));
 
 app.use(express.static(path.join(__dirname, 'build')));
@@ -60,26 +60,7 @@ app.get('/playerStats', (req, res) => {
       };
       return res.send(results);
     });
-    // switch (PlayerID) { // offline testing
-    //   case '977':
-    //     res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsKobe.json'));
-    //     break;
-    //   case '76003':
-    //     res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsKareem.json'));
-    //     break;
-    //   case '893': // Jordan
-    //     res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStats.json'));
-    //     break;
-    //   case '2544':
-    //     res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsLeBron.json'));
-    //     break;
-    //   case '76375':
-    //     res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsWilt.json'));
-    //     break;
-    //   default:
-    //     res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsLeBron.json'));
-    //     break;
-    // }
+    // return offlineServer.playerStats(PlayerID, res);
   } catch (e) {
     console.info(e);
     return res.send({});
@@ -111,29 +92,7 @@ app.get('/getPlayerBio', (req, res) => {
         draftRound !== 'Undrafted' && draftOvr !== 'Undrafted' ? ` (${draftRound} round, ${draftOvr} overall)` : '';
       return res.send(nbaRes);
     });
-    // fs.readFile(path.join(__dirname, 'sampleData', 'playerBio', `${PlayerID === '893' ? 'Michael' : 'Kobe'}Bio.json`), (err, data) => {
-    //   if (err && err.code === 'ENOENT') console.error('Invalid filename provided');
-    //   try {
-    //     var playerBio = JSON.parse(data);
-    //     let draftRound = playerBio.CommonPlayerInfo[0].draft_round;
-    //     let draftOvr = playerBio.CommonPlayerInfo[0].draft_number;
-    //     const addSuperscript = draftAttr => {
-    //       switch (draftAttr) {
-    //         case '1' || '21': draftAttr += 'st'; break;
-    //         case '2' || '22': draftAttr += 'nd'; break;
-    //         case '3' || '23': draftAttr += 'rd'; break;
-    //         default: draftAttr += 'th'; break;
-    //       }
-    //       return draftAttr;
-    //     };
-    //     draftRound = addSuperscript(draftRound);
-    //     draftOvr = addSuperscript(draftOvr);
-    //     playerBio.CommonPlayerInfo[0].birthdate = playerBio.CommonPlayerInfo[0].birthdate.slice(0, 10);
-    //     playerBio.CommonPlayerInfo[0].draft = `${playerBio.CommonPlayerInfo[0].draft_year}
-    //       (${draftRound} round, ${draftOvr} overall)`;
-    //     return res.send(playerBio);
-    //   } catch (err) { console.info(err); }
-    // });
+    // return offlineServer.getPlayerBio(PlayerID, res);
   } catch (e) {
     return res.send({});
   }
@@ -150,19 +109,7 @@ app.get('/getPlayerGameLog', (req, res) => {
       nbaRes.CumulativeTotalGameLog = totals;
       return res.send(nbaRes);
     });
-    // const playerIdMap = { '977': 'Kobe', '76375': 'Wilt', '893': 'Michael' }; // for offline testing
-    // let gameLogDir = path.join(__dirname, '/sampleData/gameLog', `${playerIdMap[PlayerID]}${Season}Game.json`);
-    // fs.readFile(gameLogDir, 'utf8', (err, data) => {
-    //   if (err && err.code === 'ENOENT') console.error('Invalid filename provided');
-    //   try {
-    //     var gameLog = JSON.parse(data);
-    //     gameLog.PlayerGameLog.reverse();
-    //     const { averages, totals } = cumulativeFiltering(gameLog.PlayerGameLog);
-    //     gameLog.CumulativeAverageGameLog = averages;
-    //     gameLog.CumulativeTotalGameLog = totals;
-    //     return res.send(gameLog);
-    //   } catch (err) { console.info(err); }
-    // });
+    // return offlineServer.getPlayerGameLog(PlayerID, Season, res);
   } catch (e) {
     console.info(e);
     res.sendFile(path.join(__dirname, '/sampleData/gameLog', `Kobe2012-13Game.json`));
