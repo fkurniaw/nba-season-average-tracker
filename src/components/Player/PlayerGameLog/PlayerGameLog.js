@@ -11,7 +11,7 @@ import PlayerGameLogChart from './PlayerGameLogChart';
 import PlayerGameLogGeneric from './GameLogTypes/PlayerGameLogGeneric';
 import PlayerGameLogCumulativeAverage from './GameLogTypes/PlayerGameLogCumulativeAverage';
 
-const MIN_GAMES = 15;
+const MIN_GAMES = 10;
 
 const headerCells = ['Game', 'Date', 'Matchup', 'W/L', 'Min', 'FGM', 'FGA', 'FG%',
   '3PM', '3PA', '3P%', 'FTM', 'FTA', 'FT%', 'OREB', 'DREB', 'REB', 'AST', 'STL', 'BLK', 'PF', 'TOV', '+/-', 'PTS'].map(stat => {

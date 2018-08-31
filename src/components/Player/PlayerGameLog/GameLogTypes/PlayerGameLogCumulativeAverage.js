@@ -42,7 +42,7 @@ const PlayerGameLogCumulativeAverage = props => {
   return (
     <div className='player-game-log-table-wrapper'>
       <h3 className='player-game-log-header'>{props.title}</h3>
-      <PlayerGameLogMinIndexDropdown />
+      {props.playerCumulativeAverageGameLog.length > 9 && <PlayerGameLogMinIndexDropdown />}
       {props.addTable('player-game-log-table', props.headerCells, rows)}
     </div>
   );

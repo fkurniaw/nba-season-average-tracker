@@ -98,6 +98,7 @@ app.get('/getPlayerBio', (req, res) => {
           case '1' || '21': draftAttr += 'st'; break;
           case '2' || '22': draftAttr += 'nd'; break;
           case '3' || '23': draftAttr += 'rd'; break;
+          case null: break;
           default: draftAttr += 'th'; break;
         }
         return draftAttr;
