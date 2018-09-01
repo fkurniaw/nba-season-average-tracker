@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Chart from 'react-google-charts';
 import { Loader } from 'semantic-ui-react';
 
-const headersCounting = [['Game', 'Points']];
+const headersCounting = [['Game', 'Points Per Game']];
 const headersPercentage = [['Game', 'FG%', '3P%', 'TS%']];
 const headersDefense = [['Game', 'Steals', 'Blocks', 'Personal Fouls']];
 
@@ -22,12 +22,16 @@ const PlayerGameLogChart = props => {
       width='100%'
       height='300px'
       options={{
-        axes: {
-          y: {
-            Points: { label: 'Points per game' }
-          },
-          x: {
-            title: 'Games'
+        hAxis: {
+          title: 'Games Played',
+          titleTextStyle: {
+            color: '#000000'
+          }
+        },
+        vAxis: {
+          title: 'Points per game',
+          titleTextStyle: {
+            color: '#000000'
           }
         },
         title: 'Season Average Progression',
