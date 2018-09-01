@@ -36,7 +36,9 @@
   width: calc(100% / 3);
 }
 .player-game-log-table-wrapper {
-  margin: 20px 0px
+  margin: 20px 0px;
+  max-width: 100vw;
+  overflow-x: auto;
 }
 
 @media only screen and (max-width: 767px) {
