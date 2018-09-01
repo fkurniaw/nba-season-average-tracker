@@ -1,6 +1,8 @@
 .player-game-log {
   display: inline-block;
   margin: 20px auto;
+  max-width: calc(100vw - 15px);
+  overflow-x: hidden;
 }
 .player-game-log-cell-headers {
   text-align: left !important;
