@@ -4,29 +4,19 @@ import PropTypes from 'prop-types';
 
 import Sources from '../../../util/sources';
 import * as actions from '../../../redux/actionCreators/playersActions';
+import { MIN_GAMES, headerCells, statsFields, chartTypes, cellsToSkip, nonPerGameFields } from './playerGameLogConstants.js';
 
 import './playerGameLog.css';
-import { Menu, Tab, Table } from 'semantic-ui-react';
+import { Dropdown, Menu, Tab, Table } from 'semantic-ui-react';
 import PlayerGameLogChart from './PlayerGameLogChart';
 import PlayerGameLogGeneric from './GameLogTypes/PlayerGameLogGeneric';
 import PlayerGameLogCumulativeAverage from './GameLogTypes/PlayerGameLogCumulativeAverage';
-
-const MIN_GAMES = 10;
-
-const headerCells = ['Game', 'Date', 'Matchup', 'W/L', 'Min', 'FGM', 'FGA', 'FG%',
-  '3PM', '3PA', '3P%', 'FTM', 'FTA', 'FT%', 'OREB', 'DREB', 'REB', 'AST', 'STL', 'BLK', 'PF', 'TOV', '+/-', 'PTS'].map(stat => {
-  return (<Table.HeaderCell key={stat}className='player-game-log-cell-headers'>{stat}</Table.HeaderCell>);
-});
-
-const statsFields = ['game_date', 'matchup', 'wl', 'min', 'fgm', 'fga', 'fg_pct',
-  'fg3m', 'fg3a', 'fg3_pct', 'ftm', 'fta', 'ft_pct', 'oreb', 'dreb', 'reb', 'ast', 'stl', 'blk', 'pf', 'tov', 'plus_minus', 'pts'];
-
-const cellsToSkip = ['fg_pct', 'fg3_pct', 'ft_pct']; // for game log array
 
 class PlayerGameLog extends React.Component {
   constructor() {
     super();
     this.state = {
+      chartType: 'Points',
       gameLogTab: 0,
       loading: true
     };
@@ -51,22 +41,29 @@ class PlayerGameLog extends React.Component {
       </Table>
     );
   }
-  renderCumulativeChart(type) {
-    let totals = [0, 0, 0];
-    let data = this.props.playerGameLog.map((game, i) => {
-      switch (type) {
-        case 'counting':
-          totals[0] += game.pts;
-          return [i + 1, totals[0] / (i + 1)];
-        default:
-          totals[0] += game.pts;
-          return [i + 1, totals[0] / (i + 1)];
-      }
+  renderCumulativeChart(chartType, dataType) {
+    chartType += !nonPerGameFields.includes(chartType) ? ' Per Game' : '';
+    let data = [];
+    let dropdownOptions = Object.keys(chartTypes).map(type => {
+      return { key: type, value: type, text: type };
     });
+    this.props.playerGameLog.forEach((game, i) => {
+      data.push([i + 1, game[chartTypes[this.state.chartType]]]);
+    });
+    data.splice(0, 0, ['Game', chartType]);
     return (
-      <PlayerGameLogChart
-        data={data}
-        type={type} />
+      <div>
+        <div className='chart-type-selector'>
+          <h5 className='chart-type-selector-header'>Chart Type:</h5>
+          <Dropdown selection
+            defaultValue={this.state.chartType}
+            options={dropdownOptions}
+            onChange={(e, data) => this.setState({ chartType: data.value })}/>
+        </div>
+        <PlayerGameLogChart
+          data={data}
+          chartType={chartType} />
+      </div>
     );
   }
   renderCumulativeTotals(title) {
@@ -123,7 +120,7 @@ class PlayerGameLog extends React.Component {
         menuItem: menuItems[1],
         render: () => (
           <Tab.Pane>
-            {this.props.playerGameLog.length > 0 && this.renderCumulativeChart('counting')}
+            {this.props.playerGameLog.length > 0 && this.renderCumulativeChart(this.state.chartType)}
             {this.renderCumulativeAverages(`${titles[1]} (${this.props.match.params.season})`)}
           </Tab.Pane>
         )
@@ -132,7 +129,7 @@ class PlayerGameLog extends React.Component {
         menuItem: menuItems[2],
         render: () => (
           <Tab.Pane>
-            {this.props.playerGameLog.length > 0 && this.renderCumulativeChart('counting')}
+            {this.props.playerGameLog.length > 0 && this.renderCumulativeChart(this.state.chartType)}
             {this.renderCumulativeTotals(`${titles[2]} (${this.props.match.params.season})`)}
           </Tab.Pane>
         )

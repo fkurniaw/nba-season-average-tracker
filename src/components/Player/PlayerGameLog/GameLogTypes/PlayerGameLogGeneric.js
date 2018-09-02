@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 
 import { Table } from 'semantic-ui-react';
 
+import './playerGameLogTable.css';
+
 const PlayerGameLogGeneric = props => {
   let rows = [];
   props.playerGameLog.forEach((game, i) => {

@@ -1,5 +1,6 @@
 {
   "name": "nba-season-avg",
+  "main": "bin/server.js",
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:8080",

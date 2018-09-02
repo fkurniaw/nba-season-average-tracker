@@ -1,0 +1,29 @@
+.player-game-log {
+  display: inline-block;
+  margin: 20px auto;
+  max-width: calc(100vw - 15px);
+  overflow-x: hidden;
+}
+.player-game-log-cell-headers {
+  text-align: left !important;
+}
+.player-game-log-stat, .player-game-log-cell-headers, .player-game-log-stat-bad .player-game-log-stat-good {
+  font-size: 0.9em;
+  padding: 2px 7px !important;
+}
+.player-game-log-stat-bad {
+  font-weight: 900;
+  font-size: 0.9em;
+  padding: 2px 7px !important;
+  background-color: #CC8080 !important;
+}
+.player-game-log-stat-good {
+  font-weight: 900;
+  font-size: 0.9em;
+  padding: 2px 7px !important;
+  background-color: #00FF80 !important;
+}
+.player-game-log-header {
+  margin-bottom: 0.5rem;
+  text-align: left;
+}

@@ -4,19 +4,10 @@ import PropTypes from 'prop-types';
 import Chart from 'react-google-charts';
 import { Loader } from 'semantic-ui-react';
 
-const headersCounting = [['Game', 'Points Per Game']];
-const headersPercentage = [['Game', 'FG%', '3P%', 'TS%']];
-const headersDefense = [['Game', 'Steals', 'Blocks', 'Personal Fouls']];
-
 const PlayerGameLogChart = props => {
-  let data;
-  if (props.type === 'counting') data = headersCounting.concat(props.data);
-  if (props.type === 'percentage') data = headersPercentage.concat(props.data);
-  if (props.type === 'defense') data = headersDefense.concat(props.data);
-
   return (
     <Chart
-      data={data}
+      data={props.data}
       chartType='LineChart'
       loading={<Loader />}
       width='100%'
@@ -29,7 +20,7 @@ const PlayerGameLogChart = props => {
           }
         },
         vAxis: {
-          title: 'Points per game',
+          title: props.chartType,
           titleTextStyle: {
             color: '#000000'
           }
@@ -42,6 +33,7 @@ const PlayerGameLogChart = props => {
 };
 
 PlayerGameLogChart.propTypes = {
+  chartType: PropTypes.string,
   data: PropTypes.array,
   type: PropTypes.string
 };
