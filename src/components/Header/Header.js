@@ -18,7 +18,7 @@ class Header extends Component {
   render() {
     return (
       <header className="App-header">
-        <AppMenu activeItem={this.state.activeItem} app={this} baseUrl={this.props.baseUrl} links={this.props.links} menuItems={this.props.headerNames}/>
+        <AppMenu activeItem={this.state.activeItem} app={this} baseUrl={this.props.baseUrl} history={this.props.history} links={this.props.links} menuItems={this.props.headerNames}/>
         <div className='App-title-wrapper'>
           <h1 className="App-title">{this.props.headerNames[this.state.activeItem]}</h1>
         </div>
@@ -29,6 +29,7 @@ class Header extends Component {
 
 Header.propTypes = {
   baseUrl: PropTypes.string,
+  history: PropTypes.object,
   links: PropTypes.array,
   headerNames: PropTypes.array
 };

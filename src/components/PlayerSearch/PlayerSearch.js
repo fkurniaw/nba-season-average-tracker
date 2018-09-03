@@ -75,8 +75,13 @@ class PlayerSearch extends Component {
       <Search
         className='year-input'
         placeholder={placeholder}
+        onResultSelect={(e, data) => {
+          this.props.history.replace(`/players/${data.result.id}`);
+          this.setCurrentPlayer(data.result.id, data.result.title);
+        }}
         onSearchChange={onSearchChange.bind(this)}
-        results={filterResults(this.props.players, this.state.currentInput, this.setCurrentPlayer.bind(this))}/>
+        results={filterResults(this.props.players, this.state.currentInput, this.setCurrentPlayer.bind(this))}
+      />
     );
   }
 }
@@ -97,6 +102,7 @@ const actionCreators = {
 };
 
 PlayerSearch.propTypes = {
+  history: PropTypes.object,
   match: PropTypes.object,
   players: PropTypes.array,
   setAllPlayers: PropTypes.func,

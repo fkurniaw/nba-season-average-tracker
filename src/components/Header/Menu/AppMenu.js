@@ -28,7 +28,7 @@ const AppMenu = props => {
       {renderLink(props, 0)}
       {renderLink(props, 2)}
       <div className='player-search'>
-        <PlayerSearch />
+        <PlayerSearch history={props.history} />
       </div>
     </nav>
   );
@@ -38,6 +38,7 @@ AppMenu.propTypes = {
   activeItem: PropTypes.number,
   app: PropTypes.object,
   baseUrl: PropTypes.string,
+  history: PropTypes.object,
   links: PropTypes.array,
   menuItems: PropTypes.array
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, withRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
 import configureStore from './redux/store';
@@ -18,12 +18,16 @@ const baseUrl = `${window.location.origin}`;
 const links = ['Home', 'SearchPlayer', 'ComparePlayers'];
 const headerNames = ['Home', 'Search Player', 'Compare Players'];
 
+const WrappedHeader = withRouter(({ history }) => (
+  <Header baseUrl={baseUrl} headerNames={headerNames} links={links} history={history}/>
+));
+
 const App = props => { // TODO: add nested routes for game log
   return (
     <Provider store={store}>
       <BrowserRouter baseName={baseUrl}>
         <div className="App">
-          <Header baseUrl={baseUrl} headerNames={headerNames} links={links}/>
+          <WrappedHeader />
           <div className='App-contents'>
             <Switch>
               <Route exact path={`/${links[0]}`} component={Home}/>
