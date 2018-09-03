@@ -1,4 +1,4 @@
-const nba = require('nba.js');
+const nba = require('../nba.js/lib/index.js');
 const path = require('path');
 const cumulativeFiltering = require('../gameLogFiltering/cumulativeSeasonAverageFiltering');
 
