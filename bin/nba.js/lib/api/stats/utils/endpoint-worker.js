@@ -23,7 +23,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @return {Function} Flattened API response
  */
 function get(endpoint, query, cb) {
+  console.info('sending nba request');
   (0, _fetch2.default)(endpoint, { query: query }).then(res => {
+    console.info('received body');
     return res.body;
   }).then(body => {
     return JSON.parse(body);

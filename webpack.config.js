@@ -4,7 +4,7 @@ const webpack = require('webpack');
 module.exports = {
   entry: './src/index.js',
   output: {
-    path: path.resolve(__dirname, 'public'),
+    path: path.resolve(__dirname, 'public/assets'),
     filename: 'index.bundle.js'
   },
   mode: 'development',

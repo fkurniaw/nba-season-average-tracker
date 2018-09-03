@@ -28,13 +28,14 @@
   },
   "scripts": {
     "lint": "eslint src",
-    "start": "react-scripts start",
+    "start": "nodemon ./bin/server",
+    "start-hmr": "react-scripts-start",
     "start:dev": "nodemon ./bin/server",
     "test": "react-scripts test --env=jsdom",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "build-webpack": "npm run clean && npm run compile",
-    "clean": "rm -rf ./public/index.bundle.js",
+    "clean": "rm -rf ./public/assets/index.bundle.js",
     "compile": "NODE_ENV=production webpack --config ./webpack.config.js --progress"
   },
   "devDependencies": {
