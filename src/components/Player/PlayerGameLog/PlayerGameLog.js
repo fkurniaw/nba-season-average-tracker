@@ -47,7 +47,7 @@ class PlayerGameLog extends React.Component {
     let dropdownOptions = Object.keys(chartTypes).map(type => {
       return { key: type, value: type, text: type };
     });
-    this.props.playerGameLog.forEach((game, i) => {
+    this.props.playerCumulativeAverageGameLog.forEach((game, i) => {
       data.push([i + 1, game[chartTypes[this.state.chartType]]]);
     });
     data.splice(0, 0, ['Game', chartType]);
@@ -154,6 +154,7 @@ class PlayerGameLog extends React.Component {
 
 PlayerGameLog.propTypes = {
   match: PropTypes.object,
+  playerCumulativeAverageGameLog: PropTypes.array,
   playerGameLog: PropTypes.array,
   setPlayerCumulativeAverageGameLog: PropTypes.func,
   setPlayerCumulativeTotalGameLog: PropTypes.func,
@@ -163,7 +164,8 @@ PlayerGameLog.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    playerGameLog: state.players.playerGameLog || []
+    playerGameLog: state.players.playerGameLog || [],
+    playerCumulativeAverageGameLog: state.players.playerCumulativeAverageGameLog
   };
 };
 
