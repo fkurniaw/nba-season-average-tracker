@@ -12,9 +12,6 @@ Useful for determining their peak performance in the middle of a season.
 Website runs on localhost:3000\
 Server runs on localhost:8080
 
-**!IMPORTANT! The user-agent in the nba.js module(lib/api/stats/utils/fetch.js) must be changed to**\
-**Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36**
-
 ### Installing npm packages
 `npm i`
 
@@ -29,7 +26,6 @@ Server runs on localhost:8080
 - `npm install --save express`
 - `npm install --save body-parser`
 - `npm install --save morgan`
-- `npm install --save nba.js`
 - `npm install --save fs`
 - `npm install --save react-google-charts`
     ##### **if cli is installed globally, need to install sequelize globally**
