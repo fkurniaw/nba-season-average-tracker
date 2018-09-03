@@ -7,7 +7,7 @@ import * as actions from '../../../redux/actionCreators/playersActions';
 import { MIN_GAMES, headerCells, statsFields, chartTypes, cellsToSkip, nonPerGameFields } from './playerGameLogConstants.js';
 
 import './playerGameLog.css';
-import { Dropdown, Menu, Tab, Table } from 'semantic-ui-react';
+import { Dropdown, Menu, Loader, Tab, Table } from 'semantic-ui-react';
 import PlayerGameLogChart from './PlayerGameLogChart';
 import PlayerGameLogGeneric from './GameLogTypes/PlayerGameLogGeneric';
 import PlayerGameLogCumulativeAverage from './GameLogTypes/PlayerGameLogCumulativeAverage';
@@ -157,7 +157,7 @@ class PlayerGameLog extends React.Component {
   render() {
     return (
       <div className='player-game-log'>
-        {this.props.playerGameLog.length > 0 && this.renderGameLogTabs()}
+        {this.props.playerGameLog.length > 0 ? this.renderGameLogTabs() : <Loader active />}
       </div>
     );
   }

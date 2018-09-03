@@ -7,7 +7,7 @@ import * as actions from '../../../redux/actionCreators/playersActions';
 
 import './playerStats.css';
 import { Link } from 'react-router-dom';
-import { Table } from 'semantic-ui-react';
+import { Loader, Table } from 'semantic-ui-react';
 
 const headers = ['Year', 'Team', 'GP', 'GS', 'MPG', 'FGM', 'FGA', 'FG%', '3PM', '3PA', '3P%',
   'FTM', 'FTA', 'FT%', 'ORPG', 'DRPG', 'RPG', 'APG', 'SPG', 'BPG', 'TOV', 'PF', 'PPG'];
@@ -107,7 +107,7 @@ class PlayerStats extends Component {
   render() {
     return (
       <div className='player-stats-table'>
-        {Object.keys(this.props.currentPlayer).length > 0 && this.renderTable()}
+        {Object.keys(this.props.currentPlayer).length > 0 ? this.renderTable() : <Loader active />}
       </div>
     );
   }
