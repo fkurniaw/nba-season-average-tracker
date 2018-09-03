@@ -29,7 +29,7 @@
   "scripts": {
     "lint": "eslint src",
     "start": "nodemon ./bin/server",
-    "start-hmr": "react-scripts-start",
+    "start-hmr": "react-scripts start",
     "start:dev": "nodemon ./bin/server",
     "test": "react-scripts test --env=jsdom",
     "build": "react-scripts build",
