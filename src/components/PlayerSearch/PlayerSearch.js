@@ -45,6 +45,7 @@ class PlayerSearch extends Component {
   }
   setCurrentPlayer(id, title) {
     this.props.setCurrentPlayer({});
+    this.props.setPlayerBio({});
     Sources.getPlayer(id).then(res => {
       this.props.setCurrentPlayer(res.data);
       this.props.setPlayerName(title);
