@@ -29,7 +29,7 @@
   "scripts": {
     "lint": "eslint src",
     "start": "nodemon ./bin/server",
-    "start-hmr": "react-scripts start",
+    "start:hmr": "react-scripts start",
     "start:dev": "nodemon ./bin/server",
     "test": "react-scripts test --env=jsdom",
     "build": "react-scripts build",
@@ -48,8 +48,6 @@
     "eslint-plugin-promise": "^4.0.0",
     "eslint-plugin-standard": "^3.1.0",
     "nodemon": "^1.18.3",
-    "style-loader": "^0.23.0",
-    "webpack": "^4.17.1",
-    "webpack-cli": "^3.1.0"
+    "style-loader": "^0.23.0"
   }
 }
