@@ -4,12 +4,18 @@ import PropTypes from 'prop-types';
 import Chart from 'react-google-charts';
 import { Loader } from 'semantic-ui-react';
 
+const title = {
+  'playerGameLog': 'Season Game Log Progression',
+  'playerCumulativeAverageGameLog': 'Season Average Progression',
+  'playerCumulativeTotalGameLog': 'Season Totals Progression'
+};
+
 const PlayerGameLogChart = props => {
   return (
     <Chart
       data={props.data}
       chartType='LineChart'
-      loading={<Loader />}
+      loading={<Loader active/>}
       width='100%'
       height='300px'
       options={{
@@ -25,7 +31,7 @@ const PlayerGameLogChart = props => {
             color: '#000000'
           }
         },
-        title: 'Season Average Progression',
+        title: title[props.gameLogType],
         curveType: 'function',
         legend: { position: 'bottom' }
       }}/>
@@ -34,6 +40,7 @@ const PlayerGameLogChart = props => {
 
 PlayerGameLogChart.propTypes = {
   chartType: PropTypes.string,
+  gameLogType: PropTypes.string,
   data: PropTypes.array,
   type: PropTypes.string
 };

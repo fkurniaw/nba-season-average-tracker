@@ -51,7 +51,7 @@ class PlayerBio extends Component {
             {this.props.playerName}
           </Link>
         </h1>
-        {Object.keys(this.props.playerInfo).length > 0 ? this.addBioHeaders() : <Loader />}
+        {Object.keys(this.props.playerInfo).length > 0 ? this.addBioHeaders() : <Loader active/>}
       </div>
     );
   }

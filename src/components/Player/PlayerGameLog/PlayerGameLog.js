@@ -41,13 +41,18 @@ class PlayerGameLog extends React.Component {
       </Table>
     );
   }
-  renderCumulativeChart(chartType, dataType) {
-    chartType += !nonPerGameFields.includes(chartType) ? ' Per Game' : '';
+  renderGameLogChart(chartType, gameLogType) {
+    const labelAffix = {
+      'playerGameLog': '',
+      'playerCumulativeAverageGameLog': ' Per Game',
+      'playerCumulativeTotalGameLog': ' Total'
+    };
+    chartType += !nonPerGameFields.includes(chartType) ? labelAffix[gameLogType] : '';
     let data = [];
     let dropdownOptions = Object.keys(chartTypes).map(type => {
       return { key: type, value: type, text: type };
     });
-    this.props.playerCumulativeAverageGameLog.forEach((game, i) => {
+    this.props[gameLogType].forEach((game, i) => {
       data.push([i + 1, game[chartTypes[this.state.chartType]]]);
     });
     data.splice(0, 0, ['Game', chartType]);
@@ -62,7 +67,8 @@ class PlayerGameLog extends React.Component {
         </div>
         <PlayerGameLogChart
           data={data}
-          chartType={chartType} />
+          chartType={chartType}
+          gameLogType={gameLogType} />
       </div>
     );
   }
@@ -114,13 +120,18 @@ class PlayerGameLog extends React.Component {
     let panes = [
       {
         menuItem: menuItems[0],
-        render: () => (<Tab.Pane>{this.renderGameLog(`${titles[0]} (${this.props.match.params.season})`)}</Tab.Pane>)
+        render: () => (
+          <Tab.Pane>
+            {this.props.playerGameLog.length > 0 && this.renderGameLogChart(this.state.chartType, 'playerGameLog')}
+            {this.renderGameLog(`${titles[0]} (${this.props.match.params.season})`)}
+          </Tab.Pane>
+        )
       },
       {
         menuItem: menuItems[1],
         render: () => (
           <Tab.Pane>
-            {this.props.playerGameLog.length > 0 && this.renderCumulativeChart(this.state.chartType)}
+            {this.props.playerCumulativeAverageGameLog.length > 0 && this.renderGameLogChart(this.state.chartType, 'playerCumulativeAverageGameLog')}
             {this.renderCumulativeAverages(`${titles[1]} (${this.props.match.params.season})`)}
           </Tab.Pane>
         )
@@ -129,7 +140,7 @@ class PlayerGameLog extends React.Component {
         menuItem: menuItems[2],
         render: () => (
           <Tab.Pane>
-            {this.props.playerGameLog.length > 0 && this.renderCumulativeChart(this.state.chartType)}
+            {this.props.playerCumulativeTotalGameLog.length > 0 && this.renderGameLogChart(this.state.chartType, 'playerCumulativeTotalGameLog')}
             {this.renderCumulativeTotals(`${titles[2]} (${this.props.match.params.season})`)}
           </Tab.Pane>
         )
@@ -155,6 +166,7 @@ class PlayerGameLog extends React.Component {
 PlayerGameLog.propTypes = {
   match: PropTypes.object,
   playerCumulativeAverageGameLog: PropTypes.array,
+  playerCumulativeTotalGameLog: PropTypes.array,
   playerGameLog: PropTypes.array,
   setPlayerCumulativeAverageGameLog: PropTypes.func,
   setPlayerCumulativeTotalGameLog: PropTypes.func,
@@ -165,7 +177,8 @@ PlayerGameLog.propTypes = {
 const mapStateToProps = (state, ownProps) => {
   return {
     playerGameLog: state.players.playerGameLog || [],
-    playerCumulativeAverageGameLog: state.players.playerCumulativeAverageGameLog
+    playerCumulativeAverageGameLog: state.players.playerCumulativeAverageGameLog || [],
+    playerCumulativeTotalGameLog: state.players.playerCumulativeTotalGameLog
   };
 };
 
