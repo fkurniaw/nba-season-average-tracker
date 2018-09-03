@@ -8,7 +8,7 @@ const port = 8080;
 const nbaProcessing = require('./nbaProcessing/nbaProcessing.js');
 // const offlineServer = require('./offlineServer.js');
 
-app.use(express.static(path.join(__dirname, 'build')));
+app.use(express.static(path.join(__dirname, '../public')));
 app.use(bodyParser.json());
 
 app.listen(process.env.PORT || port, () => {
