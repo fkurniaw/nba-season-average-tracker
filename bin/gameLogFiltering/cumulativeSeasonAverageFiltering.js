@@ -4,12 +4,11 @@ const statFields = ['game_date', 'matchup', 'wl', 'min', 'fgm', 'fga', 'fg_pct',
 const cellsToSkip = ['fg_pct', 'fg3_pct', 'ft_pct'];
 const nonAvgFieldsIndex = 3;
 
-let missingFieldsAverages = {};
-let missingFieldsGameLog = {};
-
 const cumulativeFiltering = function(playerGameLog) {
   let averages = [];
   let totals = [];
+  let missingFieldsAverages = {};
+  let missingFieldsGameLog = {};
   playerGameLog.forEach((game, i) => {
     averages[i] = {};
     totals[i] = {};
