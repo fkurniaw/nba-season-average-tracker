@@ -10,6 +10,7 @@ const cumulativeFiltering = function(playerGameLog) {
   playerGameLog.forEach((game, i) => {
     averages[i] = {};
     totals[i] = {};
+    averages[i].game_num = i;
     statFields.forEach((field, j) => {
       if (i === 0 || j < nonAvgFieldsIndex) {
         totals[i][field] = game[field];
