@@ -27,6 +27,7 @@ class PlayerGameLog extends React.Component {
       this.props.setPlayerGameLog(res.data.PlayerGameLog);
       this.props.setPlayerCumulativeAverageGameLog(res.data.CumulativeAverageGameLog);
       this.props.setPlayerCumulativeTotalGameLog(res.data.CumulativeTotalGameLog);
+      this.props.setMissingFields(res.data.missingFields);
     }).catch(err => {
       console.info(err);
     });
@@ -50,11 +51,13 @@ class PlayerGameLog extends React.Component {
     chartType += !nonPerGameFields.includes(chartType) ? labelAffix[gameLogType] : '';
     let data = [];
     let dropdownOptions = Object.keys(chartTypes).map(type => {
-      return { key: type, value: type, text: type };
+      return { key: chartTypes[type], value: type, text: type };
     });
     this.props[gameLogType].forEach((game, i) => {
       data.push([i + 1, game[chartTypes[this.state.chartType]]]);
     });
+    dropdownOptions = Object.keys(this.props.missingFields).length > 0
+      ? dropdownOptions.filter(option => !this.props.missingFields.missingFieldsGameLog[option.key]) : dropdownOptions;
     data.splice(0, 0, ['Game', chartType]);
     return (
       <div>
@@ -140,7 +143,8 @@ class PlayerGameLog extends React.Component {
         menuItem: menuItems[2],
         render: () => (
           <Tab.Pane>
-            {this.props.playerCumulativeTotalGameLog.length > 0 && this.renderGameLogChart(this.state.chartType, 'playerCumulativeTotalGameLog')}
+            {this.props.playerCumulativeTotalGameLog.length > 0 && Object.keys(this.props.missingFields).length > 0 &&
+              this.renderGameLogChart(this.state.chartType, 'playerCumulativeTotalGameLog')}
             {this.renderCumulativeTotals(`${titles[2]} (${this.props.match.params.season})`)}
           </Tab.Pane>
         )
@@ -165,9 +169,11 @@ class PlayerGameLog extends React.Component {
 
 PlayerGameLog.propTypes = {
   match: PropTypes.object,
+  missingFields: PropTypes.object,
   playerCumulativeAverageGameLog: PropTypes.array,
   playerCumulativeTotalGameLog: PropTypes.array,
   playerGameLog: PropTypes.array,
+  setMissingFields: PropTypes.func,
   setPlayerCumulativeAverageGameLog: PropTypes.func,
   setPlayerCumulativeTotalGameLog: PropTypes.func,
   setPlayerGameLog: PropTypes.func,
@@ -176,6 +182,7 @@ PlayerGameLog.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    missingFields: state.players.missingFields || {},
     playerGameLog: state.players.playerGameLog || [],
     playerCumulativeAverageGameLog: state.players.playerCumulativeAverageGameLog || [],
     playerCumulativeTotalGameLog: state.players.playerCumulativeTotalGameLog
@@ -183,6 +190,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const actionCreators = {
+  setMissingFields: actions.setMissingFields,
   setPlayerCumulativeAverageGameLog: actions.setPlayerCumulativeAverageGameLog,
   setPlayerCumulativeTotalGameLog: actions.setPlayerCumulativeTotalGameLog,
   setPlayerGameLog: actions.setPlayerGameLog,

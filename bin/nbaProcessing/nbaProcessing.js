@@ -58,9 +58,10 @@ const getPlayerGameLog = (PlayerID, Season, res) => {
     nbaRes.PlayerGameLog.forEach((game, i) => {
       game.game_num = i + 1; // for tracking original order of games
     });
-    const { averages, totals } = cumulativeFiltering(nbaRes.PlayerGameLog);
+    const { averages, totals, missingFields } = cumulativeFiltering(nbaRes.PlayerGameLog);
     nbaRes.CumulativeAverageGameLog = averages;
     nbaRes.CumulativeTotalGameLog = totals;
+    nbaRes.missingFields = missingFields;
     return res.send(nbaRes);
   });
 };

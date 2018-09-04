@@ -14,6 +14,13 @@ export function setMinIndex(minIndex) {
   };
 }
 
+export function setMissingFields(missingFields) {
+  return {
+    type: types.SET_MISSING_FIELDS,
+    missingFields
+  };
+}
+
 export function setPlayerBio(playerBio) {
   return {
     type: types.SET_PLAYER_BIO,

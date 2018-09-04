@@ -9,6 +9,8 @@ export function players(state = initialPlayersState, action) {
       return Object.assign({}, state, { currentPlayer: action.currentPlayer });
     case types.SET_MIN_INDEX:
       return Object.assign({}, state, { minIndex: action.minIndex });
+    case types.SET_MISSING_FIELDS:
+      return Object.assign({}, state, { missingFields: action.missingFields });
     case types.SET_PLAYER_NAME:
       return Object.assign({}, state, { playerName: action.playerName });
     case types.SET_PLAYER_BIO:

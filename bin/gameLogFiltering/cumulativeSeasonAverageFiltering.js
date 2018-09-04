@@ -4,6 +4,9 @@ const statFields = ['game_date', 'matchup', 'wl', 'min', 'fgm', 'fga', 'fg_pct',
 const cellsToSkip = ['fg_pct', 'fg3_pct', 'ft_pct'];
 const nonAvgFieldsIndex = 3;
 
+let missingFieldsAverages = {};
+let missingFieldsGameLog = {};
+
 const cumulativeFiltering = function(playerGameLog) {
   let averages = [];
   let totals = [];
@@ -17,6 +20,8 @@ const cumulativeFiltering = function(playerGameLog) {
         totals[i][field] = game[field];
         averages[i][field] = game[field];
       } else if (game[field] === null) {
+        missingFieldsAverages[field] = true;
+        missingFieldsGameLog[field] = true;
         totals[i][field] = totals[i - 1][field];
         averages[i][field] = null;
       } else {
@@ -38,7 +43,8 @@ const cumulativeFiltering = function(playerGameLog) {
       }
     });
   });
-  return { averages, totals };
+  const missingFields = { missingFieldsAverages, missingFieldsGameLog };
+  return { averages, totals, missingFields };
 };
 
 module.exports = cumulativeFiltering;

@@ -33,7 +33,7 @@ function fetch() {
       connection: 'keep-alive',
       host: 'stats.nba.com',
       referer: 'http://stats.nba.com/',
-      'user-agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36'
+      'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36'
     },
     json: false
   }, opts || {});
