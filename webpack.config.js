@@ -4,13 +4,14 @@ const webpack = require('webpack');
 module.exports = {
   entry: './src/index.js',
   output: {
-    path: path.resolve(__dirname, 'public/assets'),
+    path: path.resolve(__dirname, 'public'),
     filename: 'index.bundle.js'
   },
   mode: 'development',
   devtool: 'inline-source-map',
   devServer: {
-    contentBase: './build',
+    contentBase: './public',
+    hot: true,
     port: 3000
   },
   module: {

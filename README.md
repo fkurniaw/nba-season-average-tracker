@@ -6,8 +6,8 @@ Useful for determining their peak performance in the middle of a season.
 ![NBA Cumulative Season Average](NBA-Preview.png)
 
 ### Running
-`npm start` to run react app\
-`npm run start:dev` to run node.js backend
+`npm run start:dev` to run react app\
+`npm run start:server` to run node.js backend
 
 Website runs on localhost:3000\
 Server runs on localhost:8080
