@@ -19,7 +19,7 @@ const PlayerGameLogGeneric = props => {
     });
     rows.push(
       <Table.Row key={`game-${i}`} active={i % 20 > 9}>
-        <Table.Cell className='player-game-log-stat'>{i + 1}</Table.Cell>
+        <Table.Cell className='player-game-log-stat'>{game.game_num}</Table.Cell>
         {cells}
       </Table.Row>
     );

@@ -56,7 +56,7 @@ const getPlayerGameLog = (PlayerID, Season, res) => {
   nba.stats.playerGamelog({ Season, PlayerID, LeagueID: '00', SeasonType: 'Regular Season' }).then(nbaRes => {
     nbaRes.PlayerGameLog.reverse();
     nbaRes.PlayerGameLog.forEach((game, i) => {
-      game.game_num = i; // for tracking original order of games
+      game.game_num = i + 1; // for tracking original order of games
     });
     const { averages, totals } = cumulativeFiltering(nbaRes.PlayerGameLog);
     nbaRes.CumulativeAverageGameLog = averages;
