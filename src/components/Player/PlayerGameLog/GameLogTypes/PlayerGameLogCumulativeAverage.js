@@ -16,7 +16,7 @@ const PlayerGameLogCumulativeAverage = props => {
     let cells = [<Table.Cell key={0} className='player-game-log-stat'>{game.game_num}</Table.Cell>]; // initial game
     props.statsFields.forEach((field, j) => { // add all stats other than game number
       // store max val for each cell after 10 games; skip the first 3 columns (date, matchup, W/L)
-      if (j > 2 && props.playerCumulativeAverageGameLog.length > props.minGames && i >= props.minIndex && game[field] !== null && maxes[j - 3].val <= game[field]) {
+      if (j > 2 && props.playerCumulativeAverageGameLog.length > props.minGames && game.game_num >= props.minIndex && game[field] !== null && maxes[j - 3].val <= game[field]) {
         // store the latest occurrence of the game log high
         maxes[j - 3].val = game[field];
         maxes[j - 3].row = i;

@@ -81,6 +81,7 @@ class PlayerGameLog extends React.Component {
         addTable={this.addTable.bind(this)}
         cellsToSkip={cellsToSkip}
         headerCells={headerCells}
+        minGames={MIN_GAMES}
         statsFields={statsFields}
         title={title}
         type='totals' />
@@ -103,6 +104,7 @@ class PlayerGameLog extends React.Component {
         addTable={this.addTable.bind(this)}
         cellsToSkip={cellsToSkip}
         headerCells={headerCells}
+        minGames={MIN_GAMES}
         statsFields={statsFields}
         title={title} />
     );
