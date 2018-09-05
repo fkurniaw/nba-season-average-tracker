@@ -35,11 +35,10 @@ Server runs on localhost:8080
 
 ### scripts
 - `npm run lint`
-- `npm run start`
 - `npm run start:dev`
+- `npm run start:server`
 - `npm run test`
-- `npm run build`
-- `npm run eject`
+- `npm run build-webpack`
 
 ### ESLINT
 Using ESLint standard
