@@ -12,7 +12,7 @@ const indexesToSkip = [7, 10, 13];
 const PlayerGameLogGeneric = props => {
   let rows = [];
   let maxes = [];
-  if (props.type !== 'totals' && props.playerGameLog.length > props.minGames) {
+  if (props.type !== 'totals' && props.playerGameLog.length > props.minGames) { // disable highlighting for season totals
     for (let i = 0; i < props.statsFields.length - 3; i++) maxes.push({ val: -Infinity, row: [0] });
   }
   props.playerGameLog.forEach((game, i) => {
@@ -21,7 +21,7 @@ const PlayerGameLogGeneric = props => {
       if (props.cellsToSkip.includes(field)) formattedStat = !isNaN(game[field]) && game[field] !== null ? formattedStat.toFixed(3) : '-';
       else if (j > 2) {
         formattedStat = !isNaN(game[field]) && game[field] !== null ? formattedStat : '-';
-        if (formattedStat !== '-' && game.game_num >= props.minIndex) {
+        if (formattedStat !== '-' && game.game_num >= props.minIndex && props.type !== 'totals') {
           if (formattedStat > maxes[j - 3].val) {
             maxes[j - 3].val = formattedStat;
             maxes[j - 3].row = [i]; // row represents game number
@@ -56,7 +56,7 @@ const PlayerGameLogGeneric = props => {
   return (
     <div className='player-game-log-table-wrapper'>
       <h3 className='player-game-log-header'>{props.title}</h3>
-      {props.playerGameLog.length > 9 && <PlayerGameLogMinIndexDropdown />}
+      {props.playerGameLog.length > 9 && props.type !== 'totals' && <PlayerGameLogMinIndexDropdown />}
       {props.addTable('player-game-log-table', props.headerCells, rows)}
     </div>
   );

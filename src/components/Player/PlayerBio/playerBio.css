@@ -1,3 +1,8 @@
+.bio-divider {
+  background-color: black;
+  margin-top: 10px;
+  height: 1.5px;
+}
 .player-bio-left-headers {
   display: inline-block;
   margin: 0px 2px 0px 5px;
