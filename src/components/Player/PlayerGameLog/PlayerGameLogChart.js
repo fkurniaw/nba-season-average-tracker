@@ -32,7 +32,7 @@ const PlayerGameLogChart = props => {
           }
         },
         title: title[props.gameLogType],
-        curveType: 'function',
+        curveType: props.gameLogType === 'playerCumulativeAverageGameLog' ? 'function' : 'none',
         legend: { position: 'bottom' }
       }}/>
   );
@@ -41,8 +41,7 @@ const PlayerGameLogChart = props => {
 PlayerGameLogChart.propTypes = {
   chartType: PropTypes.string,
   gameLogType: PropTypes.string,
-  data: PropTypes.array,
-  type: PropTypes.string
+  data: PropTypes.array
 };
 
 export default PlayerGameLogChart;
