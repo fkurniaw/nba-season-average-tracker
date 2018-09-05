@@ -24,7 +24,7 @@ const PlayerGameLogGeneric = props => {
         if (formattedStat !== '-' && game.game_num >= props.minIndex) {
           if (formattedStat > maxes[j - 3].val) {
             maxes[j - 3].val = formattedStat;
-            maxes[j - 3].row[0] = i; // row represents game number
+            maxes[j - 3].row = [i]; // row represents game number
           } else if (formattedStat === maxes[j - 3].val) maxes[j - 3].row.push(i); // store all occurrences of same career high
         }
       }
