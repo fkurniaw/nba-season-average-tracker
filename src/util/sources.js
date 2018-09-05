@@ -7,7 +7,7 @@ const Sources = {
   },
 
   getPlayer: id => {
-    return axios.get(`${url}playerStats?playerId=${id}`);
+    return axios.get(`${url}getPlayerStats?playerId=${id}`);
   },
 
   getPlayerBio: id => {

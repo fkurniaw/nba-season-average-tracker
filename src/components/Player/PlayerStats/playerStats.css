@@ -3,6 +3,9 @@
   border-top: 1px solid rgba(34,36,38,.1) !important;
   font-weight: bold;
 }
+.player-stats-table {
+  margin: 20px auto !important;
+}
 .player-stats-table-footer {
   border: 1px solid black;
 }
@@ -10,8 +13,7 @@
   padding: 7px !important;
   text-align: left !important;
 }
-.player-stats-table
-{
+.player-stats-table-wrapper {
   display: inline-block;
   font-size: 0.9em;
   margin: 20px auto;

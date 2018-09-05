@@ -40,10 +40,10 @@ app.get('/allPlayers', (req, res) => {
   }
 });
 
-app.get('/playerStats', (req, res) => {
+app.get('/getPlayerStats', (req, res) => {
   try {
     const PlayerID = req.query.playerId;
-    return nbaProcessing.playerStats(PlayerID, res);
+    return nbaProcessing.getPlayerStats(PlayerID, res);
     // return offlineServer.playerStats(PlayerID, res);
   } catch (e) {
     console.info(e);

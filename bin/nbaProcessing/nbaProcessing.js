@@ -14,7 +14,7 @@ const allPlayers = (Season, res) => {
   });
 };
 
-const playerStats = (PlayerID, res) => {
+const getPlayerStats = (PlayerID, res) => {
   console.info('Getting Bio');
   nba.stats.playerProfile({ PlayerID, PerMode: 'PerGame', LeagueID: '00' }).then(nbaRes => {
     let results = {
@@ -70,5 +70,5 @@ module.exports = {
   allPlayers,
   getPlayerBio,
   getPlayerGameLog,
-  playerStats
+  getPlayerStats
 };

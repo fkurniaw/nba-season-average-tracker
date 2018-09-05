@@ -66,7 +66,7 @@ class PlayerStats extends Component {
       </ Table.Row>
     );
   }
-  renderTable() {
+  renderTable(type, careerType) {
     let rows = [];
     let maxes = [];
     for (let i = 0; i < fields.length - 1; i++) maxes.push({ vals: [-Infinity], rows: [0] });
@@ -77,7 +77,7 @@ class PlayerStats extends Component {
         </Table.HeaderCell>
       );
     });
-    this.props.currentPlayer.regularSeasonAvg.forEach((season, i) => {
+    this.props.currentPlayer[type].forEach((season, i) => {
       rows.push(this.addMainStats(season, i, maxes));
     });
     maxes.forEach((field, i) => {
@@ -89,25 +89,29 @@ class PlayerStats extends Component {
       });
     });
     return (
-      <Table className='player-table-stats' collapsing stackable>
-        <Table.Header className='player-stats-table-header'>
-          <Table.Row>
-            {headerCells}
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {rows}
-        </Table.Body>
-        <Table.Footer className='player-stats-table-footer'>
-          {this.addMainStats(this.props.currentPlayer.careerTotalsRegular[0], 'career')}
-        </Table.Footer>
-      </Table>
+      <div>
+        <h3>{type === 'regularSeasonAvg' ? 'Regular Season' : 'Post Season'}</h3>
+        <Table className='player-stats-table' collapsing stackable>
+          <Table.Header className='player-stats-table-header'>
+            <Table.Row>
+              {headerCells}
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            {rows}
+          </Table.Body>
+          <Table.Footer className='player-stats-table-footer'>
+            {this.addMainStats(this.props.currentPlayer[careerType][0], 'career')}
+          </Table.Footer>
+        </Table>
+      </div>
     );
   }
   render() {
     return (
-      <div className='player-stats-table'>
-        {Object.keys(this.props.currentPlayer).length > 0 ? this.renderTable() : <Loader active />}
+      <div className='player-stats-table-wrapper'>
+        {Object.keys(this.props.currentPlayer).length > 0 ? this.renderTable('regularSeasonAvg', 'careerTotalsRegular') : <Loader active />}
+        {Object.keys(this.props.currentPlayer).length > 0 ? this.renderTable('postSeasonAvg', 'careerTotalsPost') : <Loader active />}
       </div>
     );
   }
