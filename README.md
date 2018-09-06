@@ -8,6 +8,7 @@ Useful for determining their peak performance in the middle of a season.
 ### Running
 `npm run start:dev` to run react app\
 `npm run start:server` to run node.js backend
+`npm run start:offline` to run offline server (using nba player data from sample data) 
 
 Website runs on localhost:3000\
 Server runs on localhost:8080

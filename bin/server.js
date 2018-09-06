@@ -5,8 +5,9 @@ const path = require('path');
 const app = express();
 const port = 8080;
 
+const isOffline = process.env.npm_config_argv.indexOf('offline') > -1;
 const nbaProcessing = require('./nbaProcessing/nbaProcessing.js');
-// const offlineServer = require('./offlineServer.js');
+const offlineServer = require('./offlineServer.js');
 
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(bodyParser.json());
@@ -43,8 +44,8 @@ app.get('/allPlayers', (req, res) => {
 app.get('/getPlayerStats', (req, res) => {
   try {
     const PlayerID = req.query.playerId;
+    if (isOffline) return offlineServer.playerStats(PlayerID, res);
     return nbaProcessing.getPlayerStats(PlayerID, res);
-    // return offlineServer.playerStats(PlayerID, res);
   } catch (e) {
     console.info(e);
     return res.send({});
@@ -54,8 +55,8 @@ app.get('/getPlayerStats', (req, res) => {
 app.get('/getPlayerBio', (req, res) => {
   try {
     const PlayerID = req.query.playerId;
+    if (isOffline) return offlineServer.getPlayerBio(PlayerID, res);
     return nbaProcessing.getPlayerBio(PlayerID, res);
-    // return offlineServer.getPlayerBio(PlayerID, res);
   } catch (e) {
     return res.send({});
   }
@@ -65,8 +66,8 @@ app.get('/getPlayerGameLog', (req, res) => {
   try {
     const Season = req.query.season;
     const PlayerID = req.query.playerId;
+    if (isOffline) return offlineServer.getPlayerGameLog(PlayerID, Season, res);
     return nbaProcessing.getPlayerGameLog(PlayerID, Season, res);
-    // return offlineServer.getPlayerGameLog(PlayerID, Season, res);
   } catch (e) {
     console.info(e);
     res.sendFile(path.join(__dirname, '/sampleData/gameLog', `Kobe2012-13Game.json`));
