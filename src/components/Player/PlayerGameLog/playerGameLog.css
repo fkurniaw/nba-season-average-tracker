@@ -20,7 +20,9 @@
   max-width: 100vw;
   overflow-x: auto;
 }
-
+.ui.bottom.segment.attached.active.player-game-log-tab {
+  border: 0px solid grey
+}
 @media only screen and (max-width: 767px) {
   .player-stats-table, .ui.collapsing.stackable.table.player-table-stats {
     width: 100%;

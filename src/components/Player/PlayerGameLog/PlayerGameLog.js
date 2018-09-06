@@ -126,7 +126,7 @@ class PlayerGameLog extends React.Component {
       {
         menuItem: menuItems[0],
         render: () => (
-          <Tab.Pane>
+          <Tab.Pane className='player-game-log-tab'>
             {this.props.playerGameLog.length > 0 && this.renderGameLogChart(this.state.chartType, 'playerGameLog')}
             {this.renderGameLog(`${titles[0]} (${this.props.match.params.season})`)}
           </Tab.Pane>
@@ -135,7 +135,7 @@ class PlayerGameLog extends React.Component {
       {
         menuItem: menuItems[1],
         render: () => (
-          <Tab.Pane>
+          <Tab.Pane className='player-game-log-tab'>
             {this.props.playerCumulativeAverageGameLog.length > 0 && this.renderGameLogChart(this.state.chartType, 'playerCumulativeAverageGameLog')}
             {this.renderCumulativeAverages(`${titles[1]} (${this.props.match.params.season})`)}
           </Tab.Pane>
@@ -144,7 +144,7 @@ class PlayerGameLog extends React.Component {
       {
         menuItem: menuItems[2],
         render: () => (
-          <Tab.Pane>
+          <Tab.Pane className='player-game-log-tab'>
             {this.props.playerCumulativeTotalGameLog.length > 0 && Object.keys(this.props.missingFields).length > 0 &&
               this.renderGameLogChart(this.state.chartType, 'playerCumulativeTotalGameLog')}
             {this.renderCumulativeTotals(`${titles[2]} (${this.props.match.params.season})`)}
