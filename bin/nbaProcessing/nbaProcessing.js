@@ -48,6 +48,8 @@ const getPlayerBio = (PlayerID, res) => {
     nbaRes.CommonPlayerInfo[0].draft = nbaRes.CommonPlayerInfo[0].draft_year;
     nbaRes.CommonPlayerInfo[0].draft += draftRound !== null && draftOvr !== null &&
       draftRound !== 'Undrafted' && draftOvr !== 'Undrafted' ? ` (${draftRound} round, ${draftOvr} overall)` : '';
+    nbaRes.CommonPlayerInfo[0].current_team = `${nbaRes.CommonPlayerInfo[0].team_city} ${nbaRes.CommonPlayerInfo[0].team_name}`;
+    nbaRes.CommonPlayerInfo[0].years_active = `${nbaRes.CommonPlayerInfo[0].from_year} - ${nbaRes.CommonPlayerInfo[0].to_year + 1}`;
     return res.send(nbaRes);
   });
 };

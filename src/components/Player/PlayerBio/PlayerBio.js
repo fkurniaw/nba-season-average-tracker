@@ -11,7 +11,9 @@ import { Loader } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
 const bioHeadersMap = {
+  'years_active': 'Period Active',
   'birthdate': 'Birth Date',
+  'country': 'Country',
   'school': 'School',
   'height': 'Height (inches)',
   'weight': 'Weight (lbs)',
