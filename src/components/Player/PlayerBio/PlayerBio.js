@@ -14,7 +14,7 @@ const bioHeadersMap = {
   'years_active': 'Period Active',
   'birthdate': 'Birth Date',
   'country': 'Country',
-  'school': 'School',
+  'school': 'School/From',
   'height': 'Height (inches)',
   'weight': 'Weight (lbs)',
   'position': 'Position',

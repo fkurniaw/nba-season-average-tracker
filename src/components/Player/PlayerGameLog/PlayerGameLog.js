@@ -34,7 +34,7 @@ class PlayerGameLog extends React.Component {
   }
   addTable(className, headerCells, bodyRows) {
     return (
-      <Table className='className' collapsing stackable>
+      <Table className={className} collapsing stackable>
         <Table.Header>
           <Table.Row>{headerCells}</Table.Row>
         </Table.Header>

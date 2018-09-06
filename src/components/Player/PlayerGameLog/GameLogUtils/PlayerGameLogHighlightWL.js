@@ -9,6 +9,7 @@ import { Checkbox } from 'semantic-ui-react';
 const PlayerGameLogHighlightWL = props => {
   return (
     <Checkbox label='Highlight Win/Loss'
+      className='player-game-log-highlight-wl'
       defaultChecked={props.highlightWL}
       onClick={() => props.setHighlightWL(!props.highlightWL)}/>
   );

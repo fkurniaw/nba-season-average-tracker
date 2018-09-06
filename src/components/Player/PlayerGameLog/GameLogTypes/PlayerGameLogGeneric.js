@@ -62,7 +62,7 @@ const PlayerGameLogGeneric = props => {
   return (
     <div className='player-game-log-table-wrapper'>
       <h3 className='player-game-log-header'>{props.title}</h3>
-      <div className='options'>
+      <div className='player-game-log-options'>
         {<PlayerGameLogHighlightWL />}
         {props.playerGameLog.length > 9 && props.type !== 'totals' && <PlayerGameLogMinIndexDropdown />}
       </div>
