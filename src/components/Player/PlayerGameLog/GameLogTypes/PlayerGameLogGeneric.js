@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import { Table } from 'semantic-ui-react';
 
 import './playerGameLogTable.css';
-import PlayerGameLogMinIndexDropdown from './PlayerGameLogMinIndexDropdown';
+import PlayerGameLogMinIndexDropdown from '../GameLogUtils/PlayerGameLogMinIndexDropdown';
+import PlayerGameLogHighlightWL from '../GameLogUtils/PlayerGameLogHighlightWL';
 
 const indexesToSkip = [7, 10, 13];
 
@@ -28,8 +29,13 @@ const PlayerGameLogGeneric = props => {
           } else if (formattedStat === maxes[j - 3].val) maxes[j - 3].row.push(i); // store all occurrences of same career high
         }
       }
+      let className = 'player-game-log-stat';
+      if (field === 'wl' && props.highlightWL) {
+        if (formattedStat === 'W') className = 'player-game-log-stat-good';
+        else if (formattedStat === 'L') className = 'player-game-log-stat-bad';
+      }
       return (
-        <Table.Cell key={field} className='player-game-log-stat'>{formattedStat}</Table.Cell>
+        <Table.Cell key={field} className={className}>{formattedStat}</Table.Cell>
       );
     });
     rows.push(
@@ -56,7 +62,10 @@ const PlayerGameLogGeneric = props => {
   return (
     <div className='player-game-log-table-wrapper'>
       <h3 className='player-game-log-header'>{props.title}</h3>
-      {props.playerGameLog.length > 9 && props.type !== 'totals' && <PlayerGameLogMinIndexDropdown />}
+      <div className='options'>
+        {<PlayerGameLogHighlightWL />}
+        {props.playerGameLog.length > 9 && props.type !== 'totals' && <PlayerGameLogMinIndexDropdown />}
+      </div>
       {props.addTable('player-game-log-table', props.headerCells, rows)}
     </div>
   );
@@ -66,6 +75,7 @@ PlayerGameLogGeneric.propTypes = {
   addTable: PropTypes.func,
   cellsToSkip: PropTypes.array,
   headerCells: PropTypes.array,
+  highlightWL: PropTypes.bool,
   minGames: PropTypes.number,
   minIndex: PropTypes.number,
   playerGameLog: PropTypes.array,
@@ -76,6 +86,7 @@ PlayerGameLogGeneric.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    highlightWL: state.players.highlightWL,
     minIndex: typeof (state.players.minIndex) === 'number' ? state.players.minIndex - 1 : 6,
     playerGameLog: ownProps.type === 'totals' ? state.players.playerCumulativeTotalGameLog || []
       : state.players.playerGameLog || []

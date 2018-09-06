@@ -1,5 +1,6 @@
 export const initialPlayersState = {
   currentPlayer: {},
+  highlightWL: true,
   minIndex: 6,
   missingFields: {},
   players: {},

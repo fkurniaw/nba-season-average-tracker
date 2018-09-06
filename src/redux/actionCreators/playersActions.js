@@ -7,6 +7,13 @@ export function setAllPlayers(players) {
   };
 }
 
+export function setHighlightWL(highlightWL) {
+  return {
+    type: types.SET_HIGHLIGHT_WL,
+    highlightWL
+  };
+}
+
 export function setMinIndex(minIndex) {
   return {
     type: types.SET_MIN_INDEX,

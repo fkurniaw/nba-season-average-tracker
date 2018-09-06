@@ -7,6 +7,8 @@ export function players(state = initialPlayersState, action) {
       return Object.assign({}, state, { players: action.players });
     case types.SET_CURRENT_PLAYER:
       return Object.assign({}, state, { currentPlayer: action.currentPlayer });
+    case types.SET_HIGHLIGHT_WL:
+      return Object.assign({}, state, { highlightWL: action.highlightWL });
     case types.SET_MIN_INDEX:
       return Object.assign({}, state, { minIndex: action.minIndex });
     case types.SET_MISSING_FIELDS:

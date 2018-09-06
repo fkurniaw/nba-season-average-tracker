@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 
 import './playerGameLogTable.css';
 import { Table } from 'semantic-ui-react';
-import PlayerGameLogMinIndexDropdown from './PlayerGameLogMinIndexDropdown';
+import PlayerGameLogMinIndexDropdown from '../GameLogUtils/PlayerGameLogMinIndexDropdown';
+import PlayerGameLogHighlightWL from '../GameLogUtils/PlayerGameLogHighlightWL';
 
 const indexesToSkip = [7, 10, 13]; // for maxes array
 
@@ -22,9 +23,13 @@ const PlayerGameLogCumulativeAverage = props => {
         maxes[j - 3].row = i;
       };
       let formattedField = j < 3 ? game[field] : game[field] !== null ? game[field].toFixed(props.cellsToSkip.includes(field) ? 3 : 1) : '-'; // round percentages to 3 decimal places
-      cells[j + 1] = (<Table.Cell className='player-game-log-stat' key={j + 1}>{formattedField}</Table.Cell>);
+      let className = 'player-game-log-stat';
+      if (field === 'wl' && props.highlightWL) {
+        if (formattedField === 'W') className = 'player-game-log-stat-good';
+        else if (formattedField === 'L') className = 'player-game-log-stat-bad';
+      }
+      cells[j + 1] = (<Table.Cell className={className} key={j + 1}>{formattedField}</Table.Cell>); // first field is game num
     });
-
     return (
       <Table.Row key={i} active={i % 20 > 9}>{cells}</Table.Row>
     );
@@ -43,7 +48,10 @@ const PlayerGameLogCumulativeAverage = props => {
   return (
     <div className='player-game-log-table-wrapper'>
       <h3 className='player-game-log-header'>{props.title}</h3>
-      {props.playerCumulativeAverageGameLog.length > 9 && <PlayerGameLogMinIndexDropdown />}
+      <div className='game-log-options'>
+        {<PlayerGameLogHighlightWL />}
+        {props.playerCumulativeAverageGameLog.length > 9 && <PlayerGameLogMinIndexDropdown />}
+      </div>
       {props.addTable('player-game-log-table', props.headerCells, rows)}
     </div>
   );
@@ -51,6 +59,7 @@ const PlayerGameLogCumulativeAverage = props => {
 
 const mapStateToProps = state => {
   return {
+    highlightWL: state.players.highlightWL,
     minIndex: typeof (state.players.minIndex) === 'number' ? state.players.minIndex - 1 : 6,
     playerCumulativeAverageGameLog: state.players.playerCumulativeAverageGameLog || []
   };
@@ -60,6 +69,7 @@ PlayerGameLogCumulativeAverage.propTypes = {
   addTable: PropTypes.func,
   cellsToSkip: PropTypes.array,
   headerCells: PropTypes.array,
+  highlightWL: PropTypes.bool,
   minGames: PropTypes.number,
   minIndex: PropTypes.number,
   playerCumulativeAverageGameLog: PropTypes.array,
