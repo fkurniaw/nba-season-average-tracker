@@ -1,11 +1,10 @@
 .App {
   height: 100vh;
-  overflow-x: auto;
   text-align: center;
 }
 
 .App-contents {
-  margin-top: 140px;
+  overflow-y: auto;
 }
 
 .App-logo {
