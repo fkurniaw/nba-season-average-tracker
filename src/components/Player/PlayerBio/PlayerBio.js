@@ -53,7 +53,7 @@ class PlayerBio extends Component {
             {this.props.playerName}
           </Link>
         </h1>
-        {Object.keys(this.props.playerInfo).length > 0 ? this.addBioHeaders() : <Loader active/>}
+        {Object.keys(this.props.playerInfo).length > 0 ? this.addBioHeaders() : <Loader active style={{ minHeight: '30px' }}/>}
         <hr className='bio-divider'/>
       </div>
     );
