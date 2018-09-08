@@ -23,6 +23,7 @@ class PlayerGameLog extends React.Component {
   }
   componentDidMount() {
     this.props.setPlayerId(this.props.match.id);
+    if (this.props.seasonType === 'postSeason') this.props.setMinIndex(1);
     Sources.getGameLog(this.props.match.params.id, this.props.match.params.season, this.props.seasonType).then(res => {
       this.props.setPlayerGameLog(res.data.PlayerGameLog, this.props.seasonType);
       this.props.setPlayerCumulativeAverageGameLog(res.data.CumulativeAverageGameLog, this.props.seasonType);
@@ -180,6 +181,7 @@ PlayerGameLog.propTypes = {
   playerCumulativeTotalGameLog: PropTypes.array,
   playerGameLog: PropTypes.array,
   seasonType: PropTypes.string,
+  setMinIndex: PropTypes.func,
   setMissingFields: PropTypes.func,
   setPlayerCumulativeAverageGameLog: PropTypes.func,
   setPlayerCumulativeTotalGameLog: PropTypes.func,
@@ -197,6 +199,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const actionCreators = {
+  setMinIndex: actions.setMinIndex,
   setMissingFields: actions.setMissingFields,
   setPlayerCumulativeAverageGameLog: actions.setPlayerCumulativeAverageGameLog,
   setPlayerCumulativeTotalGameLog: actions.setPlayerCumulativeTotalGameLog,
