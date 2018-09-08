@@ -61,7 +61,7 @@ const mapStateToProps = state => {
   return {
     highlightWL: state.players.highlightWL,
     minIndex: typeof (state.players.minIndex) === 'number' ? state.players.minIndex - 1 : 6,
-    playerCumulativeAverageGameLog: state.players.playerCumulativeAverageGameLog || []
+    playerCumulativeAverageGameLog: state.players.regularSeason.playerCumulativeAverageGameLog || []
   };
 };
 
