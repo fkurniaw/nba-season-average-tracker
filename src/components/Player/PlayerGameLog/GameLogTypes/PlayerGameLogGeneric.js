@@ -23,7 +23,7 @@ const PlayerGameLogGeneric = props => {
       else if (j > 2) {
         formattedStat = !isNaN(game[field]) && game[field] !== null ? formattedStat : '-';
         if (formattedStat !== '-' && game.game_num >= props.minIndex && props.type !== 'totals' && maxes.length > 0) {
-          if (formattedStat > maxes[j - 3].val) {
+          if (formattedStat > maxes[j - 3].val && ((formattedStat !== 0 && field !== 'plus_minus') || field === 'plus_minus')) {
             maxes[j - 3].val = formattedStat;
             maxes[j - 3].row = [i]; // row represents game number
           } else if (formattedStat === maxes[j - 3].val) maxes[j - 3].row.push(i); // store all occurrences of same career high
