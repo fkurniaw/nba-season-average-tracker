@@ -23,10 +23,10 @@ class PlayerGameLog extends React.Component {
   }
   componentDidMount() {
     this.props.setPlayerId(this.props.match.id);
-    Sources.getGameLog(this.props.match.params.id, this.props.match.params.season, 'Regular Season').then(res => {
-      this.props.setPlayerGameLog(res.data.PlayerGameLog, 'regularSeason');
-      this.props.setPlayerCumulativeAverageGameLog(res.data.CumulativeAverageGameLog, 'regularSeason');
-      this.props.setPlayerCumulativeTotalGameLog(res.data.CumulativeTotalGameLog, 'regularSeason');
+    Sources.getGameLog(this.props.match.params.id, this.props.match.params.season, this.props.seasonType).then(res => {
+      this.props.setPlayerGameLog(res.data.PlayerGameLog, this.props.seasonType);
+      this.props.setPlayerCumulativeAverageGameLog(res.data.CumulativeAverageGameLog, this.props.seasonType);
+      this.props.setPlayerCumulativeTotalGameLog(res.data.CumulativeTotalGameLog, this.props.seasonType);
       this.props.setMissingFields(res.data.missingFields);
     }).catch(err => {
       console.info(err);
@@ -82,6 +82,7 @@ class PlayerGameLog extends React.Component {
         cellsToSkip={cellsToSkip}
         headerCells={headerCells}
         minGames={MIN_GAMES}
+        seasonType={this.props.seasonType}
         statsFields={statsFields}
         title={title}
         type='totals' />
@@ -94,6 +95,7 @@ class PlayerGameLog extends React.Component {
         cellsToSkip={cellsToSkip}
         headerCells={headerCells}
         minGames={MIN_GAMES}
+        seasonType={this.props.seasonType}
         statsFields={statsFields}
         title={title} />
     );
@@ -105,13 +107,15 @@ class PlayerGameLog extends React.Component {
         cellsToSkip={cellsToSkip}
         headerCells={headerCells}
         minGames={MIN_GAMES}
+        seasonType={this.props.seasonType}
         statsFields={statsFields}
         title={title} />
     );
   }
   renderGameLogTabs() {
-    let titles = ['Regular Season Game Log', 'Cumulative Season Averages Game Log',
-      'Cumulative Season Totals Game Log'];
+    let seasonType = this.props.seasonType === 'regularSeason' ? 'Regular Season' : 'Post Season';
+    let titles = [`${seasonType} Game Log`, `Cumulative ${seasonType} Averages Game Log`,
+      `Cumulative ${seasonType} Totals Game Log`];
     let menuItems = titles.map((title, i) => {
       return (
         <Menu.Item
@@ -175,6 +179,7 @@ PlayerGameLog.propTypes = {
   playerCumulativeAverageGameLog: PropTypes.array,
   playerCumulativeTotalGameLog: PropTypes.array,
   playerGameLog: PropTypes.array,
+  seasonType: PropTypes.string,
   setMissingFields: PropTypes.func,
   setPlayerCumulativeAverageGameLog: PropTypes.func,
   setPlayerCumulativeTotalGameLog: PropTypes.func,
@@ -185,9 +190,9 @@ PlayerGameLog.propTypes = {
 const mapStateToProps = (state, ownProps) => {
   return {
     missingFields: state.players.missingFields || {},
-    playerGameLog: state.players.regularSeason.playerGameLog || [],
-    playerCumulativeAverageGameLog: state.players.regularSeason.playerCumulativeAverageGameLog || [],
-    playerCumulativeTotalGameLog: state.players.regularSeason.playerCumulativeTotalGameLog
+    playerGameLog: state.players[ownProps.seasonType].playerGameLog || [],
+    playerCumulativeAverageGameLog: state.players[ownProps.seasonType].playerCumulativeAverageGameLog || [],
+    playerCumulativeTotalGameLog: state.players[ownProps.seasonType].playerCumulativeTotalGameLog
   };
 };
 

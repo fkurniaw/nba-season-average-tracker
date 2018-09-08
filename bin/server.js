@@ -66,7 +66,7 @@ app.get('/getPlayerGameLog', (req, res) => {
   try {
     const Season = req.query.season;
     const PlayerID = req.query.playerId;
-    const SeasonType = req.query.seasonType;
+    const SeasonType = req.query.seasonType === 'regularSeason' ? 'Regular Season' : 'Playoffs';
     if (isOffline) return offlineServer.getPlayerGameLog(PlayerID, Season, res, SeasonType);
     return nbaProcessing.getPlayerGameLog(PlayerID, Season, res, SeasonType);
   } catch (e) {

@@ -22,7 +22,7 @@ const PlayerGameLogGeneric = props => {
       if (props.cellsToSkip.includes(field)) formattedStat = !isNaN(game[field]) && game[field] !== null ? formattedStat.toFixed(3) : '-';
       else if (j > 2) {
         formattedStat = !isNaN(game[field]) && game[field] !== null ? formattedStat : '-';
-        if (formattedStat !== '-' && game.game_num >= props.minIndex && props.type !== 'totals') {
+        if (formattedStat !== '-' && game.game_num >= props.minIndex && props.type !== 'totals' && maxes.length > 0) {
           if (formattedStat > maxes[j - 3].val) {
             maxes[j - 3].val = formattedStat;
             maxes[j - 3].row = [i]; // row represents game number
@@ -64,7 +64,7 @@ const PlayerGameLogGeneric = props => {
       <h3 className='player-game-log-header'>{props.title}</h3>
       <div className='player-game-log-options'>
         {<PlayerGameLogHighlightWL />}
-        {props.playerGameLog.length > 9 && props.type !== 'totals' && <PlayerGameLogMinIndexDropdown />}
+        {props.playerGameLog.length > props.minGames && props.type !== 'totals' && <PlayerGameLogMinIndexDropdown seasonType={props.seasonType}/>}
       </div>
       {props.addTable('player-game-log-table', props.headerCells, rows)}
     </div>
@@ -79,6 +79,7 @@ PlayerGameLogGeneric.propTypes = {
   minGames: PropTypes.number,
   minIndex: PropTypes.number,
   playerGameLog: PropTypes.array,
+  seasonType: PropTypes.string,
   statsFields: PropTypes.array,
   title: PropTypes.string,
   type: PropTypes.string
@@ -88,8 +89,8 @@ const mapStateToProps = (state, ownProps) => {
   return {
     highlightWL: state.players.highlightWL,
     minIndex: typeof (state.players.minIndex) === 'number' ? state.players.minIndex - 1 : 6,
-    playerGameLog: ownProps.type === 'totals' ? state.players.regularSeason.playerCumulativeTotalGameLog || []
-      : state.players.regularSeason.playerGameLog || []
+    playerGameLog: ownProps.type === 'totals' ? state.players[ownProps.seasonType].playerCumulativeTotalGameLog || []
+      : state.players[ownProps.seasonType].playerGameLog || []
   };
 };
 

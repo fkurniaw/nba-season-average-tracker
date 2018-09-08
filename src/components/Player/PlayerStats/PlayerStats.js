@@ -30,7 +30,7 @@ class PlayerStats extends Component {
       console.info(err);
     });
   }
-  addMainStats(stat, i, maxes) {
+  addMainStats(stat, i, maxes, seasonType) {
     let cells = [];
     fields.forEach((field, j) => {
       let fieldString;
@@ -58,7 +58,8 @@ class PlayerStats extends Component {
       <Table.Row key={`${stat.season_id} ${i}`}>
         <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>
           {i === 'career' ? 'Career'
-            : <Link to={`/players/${this.props.match.params.id}/gamelog/${stat.season_id}`} onClick={() => this.props.setPlayerGameLog([])}>
+            : <Link to={`/players/${this.props.match.params.id}/gamelog/${stat.season_id}/${seasonType}`}
+              onClick={() => this.props.setPlayerGameLog([], seasonType)}>
               {stat.season_id}
             </Link> || '-'}
         </Table.Cell>
@@ -78,7 +79,7 @@ class PlayerStats extends Component {
       );
     });
     this.props.currentPlayer[type].forEach((season, i) => {
-      rows.push(this.addMainStats(season, i, maxes));
+      rows.push(this.addMainStats(season, i, maxes, type === 'postSeasonAvg' ? 'postSeason' : 'regularSeason'));
     });
     maxes.forEach((field, i) => {
       if (field.vals.includes(-Infinity)) return;

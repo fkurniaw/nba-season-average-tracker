@@ -18,9 +18,9 @@ const PlayerGameLogMinGamesDropdown = props => {
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
   let dropdownOptions = [];
-  for (let i = 1; i < state.players.regularSeason.playerGameLog.length; i++) {
+  for (let i = 1; i < state.players[ownProps.seasonType].playerGameLog.length; i++) {
     dropdownOptions.push({ key: i, value: i, text: `${i} game${i !== 1 ? 's' : ''}` });
   }
   return {
@@ -36,6 +36,7 @@ const actionCreators = {
 PlayerGameLogMinGamesDropdown.propTypes = {
   dropdownOptions: PropTypes.array,
   minIndex: PropTypes.number,
+  seasonType: PropTypes.string,
   setMinIndex: PropTypes.func
 };
 

@@ -50,18 +50,18 @@ const PlayerGameLogCumulativeAverage = props => {
       <h3 className='player-game-log-header'>{props.title}</h3>
       <div className='player-game-log-options'>
         {<PlayerGameLogHighlightWL />}
-        {props.playerCumulativeAverageGameLog.length > 9 && <PlayerGameLogMinIndexDropdown />}
+        {props.playerCumulativeAverageGameLog.length > props.minGames && <PlayerGameLogMinIndexDropdown seasonType={props.seasonType}/>}
       </div>
       {props.addTable('player-game-log-table', props.headerCells, rows)}
     </div>
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
   return {
     highlightWL: state.players.highlightWL,
     minIndex: typeof (state.players.minIndex) === 'number' ? state.players.minIndex - 1 : 6,
-    playerCumulativeAverageGameLog: state.players.regularSeason.playerCumulativeAverageGameLog || []
+    playerCumulativeAverageGameLog: state.players[ownProps.seasonType].playerCumulativeAverageGameLog || []
   };
 };
 
@@ -73,6 +73,7 @@ PlayerGameLogCumulativeAverage.propTypes = {
   minGames: PropTypes.number,
   minIndex: PropTypes.number,
   playerCumulativeAverageGameLog: PropTypes.array,
+  seasonType: PropTypes.string,
   statsFields: PropTypes.array,
   title: PropTypes.string
 };
