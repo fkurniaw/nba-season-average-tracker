@@ -14,8 +14,8 @@ const Sources = {
     return axios.get(`${url}getPlayerBio?playerId=${id}`);
   },
 
-  getGameLog: (id, season) => {
-    return axios.get(`${url}getPlayerGameLog?playerId=${id}&season=${season}`);
+  getGameLog: (id, season, seasonType) => {
+    return axios.get(`${url}getPlayerGameLog?playerId=${id}&season=${season}&seasonType=${seasonType}`);
   }
 };
 

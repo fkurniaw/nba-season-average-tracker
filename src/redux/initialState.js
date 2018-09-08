@@ -5,10 +5,17 @@ export const initialPlayersState = {
   missingFields: {},
   players: {},
   playerBio: {},
-  playerCumulativeAverageGameLog: [],
-  playerCumulativeTotalGameLog: [],
-  playerGameLog: [],
-  playerName: ''
+  playerName: '',
+  postSeason: {
+    playerGameLog: [],
+    playerCumulativeAverageGameLog: [],
+    playerCumulativeTotalGameLog: []
+  },
+  regularSeason: {
+    playerGameLog: [],
+    playerCumulativeAverageGameLog: [],
+    playerCumulativeTotalGameLog: []
+  }
 };
 export const initialUiState = {
   bioLoading: false

@@ -54,8 +54,8 @@ const getPlayerBio = (PlayerID, res) => {
   });
 };
 
-const getPlayerGameLog = (PlayerID, Season, res) => {
-  nba.stats.playerGamelog({ Season, PlayerID, LeagueID: '00', SeasonType: 'Regular Season' }).then(nbaRes => {
+const getPlayerGameLog = (PlayerID, Season, res, SeasonType) => {
+  nba.stats.playerGamelog({ Season, PlayerID, LeagueID: '00', SeasonType }).then(nbaRes => {
     nbaRes.PlayerGameLog.reverse();
     nbaRes.PlayerGameLog.forEach((game, i) => {
       game.game_num = i + 1; // for tracking original order of games

@@ -66,8 +66,9 @@ app.get('/getPlayerGameLog', (req, res) => {
   try {
     const Season = req.query.season;
     const PlayerID = req.query.playerId;
-    if (isOffline) return offlineServer.getPlayerGameLog(PlayerID, Season, res);
-    return nbaProcessing.getPlayerGameLog(PlayerID, Season, res);
+    const SeasonType = req.query.seasonType;
+    if (isOffline) return offlineServer.getPlayerGameLog(PlayerID, Season, res, SeasonType);
+    return nbaProcessing.getPlayerGameLog(PlayerID, Season, res, SeasonType);
   } catch (e) {
     console.info(e);
     res.sendFile(path.join(__dirname, '/sampleData/gameLog', `Kobe2012-13Game.json`));

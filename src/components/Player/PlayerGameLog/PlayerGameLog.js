@@ -23,10 +23,10 @@ class PlayerGameLog extends React.Component {
   }
   componentDidMount() {
     this.props.setPlayerId(this.props.match.id);
-    Sources.getGameLog(this.props.match.params.id, this.props.match.params.season).then(res => {
-      this.props.setPlayerGameLog(res.data.PlayerGameLog);
-      this.props.setPlayerCumulativeAverageGameLog(res.data.CumulativeAverageGameLog);
-      this.props.setPlayerCumulativeTotalGameLog(res.data.CumulativeTotalGameLog);
+    Sources.getGameLog(this.props.match.params.id, this.props.match.params.season, 'Regular Season').then(res => {
+      this.props.setPlayerGameLog(res.data.PlayerGameLog, 'regularSeason');
+      this.props.setPlayerCumulativeAverageGameLog(res.data.CumulativeAverageGameLog, 'regularSeason');
+      this.props.setPlayerCumulativeTotalGameLog(res.data.CumulativeTotalGameLog, 'regularSeason');
       this.props.setMissingFields(res.data.missingFields);
     }).catch(err => {
       console.info(err);
@@ -185,9 +185,9 @@ PlayerGameLog.propTypes = {
 const mapStateToProps = (state, ownProps) => {
   return {
     missingFields: state.players.missingFields || {},
-    playerGameLog: state.players.playerGameLog || [],
-    playerCumulativeAverageGameLog: state.players.playerCumulativeAverageGameLog || [],
-    playerCumulativeTotalGameLog: state.players.playerCumulativeTotalGameLog
+    playerGameLog: state.players.regularSeason.playerGameLog || [],
+    playerCumulativeAverageGameLog: state.players.regularSeason.playerCumulativeAverageGameLog || [],
+    playerCumulativeTotalGameLog: state.players.regularSeason.playerCumulativeTotalGameLog
   };
 };
 

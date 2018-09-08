@@ -18,11 +18,17 @@ export function players(state = initialPlayersState, action) {
     case types.SET_PLAYER_BIO:
       return Object.assign({}, state, { playerBio: action.playerBio });
     case types.SET_PLAYER_CUMULATIVE_AVERAGE_GAME_LOG:
-      return Object.assign({}, state, { playerCumulativeAverageGameLog: action.playerCumulativeAverageGameLog });
+      return Object.assign({}, state, {
+        [action.gameLogType]: { ...state[action.gameLogType], playerCumulativeAverageGameLog: action.playerCumulativeAverageGameLog }
+      });
     case types.SET_PLAYER_CUMULATIVE_TOTAL_GAME_LOG:
-      return Object.assign({}, state, { playerCumulativeTotalGameLog: action.playerCumulativeTotalGameLog });
+      return Object.assign({}, state, {
+        [action.gameLogType]: { ...state[action.gameLogType], playerCumulativeTotalGameLog: action.playerCumulativeTotalGameLog }
+      });
     case types.SET_PLAYER_GAME_LOG:
-      return Object.assign({}, state, { playerGameLog: action.playerGameLog });
+      return Object.assign({}, state, {
+        [action.gameLogType]: { ...state[action.gameLogType], playerGameLog: action.playerGameLog }
+      });
     case types.SET_PLAYER_ID:
       return Object.assign({}, state, { playerId: action.playerId });
     default:

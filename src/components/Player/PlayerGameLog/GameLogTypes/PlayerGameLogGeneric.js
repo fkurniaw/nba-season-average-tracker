@@ -88,8 +88,8 @@ const mapStateToProps = (state, ownProps) => {
   return {
     highlightWL: state.players.highlightWL,
     minIndex: typeof (state.players.minIndex) === 'number' ? state.players.minIndex - 1 : 6,
-    playerGameLog: ownProps.type === 'totals' ? state.players.playerCumulativeTotalGameLog || []
-      : state.players.playerGameLog || []
+    playerGameLog: ownProps.type === 'totals' ? state.players.regularSeason.playerCumulativeTotalGameLog || []
+      : state.players.regularSeasonplayerGameLog || []
   };
 };
 

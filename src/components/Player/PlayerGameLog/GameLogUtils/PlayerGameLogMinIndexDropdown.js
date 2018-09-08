@@ -20,7 +20,7 @@ const PlayerGameLogMinGamesDropdown = props => {
 
 const mapStateToProps = state => {
   let dropdownOptions = [];
-  for (let i = 1; i < state.players.playerGameLog.length; i++) {
+  for (let i = 1; i < state.players.regularSeason.playerGameLog.length; i++) {
     dropdownOptions.push({ key: i, value: i, text: `${i} game${i !== 1 ? 's' : ''}` });
   }
   return {

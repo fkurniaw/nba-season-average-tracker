@@ -49,24 +49,27 @@ export function setCurrentPlayer(currentPlayer) {
   };
 }
 
-export function setPlayerCumulativeAverageGameLog(playerCumulativeAverageGameLog) {
+export function setPlayerCumulativeAverageGameLog(playerCumulativeAverageGameLog, gameLogType) {
   return {
     type: types.SET_PLAYER_CUMULATIVE_AVERAGE_GAME_LOG,
-    playerCumulativeAverageGameLog
+    playerCumulativeAverageGameLog,
+    gameLogType
   };
 }
 
-export function setPlayerCumulativeTotalGameLog(playerCumulativeTotalGameLog) {
+export function setPlayerCumulativeTotalGameLog(playerCumulativeTotalGameLog, gameLogType) {
   return {
     type: types.SET_PLAYER_CUMULATIVE_TOTAL_GAME_LOG,
-    playerCumulativeTotalGameLog
+    playerCumulativeTotalGameLog,
+    gameLogType
   };
 }
 
-export function setPlayerGameLog(playerGameLog) {
+export function setPlayerGameLog(playerGameLog, gameLogType) {
   return {
     type: types.SET_PLAYER_GAME_LOG,
-    playerGameLog
+    playerGameLog,
+    gameLogType
   };
 }
 
