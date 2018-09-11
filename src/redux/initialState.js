@@ -1,3 +1,7 @@
+export const initialComparePlayersState = {
+  playerOneId: null,
+  playerTwoId: null
+};
 export const initialPlayersState = {
   currentPlayer: {},
   highlightWL: true,

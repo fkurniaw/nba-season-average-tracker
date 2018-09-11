@@ -1,5 +1,15 @@
-import { initialPlayersState } from './initialState';
+import { initialComparePlayersState, initialPlayersState } from './initialState';
 import * as types from './actionTypes';
+
+export function comparePlayers(state = initialComparePlayersState, action) {
+  switch (action.type) {
+    case types.SET_COMPARE_PLAYERS_ID:
+      const playerId = { [`player${action.num}Id`]: action.playerId };
+      return Object.assign({}, state, playerId);
+    default:
+      return state;
+  }
+}
 
 export function players(state = initialPlayersState, action) {
   switch (action.type) {
