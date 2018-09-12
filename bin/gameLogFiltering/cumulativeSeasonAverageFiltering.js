@@ -22,7 +22,7 @@ const cumulativeFiltering = function(playerGameLog) {
         missingFieldsAverages[field] = true;
         missingFieldsGameLog[field] = true;
         totals[i][field] = totals[i - 1][field];
-        averages[i][field] = null;
+        averages[i][field] = i > 0 ? averages[i - 1][field] || null : null;
       } else {
         if (!cellsToSkip.includes(field)) {
           totals[i][field] = totals[i - 1][field] + game[field];
