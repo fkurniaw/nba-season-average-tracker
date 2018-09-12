@@ -29,12 +29,12 @@ const cumulativeFiltering = function(playerGameLog) {
       if (i === 0 || j < nonAvgFieldsIndex) {
         totals[i][field] = game[field];
         averages[i][field] = game[field];
-        validPctTotals['fgm'] += game['fgm'] && game['fga'] ? game['fgm'] : 0;
-        validPctTotals['fga'] += game['fgm'] && game['fga'] ? game['fga'] : 0;
-        validPctTotals['fg3m'] += game['fg3m'] && game['fg3a'] ? game['fg3m'] : 0;
-        validPctTotals['fg3a'] += game['fg3m'] && game['fg3a'] ? game['fg3a'] : 0;
-        validPctTotals['ftm'] += game['ftm'] && game['fta'] ? game['ftm'] : 0;
-        validPctTotals['fta'] += game['ftm'] && game['fta'] ? game['fta'] : 0;
+        if (field === 'fgm') validPctTotals['fgm'] += game['fgm'] && game['fga'] ? game['fgm'] : 0;
+        if (field === 'fta') validPctTotals['fga'] += game['fgm'] && game['fga'] ? game['fga'] : 0;
+        if (field === 'fg3m') validPctTotals['fg3m'] += game['fg3m'] && game['fg3a'] ? game['fg3m'] : 0;
+        if (field === 'fg3a') validPctTotals['fg3a'] += game['fg3m'] && game['fg3a'] ? game['fg3a'] : 0;
+        if (field === 'ftm') validPctTotals['ftm'] += game['ftm'] && game['fta'] ? game['ftm'] : 0;
+        if (field === 'fta') validPctTotals['fta'] += game['ftm'] && game['fta'] ? game['fta'] : 0;
         if (game[field] !== null) validCount[field]++;
       } else if (game[field] === null) {
         missingFieldsAverages[field] = true;
