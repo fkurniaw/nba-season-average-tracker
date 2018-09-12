@@ -7,6 +7,10 @@ const nonAvgFieldsIndex = 3;
 const cumulativeFiltering = function(playerGameLog) {
   let averages = [];
   let totals = [];
+  let validCount = {};
+  statFields.forEach(field => {
+    validCount[field] = 0;
+  });
   let missingFieldsAverages = {};
   let missingFieldsGameLog = {};
   playerGameLog.forEach((game, i) => {
@@ -24,9 +28,10 @@ const cumulativeFiltering = function(playerGameLog) {
         totals[i][field] = totals[i - 1][field];
         averages[i][field] = i > 0 ? averages[i - 1][field] || null : null;
       } else {
+        validCount[field]++;
         if (!cellsToSkip.includes(field)) {
           totals[i][field] = totals[i - 1][field] + game[field];
-          averages[i][field] = (averages[i - 1][field] * ((averages.length - 1) / averages.length)) + (game[field] * (1 / averages.length));
+          averages[i][field] = (averages[i - 1][field] * ((validCount[field] - 1) / validCount[field])) + (game[field] * (1 / validCount[field]));
         } else {
           if (field === 'fg_pct') {
             totals[i][field] = totals[i]['fga'] !== 0 ? totals[i]['fgm'] / totals[i]['fga'] : 0;
