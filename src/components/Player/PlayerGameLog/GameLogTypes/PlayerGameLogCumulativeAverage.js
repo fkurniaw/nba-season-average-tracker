@@ -61,7 +61,7 @@ const PlayerGameLogCumulativeAverage = props => {
 const mapStateToProps = (state, ownProps) => {
   return {
     highlightWL: state.players.highlightWL,
-    minIndex: typeof (state.players.minIndex) === 'number' ? state.players.minIndex - 1 : 6,
+    minIndex: typeof (state.players.minIndex) === 'number' ? state.players.minIndex : 6,
     playerCumulativeAverageGameLog: state.players[ownProps.seasonType].playerCumulativeAverageGameLog || []
   };
 };
