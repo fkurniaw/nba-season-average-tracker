@@ -66,6 +66,9 @@ const PlayerGameLogGeneric = props => {
         {<PlayerGameLogHighlightWL />}
         {props.playerGameLog.length > props.minGames && props.type !== 'totals' && <PlayerGameLogMinIndexDropdown seasonType={props.seasonType}/>}
       </div>
+      {props.isMissingAverages &&
+        <p className='averages-note'>*If there is missing data, percent averages are calculated from the sum of makes and sum of attempts using games where BOTH fields were present.
+          <br />Hence, they may not correspond to career stats.*</p>}
       {props.addTable('player-game-log-table', props.headerCells, rows)}
     </div>
   );
@@ -76,6 +79,7 @@ PlayerGameLogGeneric.propTypes = {
   cellsToSkip: PropTypes.array,
   headerCells: PropTypes.array,
   highlightWL: PropTypes.bool,
+  isMissingAverages: PropTypes.bool,
   minGames: PropTypes.number,
   minIndex: PropTypes.number,
   playerGameLog: PropTypes.array,
@@ -86,8 +90,18 @@ PlayerGameLogGeneric.propTypes = {
 };
 
 const mapStateToProps = (state, ownProps) => {
+  let isMissingAverages;
+  if (state.players.missingFields.missingFieldsAverages) {
+    for (let key in state.players.missingFields.missingFieldsAverages) {
+      if (state.players.missingFields.missingFieldsAverages[key]) {
+        isMissingAverages = true;
+        break;
+      }
+    }
+  }
   return {
     highlightWL: state.players.highlightWL,
+    isMissingAverages: isMissingAverages !== undefined ? isMissingAverages : false,
     minIndex: typeof (state.players.minIndex) === 'number' ? state.players.minIndex : 6,
     playerGameLog: ownProps.type === 'totals' ? state.players[ownProps.seasonType].playerCumulativeTotalGameLog || []
       : state.players[ownProps.seasonType].playerGameLog || []

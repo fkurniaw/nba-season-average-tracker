@@ -7,7 +7,14 @@ const nonAvgFieldsIndex = 3;
 const cumulativeFiltering = function(playerGameLog) {
   let averages = [];
   let totals = [];
-  let validCount = {};
+  let validCount = {}; // for tracking averages of normal counting stats when some are missing (prevents average from dropping in case of missed stat)
+  let validPctTotals = {
+    'fgm': 0,
+    'fga': 0,
+    'fg3m': 0,
+    'ftm': 0,
+    'fta': 0
+  }; // for tracking percentage stats when some field goal stats are missing
   statFields.forEach(field => {
     validCount[field] = 0;
   });
@@ -22,6 +29,13 @@ const cumulativeFiltering = function(playerGameLog) {
       if (i === 0 || j < nonAvgFieldsIndex) {
         totals[i][field] = game[field];
         averages[i][field] = game[field];
+        validPctTotals['fgm'] += game['fgm'] && game['fga'] ? game['fgm'] : 0;
+        validPctTotals['fga'] += game['fgm'] && game['fga'] ? game['fga'] : 0;
+        validPctTotals['fg3m'] += game['fg3m'] && game['fg3a'] ? game['fg3m'] : 0;
+        validPctTotals['fg3a'] += game['fg3m'] && game['fg3a'] ? game['fg3a'] : 0;
+        validPctTotals['ftm'] += game['ftm'] && game['fta'] ? game['ftm'] : 0;
+        validPctTotals['fta'] += game['ftm'] && game['fta'] ? game['fta'] : 0;
+        if (game[field] !== null) validCount[field]++;
       } else if (game[field] === null) {
         missingFieldsAverages[field] = true;
         missingFieldsGameLog[field] = true;
@@ -34,14 +48,35 @@ const cumulativeFiltering = function(playerGameLog) {
           averages[i][field] = (averages[i - 1][field] * ((validCount[field] - 1) / validCount[field])) + (game[field] * (1 / validCount[field]));
         } else {
           if (field === 'fg_pct') {
-            totals[i][field] = totals[i]['fga'] !== 0 ? totals[i]['fgm'] / totals[i]['fga'] : 0;
-            averages[i][field] = totals[i][field];
+            if (game['fgm'] !== null && game['fga'] !== null) {
+              validPctTotals['fgm'] += game['fgm'];
+              validPctTotals['fga'] += game['fga'];
+              totals[i][field] = validPctTotals['fga'] !== 0 ? validPctTotals['fgm'] / validPctTotals['fga'] : 0;
+              averages[i][field] = totals[i][field];
+            } else {
+              totals[i][field] = totals[i - 1][field];
+              averages[i][field] = averages[i - 1][field];
+            }
           } else if (field === 'fg3_pct') {
-            totals[i][field] = totals[i]['fg3a'] !== 0 ? totals[i]['fg3m'] / totals[i]['fg3a'] : 0;
-            averages[i][field] = totals[i][field];
+            if (game['fg3m'] !== null && game['fg3a'] !== null) {
+              validPctTotals['fg3m'] += game['fg3m'];
+              validPctTotals['fg3a'] += game['fg3a'];
+              totals[i][field] = validPctTotals['fg3a'] !== 0 ? validPctTotals['fg3m'] / validPctTotals['fg3a'] : 0;
+              averages[i][field] = totals[i][field];
+            } else {
+              totals[i][field] = totals[i - 1][field];
+              averages[i][field] = averages[i - 1][field];
+            }
           } else if (field === 'ft_pct') {
-            totals[i][field] = totals[i]['fta'] !== 0 ? totals[i]['ftm'] / totals[i]['fta'] : 0;
-            averages[i][field] = totals[i][field];
+            if (game['ftm'] !== null && game['fta'] !== null) {
+              validPctTotals['ftm'] += game['ftm'];
+              validPctTotals['fta'] += game['fta'];
+              totals[i][field] = validPctTotals['fta'] !== 0 ? validPctTotals['ftm'] / validPctTotals['fta'] : 0;
+              averages[i][field] = totals[i][field];
+            } else {
+              totals[i][field] = totals[i - 1][field];
+              averages[i][field] = averages[i - 1][field];
+            }
           }
         }
       }
