@@ -47,37 +47,9 @@ const cumulativeFiltering = function(playerGameLog) {
           totals[i][field] = totals[i - 1][field] + game[field];
           averages[i][field] = (averages[i - 1][field] * ((validCount[field] - 1) / validCount[field])) + (game[field] * (1 / validCount[field]));
         } else {
-          if (field === 'fg_pct') {
-            if (game['fgm'] !== null && game['fga'] !== null) {
-              validPctTotals['fgm'] += game['fgm'];
-              validPctTotals['fga'] += game['fga'];
-              totals[i][field] = validPctTotals['fga'] !== 0 ? validPctTotals['fgm'] / validPctTotals['fga'] : 0;
-              averages[i][field] = totals[i][field];
-            } else {
-              totals[i][field] = totals[i - 1][field];
-              averages[i][field] = averages[i - 1][field];
-            }
-          } else if (field === 'fg3_pct') {
-            if (game['fg3m'] !== null && game['fg3a'] !== null) {
-              validPctTotals['fg3m'] += game['fg3m'];
-              validPctTotals['fg3a'] += game['fg3a'];
-              totals[i][field] = validPctTotals['fg3a'] !== 0 ? validPctTotals['fg3m'] / validPctTotals['fg3a'] : 0;
-              averages[i][field] = totals[i][field];
-            } else {
-              totals[i][field] = totals[i - 1][field];
-              averages[i][field] = averages[i - 1][field];
-            }
-          } else if (field === 'ft_pct') {
-            if (game['ftm'] !== null && game['fta'] !== null) {
-              validPctTotals['ftm'] += game['ftm'];
-              validPctTotals['fta'] += game['fta'];
-              totals[i][field] = validPctTotals['fta'] !== 0 ? validPctTotals['ftm'] / validPctTotals['fta'] : 0;
-              averages[i][field] = totals[i][field];
-            } else {
-              totals[i][field] = totals[i - 1][field];
-              averages[i][field] = averages[i - 1][field];
-            }
-          }
+          if (field === 'fg_pct') calculatePercentages(i, field, 'fgm', 'fga', game, validPctTotals, totals, averages);
+          else if (field === 'fg3_pct') calculatePercentages(i, field, 'fg3m', 'fg3a', game, validPctTotals, totals, averages);
+          else if (field === 'ft_pct') calculatePercentages(i, field, 'ftm', 'fta', game, validPctTotals, totals, averages);
         }
       }
     });
@@ -85,5 +57,17 @@ const cumulativeFiltering = function(playerGameLog) {
   const missingFields = { missingFieldsAverages, missingFieldsGameLog };
   return { averages, totals, missingFields };
 };
+
+function calculatePercentages(gameNum, pctType, makes, attempts, game, validPctTotals, totals, averages) {
+  if (game[makes] !== null && game[attempts]) {
+    validPctTotals[makes] += game[makes];
+    validPctTotals[attempts] += game[attempts];
+    totals[gameNum][pctType] = validPctTotals[attempts] !== 0 ? validPctTotals[makes] / validPctTotals[attempts] : 0;
+    averages[gameNum][pctType] = totals[gameNum][pctType];
+  } else {
+    totals[gameNum][pctType] = totals[gameNum - 1][pctType];
+    averages[gameNum][pctType] = averages[gameNum - 1][pctType];
+  }
+}
 
 module.exports = cumulativeFiltering;
