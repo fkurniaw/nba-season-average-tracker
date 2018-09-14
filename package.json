@@ -36,7 +36,7 @@
     "eject": "react-scripts eject",
     "build-webpack": "npm run clean && npm run compile",
     "clean": "rm -rf ./public/assets/index.bundle.js",
-    "compile": "NODE_ENV=production webpack --config ./webpack.config.js --progress"
+    "compile": "NODE_ENV=production webpack --config ./webpack.config.js --progress --env.SERVER_URL=https://nba-season-avg-tracker.herokuapp.com/"
   },
   "devDependencies": {
     "css-loader": "^1.0.0",
