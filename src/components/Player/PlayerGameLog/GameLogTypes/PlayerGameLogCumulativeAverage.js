@@ -54,8 +54,8 @@ const PlayerGameLogCumulativeAverage = props => {
         {props.playerCumulativeAverageGameLog.length > props.minGames && <PlayerGameLogMinIndexDropdown seasonType={props.seasonType}/>}
       </div>
       {props.isMissingAverages &&
-        <p className='averages-note'>*If data is missing, percent averages are calculated using the sum of makes and sum of attempts from games where BOTH fields were present.
-          <br />Hence, they may not correspond to career stats.*</p>}
+        <p className='averages-note'>*If data is missing, percent averages are calculated using the sum of makes and sum of attempts from games where BOTH fields were present.*
+          <br />*Hence, they may not correspond to career stats.*</p>}
       {props.addTable('player-game-log-table', props.headerCells, rows)}
     </div>
   );

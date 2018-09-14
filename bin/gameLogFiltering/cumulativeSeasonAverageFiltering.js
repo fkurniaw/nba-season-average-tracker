@@ -12,6 +12,7 @@ const cumulativeFiltering = function(playerGameLog) {
     'fgm': 0,
     'fga': 0,
     'fg3m': 0,
+    'fg3a': 0,
     'ftm': 0,
     'fta': 0
   }; // for tracking percentage stats when some field goal stats are missing
@@ -59,7 +60,7 @@ const cumulativeFiltering = function(playerGameLog) {
 };
 
 function calculatePercentages(gameNum, pctType, makes, attempts, game, validPctTotals, totals, averages) {
-  if (game[makes] !== null && game[attempts]) {
+  if (game[makes] !== null && game[attempts] !== null) {
     validPctTotals[makes] += game[makes];
     validPctTotals[attempts] += game[attempts];
     totals[gameNum][pctType] = validPctTotals[attempts] !== 0 ? validPctTotals[makes] / validPctTotals[attempts] : 0;
