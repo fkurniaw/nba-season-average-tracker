@@ -14,7 +14,8 @@ const cumulativeFiltering = function(playerGameLog) {
     'fg3m': 0,
     'fg3a': 0,
     'ftm': 0,
-    'fta': 0
+    'fta': 0,
+    'pts': 0 // for tracking TS%
   }; // for tracking percentage stats when some field goal stats are missing
   statFields.forEach(field => {
     validCount[field] = 0;
@@ -30,14 +31,14 @@ const cumulativeFiltering = function(playerGameLog) {
       if (i === 0 || j < nonAvgFieldsIndex) {
         totals[i][field] = game[field];
         averages[i][field] = game[field];
-        if (field === 'fgm') validPctTotals['fgm'] += game['fgm'] && game['fga'] ? game['fgm'] : 0;
-        if (field === 'fga') validPctTotals['fga'] += game['fgm'] && game['fga'] ? game['fga'] : 0;
-        if (field === 'fg3m') validPctTotals['fg3m'] += game['fg3m'] && game['fg3a'] ? game['fg3m'] : 0;
-        if (field === 'fg3a') validPctTotals['fg3a'] += game['fg3m'] && game['fg3a'] ? game['fg3a'] : 0;
-        if (field === 'ftm') validPctTotals['ftm'] += game['ftm'] && game['fta'] ? game['ftm'] : 0;
-        if (field === 'fta') validPctTotals['fta'] += game['ftm'] && game['fta'] ? game['fta'] : 0;
+        if (field === 'fgm') validPctTotals['fgm'] += game['fgm'] !== null && game['fga'] !== null ? game['fgm'] : 0;
+        if (field === 'fga') validPctTotals['fga'] += game['fgm'] !== null && game['fga'] !== null ? game['fga'] : 0;
+        if (field === 'fg3m') validPctTotals['fg3m'] += game['fg3m'] !== null && game['fg3a'] !== null ? game['fg3m'] : 0;
+        if (field === 'fg3a') validPctTotals['fg3a'] += game['fg3m'] !== null && game['fg3a'] !== null ? game['fg3a'] : 0;
+        if (field === 'ftm') validPctTotals['ftm'] += game['ftm'] !== null && game['fta'] !== null ? game['ftm'] : 0;
+        if (field === 'fta') validPctTotals['fta'] += game['ftm'] !== null && game['fta'] !== null ? game['fta'] : 0;
         if (game[field] !== null) validCount[field]++;
-      } else if (game[field] === null) {
+      } else if (game[field] === null && !cellsToSkip.includes(field)) {
         missingFieldsAverages[field] = true;
         missingFieldsGameLog[field] = true;
         totals[i][field] = totals[i - 1][field];
@@ -66,7 +67,7 @@ function calculatePercentages(gameNum, pctType, makes, attempts, game, validPctT
     totals[gameNum][pctType] = validPctTotals[attempts] !== 0 ? validPctTotals[makes] / validPctTotals[attempts] : 0;
     averages[gameNum][pctType] = totals[gameNum][pctType];
   } else {
-    totals[gameNum][pctType] = totals[gameNum - 1][pctType];
+    totals[gameNum][pctType] = totals[gameNum - 1][pctType]; // retain previous average calculation
     averages[gameNum][pctType] = averages[gameNum - 1][pctType];
   }
 }
