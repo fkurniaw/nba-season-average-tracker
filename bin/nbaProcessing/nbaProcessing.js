@@ -23,7 +23,11 @@ const getPlayerStats = (PlayerID, res) => {
       postSeasonAvg: nbaRes.SeasonTotalsPostSeason,
       regularSeasonAvg: nbaRes.SeasonTotalsRegularSeason
     };
+    if (nbaRes.SeasonTotalsRegularSeason.length === 0) return res.send({ error: 'Error while fetching player stats. Player may not have been found.' });
     return res.send(results);
+  }).catch(e => {
+    console.info(e);
+    return res.send({ error: 'Error while fetching player stats. Player may not have been found.' });
   });
 };
 
@@ -51,6 +55,9 @@ const getPlayerBio = (PlayerID, res) => {
     nbaRes.CommonPlayerInfo[0].current_team = `${nbaRes.CommonPlayerInfo[0].team_city} ${nbaRes.CommonPlayerInfo[0].team_name}`;
     nbaRes.CommonPlayerInfo[0].years_active = `${nbaRes.CommonPlayerInfo[0].from_year} - ${nbaRes.CommonPlayerInfo[0].to_year + 1}`;
     return res.send(nbaRes);
+  }).catch(e => {
+    console.info(e);
+    return res.send({ error: 'Error while fetching player bio. Player may not have been found.' });
   });
 };
 

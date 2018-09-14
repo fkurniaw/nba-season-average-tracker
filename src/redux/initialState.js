@@ -22,5 +22,5 @@ export const initialPlayersState = {
   }
 };
 export const initialUiState = {
-  bioLoading: false
+  playerError: false
 };

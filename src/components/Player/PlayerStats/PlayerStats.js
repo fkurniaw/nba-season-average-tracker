@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import Sources from '../../../util/sources';
 import * as actions from '../../../redux/actionCreators/playersActions';
+import * as uiActions from '../../../redux/actionCreators/uiActions';
 
 import './playerStats.css';
 import { Link } from 'react-router-dom';
@@ -18,13 +19,14 @@ const fields = ['team_abbreviation', 'gp', 'gs', 'min', 'fgm', 'fga', 'fg_pct', 
 const nonRoundedFields = ['team_abbreviation', 'gp', 'gs'];
 
 class PlayerStats extends Component {
-  constructor() {
-    super();
-    this.state = {};
-  }
   componentDidMount() {
     this.props.setPlayerId(this.props.match.params.id);
     Sources.getPlayer(this.props.match.params.id).then(res => {
+      if (res.data.error) {
+        this.props.setPlayerError(true);
+        return;
+      }
+      this.props.setPlayerError(false);
       this.props.setCurrentPlayer(res.data);
     }).catch(err => {
       console.info(err);
@@ -110,9 +112,11 @@ class PlayerStats extends Component {
   }
   render() {
     return (
-      <div className='player-stats-table-wrapper'>
-        {Object.keys(this.props.currentPlayer).length > 0 ? this.renderTable('regularSeasonAvg', 'careerTotalsRegular') : <Loader active />}
-        {Object.keys(this.props.currentPlayer).length > 0 ? this.renderTable('postSeasonAvg', 'careerTotalsPost') : <Loader active />}
+      <div>
+        {!this.props.playerError && <div className='player-stats-table-wrapper'>
+          {Object.keys(this.props.currentPlayer).length > 0 ? this.renderTable('regularSeasonAvg', 'careerTotalsRegular') : <Loader active />}
+          {Object.keys(this.props.currentPlayer).length > 0 ? this.renderTable('postSeasonAvg', 'careerTotalsPost') : <Loader active />}
+        </div>}
       </div>
     );
   }
@@ -121,7 +125,9 @@ class PlayerStats extends Component {
 PlayerStats.propTypes = {
   currentPlayer: PropTypes.object,
   match: PropTypes.object,
+  playerError: PropTypes.bool,
   setCurrentPlayer: PropTypes.func,
+  setPlayerError: PropTypes.func,
   setPlayerGameLog: PropTypes.func,
   setPlayerId: PropTypes.func
 };
@@ -129,12 +135,14 @@ PlayerStats.propTypes = {
 const mapStateToProps = (state, ownProps) => {
   return {
     currentPlayer: state.players.currentPlayer,
-    id: ownProps.id
+    id: ownProps.id,
+    playerError: state.uiState.playerError
   };
 };
 
 const actionCreators = {
   setCurrentPlayer: actions.setCurrentPlayer,
+  setPlayerError: uiActions.setPlayerError,
   setPlayerGameLog: actions.setPlayerGameLog,
   setPlayerId: actions.setPlayerId
 };

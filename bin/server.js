@@ -48,7 +48,9 @@ app.get('/getPlayerStats', (req, res) => {
     return nbaProcessing.getPlayerStats(PlayerID, res);
   } catch (e) {
     console.info(e);
-    return res.send({});
+    return res.send({
+      'error': 'Error while fetching player stats'
+    });
   }
 });
 

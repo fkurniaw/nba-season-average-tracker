@@ -30,7 +30,7 @@ const cumulativeFiltering = function(playerGameLog) {
         totals[i][field] = game[field];
         averages[i][field] = game[field];
         if (field === 'fgm') validPctTotals['fgm'] += game['fgm'] && game['fga'] ? game['fgm'] : 0;
-        if (field === 'fta') validPctTotals['fga'] += game['fgm'] && game['fga'] ? game['fga'] : 0;
+        if (field === 'fga') validPctTotals['fga'] += game['fgm'] && game['fga'] ? game['fga'] : 0;
         if (field === 'fg3m') validPctTotals['fg3m'] += game['fg3m'] && game['fg3a'] ? game['fg3m'] : 0;
         if (field === 'fg3a') validPctTotals['fg3a'] += game['fg3m'] && game['fg3a'] ? game['fg3a'] : 0;
         if (field === 'ftm') validPctTotals['ftm'] += game['ftm'] && game['fta'] ? game['ftm'] : 0;

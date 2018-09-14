@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import Sources from '../../../util/sources';
 import * as actions from '../../../redux/actionCreators/playersActions';
+import * as uiActions from '../../../redux/actionCreators/uiActions';
 
 import './playerBio.css';
 
@@ -24,6 +25,11 @@ const bioHeadersMap = {
 class PlayerBio extends Component {
   componentDidMount() {
     Sources.getPlayerBio(this.props.id).then(res => {
+      if (res.data.error) {
+        this.props.setPlayerError(true);
+        return;
+      }
+      this.props.setPlayerError(false);
       document.title = `NBA Cumulative Tracker - ${res.data.CommonPlayerInfo[0].display_first_last}`;
       this.props.setPlayerName(res.data.CommonPlayerInfo[0].display_first_last);
       this.props.setPlayerBio({
@@ -47,14 +53,16 @@ class PlayerBio extends Component {
   render() {
     return (
       <div className='player-bio'>
-        <h1 className='player-bio-name'>
-          <Link to={`/players/${this.props.id}`}
-            className='player-bio-name-link'>
-            {this.props.playerName}
-          </Link>
-        </h1>
-        {Object.keys(this.props.playerInfo).length > 0 ? this.addBioHeaders() : <Loader active style={{ minHeight: '30px' }}/>}
-        <hr className='bio-divider'/>
+        {!this.props.playerError ? <div>
+          <h1 className='player-bio-name'>
+            <Link to={`/players/${this.props.id}`}
+              className='player-bio-name-link'>
+              {this.props.playerName}
+            </Link>
+          </h1>
+          {Object.keys(this.props.playerInfo).length > 0 ? this.addBioHeaders() : <Loader active style={{ minHeight: '30px' }}/>}
+          <hr className='bio-divider'/>
+        </div> : <h2>Error while fetching player.</h2>}
       </div>
     );
   }
@@ -64,6 +72,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     headlineStats: state.players.playerBio.headlineStats || {},
     id: ownProps.id,
+    playerError: state.uiState.playerError,
     playerInfo: state.players.playerBio.playerInfo || {},
     playerName: state.players.playerName || ''
   };
@@ -71,15 +80,18 @@ const mapStateToProps = (state, ownProps) => {
 
 const actionCreators = {
   setPlayerBio: actions.setPlayerBio,
+  setPlayerError: uiActions.setPlayerError,
   setPlayerName: actions.setPlayerName
 };
 
 PlayerBio.propTypes = {
   headlineStats: PropTypes.object,
   id: PropTypes.string,
+  playerError: PropTypes.bool,
   playerInfo: PropTypes.object,
   playerName: PropTypes.string,
   setPlayerBio: PropTypes.func,
+  setPlayerError: PropTypes.func,
   setPlayerName: PropTypes.func
 };
 

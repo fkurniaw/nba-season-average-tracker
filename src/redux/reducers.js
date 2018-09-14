@@ -1,4 +1,4 @@
-import { initialComparePlayersState, initialPlayersState } from './initialState';
+import { initialComparePlayersState, initialPlayersState, initialUiState } from './initialState';
 import * as types from './actionTypes';
 
 export function comparePlayers(state = initialComparePlayersState, action) {
@@ -41,6 +41,15 @@ export function players(state = initialPlayersState, action) {
       });
     case types.SET_PLAYER_ID:
       return Object.assign({}, state, { playerId: action.playerId });
+    default:
+      return state;
+  }
+}
+
+export function uiState(state = initialUiState, action) {
+  switch (action.type) {
+    case types.SET_PLAYER_ERROR:
+      return Object.assign({}, state, { playerError: action.playerError });
     default:
       return state;
   }

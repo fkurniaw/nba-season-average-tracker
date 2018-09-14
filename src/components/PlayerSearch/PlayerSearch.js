@@ -6,6 +6,7 @@ import Sources from '../../util/sources';
 
 import './playerSearch.css';
 import * as actions from '../../redux/actionCreators/playersActions';
+import * as uiActions from '../../redux/actionCreators/uiActions';
 import { Link } from 'react-router-dom';
 import { Search } from 'semantic-ui-react';
 
@@ -47,10 +48,20 @@ class PlayerSearch extends Component {
     this.props.setCurrentPlayer({});
     this.props.setPlayerBio({});
     Sources.getPlayer(id).then(res => {
+      if (res.data.error) {
+        this.props.setPlayerError(true);
+        return;
+      }
+      this.props.setPlayerError(false);
       this.props.setCurrentPlayer(res.data);
       this.props.setPlayerName(title);
     }).catch(err => console.info(err));
     Sources.getPlayerBio(id).then(res => {
+      if (res.data.error) {
+        this.props.setPlayerError(true);
+        return;
+      }
+      this.props.setPlayerError(false);
       document.title = `NBA Cumulative Tracker - ${res.data.CommonPlayerInfo[0].display_first_last}`;
       this.props.setPlayerName(res.data.CommonPlayerInfo[0].display_first_last);
       this.props.setPlayerBio({
@@ -98,6 +109,7 @@ const actionCreators = {
   setAllPlayers: actions.setAllPlayers,
   setCurrentPlayer: actions.setCurrentPlayer,
   setPlayerBio: actions.setPlayerBio,
+  setPlayerError: uiActions.setPlayerError,
   setPlayerName: actions.setPlayerName
 };
 
@@ -108,6 +120,7 @@ PlayerSearch.propTypes = {
   setAllPlayers: PropTypes.func,
   setCurrentPlayer: PropTypes.func,
   setPlayerBio: PropTypes.func,
+  setPlayerError: PropTypes.func,
   setPlayerName: PropTypes.func,
   setLoading: PropTypes.func
 };
