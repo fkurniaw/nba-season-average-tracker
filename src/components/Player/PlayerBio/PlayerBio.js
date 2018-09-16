@@ -5,22 +5,12 @@ import { connect } from 'react-redux';
 import Sources from '../../../util/sources';
 import * as actions from '../../../redux/actionCreators/playersActions';
 import * as uiActions from '../../../redux/actionCreators/uiActions';
+import { bioHeadersMap } from './playerBioConstants.js';
 
 import './playerBio.css';
 
 import { Loader } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-
-const bioHeadersMap = {
-  'years_active': 'Period Active',
-  'birthdate': 'Birth Date',
-  'country': 'Country',
-  'school': 'School/From',
-  'height': 'Height (inches)',
-  'weight': 'Weight (lbs)',
-  'position': 'Position',
-  'draft': 'Draft'
-};
 
 class PlayerBio extends Component {
   componentDidMount() {
