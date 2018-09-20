@@ -3,20 +3,13 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import Sources from '../../../util/sources';
+import { headers, fields, nonRoundedFields } from './playerStatsConstants.js';
 import * as actions from '../../../redux/actionCreators/playersActions';
 import * as uiActions from '../../../redux/actionCreators/uiActions';
 
 import './playerStats.css';
 import { Link } from 'react-router-dom';
 import { Loader, Table } from 'semantic-ui-react';
-
-const headers = ['Year', 'Team', 'GP', 'GS', 'MPG', 'FGM', 'FGA', 'FG%', '3PM', '3PA', '3P%',
-  'FTM', 'FTA', 'FT%', 'ORPG', 'DRPG', 'RPG', 'APG', 'SPG', 'BPG', 'TOV', 'PF', 'PPG'];
-
-const fields = ['team_abbreviation', 'gp', 'gs', 'min', 'fgm', 'fga', 'fg_pct', 'fg3m', 'fg3a', 'fg3_pct',
-  'ftm', 'fta', 'ft_pct', 'oreb', 'dreb', 'reb', 'ast', 'stl', 'blk', 'tov', 'pf', 'pts'];
-
-const nonRoundedFields = ['team_abbreviation', 'gp', 'gs'];
 
 class PlayerStats extends Component {
   componentDidMount() {
