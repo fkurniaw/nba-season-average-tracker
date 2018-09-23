@@ -17,6 +17,7 @@ class PlayerGameLog extends React.Component {
     super();
     this.state = {
       chartType: 'Points',
+      disableHighlight: false,
       gameLogTab: 0,
       loading: true
     };
@@ -81,6 +82,7 @@ class PlayerGameLog extends React.Component {
       <PlayerGameLogGeneric
         addTable={this.addTable.bind(this)}
         cellsToSkip={cellsToSkip}
+        disableHighlight={this.state.disableHighlight}
         headerCells={headerCells}
         minGames={MIN_GAMES}
         seasonType={this.props.seasonType}
@@ -94,6 +96,7 @@ class PlayerGameLog extends React.Component {
       <PlayerGameLogCumulativeAverage
         addTable={this.addTable.bind(this)}
         cellsToSkip={cellsToSkip}
+        disableHighlight={this.state.disableHighlight}
         headerCells={headerCells}
         minGames={MIN_GAMES}
         seasonType={this.props.seasonType}
@@ -106,6 +109,7 @@ class PlayerGameLog extends React.Component {
       <PlayerGameLogGeneric
         addTable={this.addTable.bind(this)}
         cellsToSkip={cellsToSkip}
+        disableHighlight={this.state.disableHighlight}
         headerCells={headerCells}
         minGames={MIN_GAMES}
         seasonType={this.props.seasonType}

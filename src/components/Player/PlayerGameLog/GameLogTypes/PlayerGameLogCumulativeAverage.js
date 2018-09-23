@@ -82,6 +82,7 @@ const mapStateToProps = (state, ownProps) => {
 PlayerGameLogCumulativeAverage.propTypes = {
   addTable: PropTypes.func,
   cellsToSkip: PropTypes.array,
+  disableHighlight: PropTypes.bool,
   headerCells: PropTypes.array,
   highlightWL: PropTypes.bool,
   isMissingAverages: PropTypes.bool,
