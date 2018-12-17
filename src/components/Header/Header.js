@@ -29,7 +29,7 @@ class Header extends Component {
         <header className="App-header">
           <AppMenu activeItem={this.mapUrlToActiveItem()} app={this} baseUrl={this.props.baseUrl} history={this.props.history} links={this.props.links} menuItems={this.props.headerNames}/>
           <div className='App-title-wrapper'>
-            <h1 className="App-title">{this.props.headerNames[this.state.activeItem]}</h1>
+            <h1 className="App-title">{this.props.headerNames[this.mapUrlToActiveItem()]}</h1>
           </div>
         </header>
         <div className='spacer' />
