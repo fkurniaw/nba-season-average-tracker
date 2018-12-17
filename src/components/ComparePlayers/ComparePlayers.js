@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import * as actions from '../../redux/actionCreators/comparePlayersActions';
 import { Search } from 'semantic-ui-react';
 
@@ -9,7 +9,7 @@ import './comparePlayers.css';
 
 const MAX_RESULTS = 5;
 
-function filterResults(players, currentInput) {
+function filterResults(players, currentInput, setPlayer, num) {
   let results = [];
   for (let i = 0; i < players.length; i++) {
     if (players[i].title.toLowerCase().indexOf(currentInput.toLowerCase()) > -1) {
@@ -19,7 +19,9 @@ function filterResults(players, currentInput) {
         id: players[i].id,
         renderer: function PlayerLink() {
           return (
-            <div>{players[i].title}</div>
+            <Link to={`/players/${players[i].id}`}
+              onClick={() => setPlayer(num, players[i].id, players[i].title)}
+              className='player-search-link'>{players[i].title}</Link>
           );
         }
       });
@@ -44,12 +46,12 @@ class ComparePlayers extends Component {
           className='compare-players-search'
           onResultSelect={(e, data) => this.props.setPlayerId(data.result.id, 'One')}
           onSearchChange={e => this.setState({ inputOne: e.target.value })}
-          results={filterResults(this.props.players, this.state.inputOne)}/>}
+          results={filterResults(this.props.players, this.state.inputOne, this.props.setPlayer, 1)}/>}
         Player 2: {<Search
           className='compare-players-search'
           onResultSelect={(e, data) => this.props.setPlayerId(data.result.id, 'Two')}
           onSearchChange={e => this.setState({ inputTwo: e.target.value })}
-          results={filterResults(this.props.players, this.state.inputTwo)}/>}
+          results={filterResults(this.props.players, this.state.inputTwo, this.setPlayer, 2)}/>}
       </div>
     );
   }
@@ -64,11 +66,13 @@ const mapStateToProps = state => {
 };
 
 const actionCreators = {
+  setPlayerOne: actions.setComparePlayer,
   setPlayerId: actions.setPlayerId
 };
 
 ComparePlayers.propTypes = {
   players: PropTypes.array,
+  setPlayer: PropTypes.func,
   setPlayerId: PropTypes.func
 };
 

@@ -7,3 +7,7 @@ export function setPlayerId(playerId, num) {
     num
   };
 }
+
+export function setComparePlayer() {
+  return null;
+}
