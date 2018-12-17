@@ -1,0 +1,2 @@
+1. Refactor Search bar from PlayerSearch into reusable component
+2. Add universal styling for player options in PlayerSearch and ComparePlayers
