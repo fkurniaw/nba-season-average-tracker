@@ -4,6 +4,7 @@
 }
 
 .App-contents {
+  height: calc(70vh + 100px);
   overflow-y: auto;
 }
 

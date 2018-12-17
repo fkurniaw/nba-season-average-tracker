@@ -20,3 +20,6 @@
 .spacer {
   height: 135px;
 }
+.header-wrapper {
+  height: calc(110px + 5vh);
+}

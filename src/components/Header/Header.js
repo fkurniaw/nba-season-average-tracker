@@ -15,11 +15,19 @@ class Header extends Component {
       activeItem
     };
   }
+  mapUrlToActiveItem() {
+    const activeItemMap = {
+      Home: 0,
+      ComparePlayers: 2
+    };
+    const currentPathName = this.props.history.location.pathname.substring(1);
+    return activeItemMap[currentPathName] > -1 ? activeItemMap[currentPathName] : null;
+  }
   render() {
     return (
-      <div>
+      <div className='header-wrapper'>
         <header className="App-header">
-          <AppMenu activeItem={this.state.activeItem} app={this} baseUrl={this.props.baseUrl} history={this.props.history} links={this.props.links} menuItems={this.props.headerNames}/>
+          <AppMenu activeItem={this.mapUrlToActiveItem()} app={this} baseUrl={this.props.baseUrl} history={this.props.history} links={this.props.links} menuItems={this.props.headerNames}/>
           <div className='App-title-wrapper'>
             <h1 className="App-title">{this.props.headerNames[this.state.activeItem]}</h1>
           </div>
