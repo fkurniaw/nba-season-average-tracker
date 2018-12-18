@@ -46,8 +46,10 @@ export function players(state = initialPlayersState, action) {
   }
 }
 
-export function uiState(state = initialUiState, action) {
+export function ui(state = initialUiState, action) {
   switch (action.type) {
+    case types.SET_CHOSEN_LETTER:
+      return Object.assign({}, state, { chosenLetter: action.chosenLetter });
     case types.SET_PLAYER_ERROR:
       return Object.assign({}, state, { playerError: action.playerError });
     default:

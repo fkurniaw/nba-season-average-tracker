@@ -22,5 +22,6 @@ export const initialPlayersState = {
   }
 };
 export const initialUiState = {
+  chosenLetter: 'A',
   playerError: false
 };

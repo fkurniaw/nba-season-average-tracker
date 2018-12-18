@@ -1,3 +1,18 @@
+.home-letters {
+  color: #4183c4;
+  cursor: pointer;
+  display: inline-block;
+  margin-right: 5px;
+}
+.home-letters:hover {
+  color: #1153c4;
+  text-decoration: underline;
+}
+.home-letters.chosen {
+  color: #000000;
+  cursor: default;
+  text-decoration: underline;
+}
 .players-list-table {
   margin: 20px
 }

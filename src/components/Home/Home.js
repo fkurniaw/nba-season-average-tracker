@@ -8,12 +8,18 @@ import * as actions from '../../redux/actionCreators/playersActions';
 
 import './home.css';
 
+const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+
 function clearPlayerInfo(props) {
   props.setCurrentPlayer({});
   props.setPlayerBio({});
 }
 
 const Home = props => {
+  const mappedLetters = letters.map(letter => {
+    return <h3 className={`home-letters${letter === props.chosenLetter ? ' chosen' : ''}`} key={letter}>{letter}</h3>;
+  });
+
   let sortedPlayers = Object.keys(props.players);
   sortedPlayers.sort((a, b) => props.players[a].title.localeCompare(props.players[b].title));
   let rows = sortedPlayers.map((id, i) => {
@@ -29,6 +35,9 @@ const Home = props => {
   });
   return (
     <div className='players-list-table'>
+      <div>
+        {mappedLetters}
+      </div>
       <Table>
         <Table.Header>
           <Table.Row>
@@ -44,6 +53,7 @@ const Home = props => {
 };
 
 Home.propTypes = {
+  chosenLetter: PropTypes.string,
   players: PropTypes.object,
   setCurrentPlayer: PropTypes.func,
   setPlayerBio: PropTypes.func
@@ -51,6 +61,7 @@ Home.propTypes = {
 
 const mapStateToProps = state => {
   return {
+    chosenLetter: state.ui.chosenLetter,
     players: state.players.players
   };
 };

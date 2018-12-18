@@ -135,7 +135,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     currentPlayer: state.players.currentPlayer,
     id: ownProps.id,
-    playerError: state.uiState.playerError
+    playerError: state.ui.playerError
   };
 };
 

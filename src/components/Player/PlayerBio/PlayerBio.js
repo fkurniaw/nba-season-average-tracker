@@ -62,7 +62,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     headlineStats: state.players.playerBio.headlineStats || {},
     id: ownProps.id,
-    playerError: state.uiState.playerError,
+    playerError: state.ui.playerError,
     playerInfo: state.players.playerBio.playerInfo || {},
     playerName: state.players.playerName || ''
   };
