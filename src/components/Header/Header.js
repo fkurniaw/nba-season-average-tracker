@@ -32,7 +32,6 @@ class Header extends Component {
             <h1 className="App-title">{this.props.headerNames[this.mapUrlToActiveItem()]}</h1>
           </div>
         </header>
-        <div className='spacer' />
       </div>
     );
   }

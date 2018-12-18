@@ -17,7 +17,7 @@ function onSearchChange(e) {
   this.setState({ currentInput: e.target.value });
 }
 
-function filterResults(players, currentInput, setCurrentPlayer) {
+function filterResults(players, currentInput, setCurrentPlayer, setPlayerBio) {
   let results = [];
   for (let i = 0; i < players.length; i++) {
     if (players[i].title.toLowerCase().indexOf(currentInput.toLowerCase()) > -1) {
@@ -28,7 +28,10 @@ function filterResults(players, currentInput, setCurrentPlayer) {
         renderer: function PlayerLink() {
           return (
             <Link to={`/players/${players[i].id}`}
-              onClick={() => setCurrentPlayer(players[i].id, players[i].title)}
+              onClick={() => {
+                setPlayerBio({});
+                setCurrentPlayer(players[i].id, players[i].title);
+              }}
               className='player-search-link'>{players[i].title}</Link>
           );
         }
@@ -91,7 +94,7 @@ class PlayerSearch extends Component {
           this.setCurrentPlayer(data.result.id, data.result.title);
         }}
         onSearchChange={onSearchChange.bind(this)}
-        results={filterResults(this.props.players, this.state.currentInput, this.setCurrentPlayer.bind(this))}
+        results={filterResults(this.props.players, this.state.currentInput, this.setCurrentPlayer.bind(this), this.props.setPlayerBio.bind(this))}
       />
     );
   }

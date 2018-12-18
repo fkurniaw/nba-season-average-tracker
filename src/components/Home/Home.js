@@ -4,8 +4,14 @@ import { connect } from 'react-redux';
 
 import { Link } from 'react-router-dom';
 import { Table } from 'semantic-ui-react';
+import * as actions from '../../redux/actionCreators/playersActions';
 
 import './home.css';
+
+function clearPlayerInfo(props) {
+  props.setCurrentPlayer({});
+  props.setPlayerBio({});
+}
 
 const Home = props => {
   let sortedPlayers = Object.keys(props.players);
@@ -14,7 +20,7 @@ const Home = props => {
     return (
       <Table.Row key={props.players[id].key}>
         <Table.Cell>
-          <Link to={`/players/${id}`}>
+          <Link to={`/players/${id}`} onClick={() => clearPlayerInfo(props)}>
             {props.players[id].title}
           </Link>
         </Table.Cell>
@@ -38,7 +44,9 @@ const Home = props => {
 };
 
 Home.propTypes = {
-  players: PropTypes.object
+  players: PropTypes.object,
+  setCurrentPlayer: PropTypes.func,
+  setPlayerBio: PropTypes.func
 };
 
 const mapStateToProps = state => {
@@ -47,4 +55,9 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(Home);
+const actionCreators = {
+  setCurrentPlayer: actions.setCurrentPlayer,
+  setPlayerBio: actions.setPlayerBio
+};
+
+export default connect(mapStateToProps, actionCreators)(Home);

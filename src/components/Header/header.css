@@ -17,9 +17,7 @@
   font-size: 1.5em;
   padding-top: calc(50px - 1.5em);
 }
-.spacer {
-  height: 135px;
-}
+
 .header-wrapper {
   height: calc(110px + 5vh);
 }
