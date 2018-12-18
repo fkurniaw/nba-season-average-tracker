@@ -1,2 +1,5 @@
 1. Refactor Search bar from PlayerSearch into reusable component
 2. Add universal styling for player options in PlayerSearch and ComparePlayers
+3. Clear player information when navigating to another player
+4. Alphabetize players on home screen
+5. Add asynchronous rendering for home screen

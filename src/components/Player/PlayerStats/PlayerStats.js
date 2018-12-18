@@ -108,7 +108,9 @@ class PlayerStats extends Component {
       <div>
         {!this.props.playerError && <div className='player-stats-table-wrapper'>
           {Object.keys(this.props.currentPlayer).length > 0 ? this.renderTable('regularSeasonAvg', 'careerTotalsRegular') : <Loader active />}
-          {Object.keys(this.props.currentPlayer).length > 0 ? this.renderTable('postSeasonAvg', 'careerTotalsPost') : <Loader active />}
+          {Object.keys(this.props.currentPlayer).length > 0
+            ? this.props.currentPlayer.postSeasonAvg.length > 0 ? this.renderTable('postSeasonAvg', 'careerTotalsPost') : <h3>No Playoff Statistics Available</h3>
+            : <Loader active />}
         </div>}
       </div>
     );
