@@ -11,6 +11,10 @@ import './playerStats.css';
 import { Link } from 'react-router-dom';
 import { Loader, Table } from 'semantic-ui-react';
 
+function getFieldType(seasonStats, field) {
+  return typeof (seasonStats[field]) === 'number' || typeof (seasonStats[field]) === 'string' ? seasonStats[field] : '-';
+}
+
 class PlayerStats extends Component {
   componentDidMount() {
     this.props.setPlayerId(this.props.match.params.id);
@@ -25,17 +29,17 @@ class PlayerStats extends Component {
       console.info(err);
     });
   }
-  addMainStats(stat, i, maxes, seasonType) {
+  addMainStats(seasonStats, i, maxes, seasonType) {
     let cells = [];
     fields.forEach((field, j) => {
       let fieldString;
-      if (nonRoundedFields.includes(field)) fieldString = typeof (stat[field]) === 'number' || typeof (stat[field]) === 'string' ? stat[field] : '-';
-      else fieldString = typeof (stat[field]) === 'number' ? stat[field].toFixed(field.indexOf('_pct') > -1 ? 3 : 1) : '-';
-      if (typeof (stat[field]) === 'number' && typeof (i) === 'number' && j > 0 && stat[field] > 0) {
-        if (maxes[j - 1].vals.some(val => stat[field] > val)) {
+      if (nonRoundedFields.includes(field)) fieldString = getFieldType(seasonStats, field);
+      else fieldString = typeof (seasonStats[field]) === 'number' ? seasonStats[field].toFixed(field.indexOf('_pct') > -1 ? 3 : 1) : '-';
+      if (typeof (seasonStats[field]) === 'number' && typeof (i) === 'number' && j > 0 && seasonStats[field] > 0) {
+        if (maxes[j - 1].vals.some(val => seasonStats[field] > val)) {
           maxes[j - 1].vals = [fieldString];
           maxes[j - 1].rows = [i];
-        } else if (maxes[j - 1].vals.some(val => stat[field] === val)) {
+        } else if (maxes[j - 1].vals.some(val => seasonStats[field] === val)) {
           // keep track of multiple occurrences of career highs
           maxes[j - 1].vals.push(fieldString);
           maxes[j - 1].rows.push(i);
@@ -50,12 +54,12 @@ class PlayerStats extends Component {
       );
     });
     return (
-      <Table.Row key={`${stat.season_id} ${i}`}>
+      <Table.Row key={`${seasonStats.season_id} ${i}`}>
         <Table.Cell className={i === 'career' ? 'career-stat' : 'season-stat'}>
           {i === 'career' ? 'Career'
-            : <Link to={`/players/${this.props.match.params.id}/gamelog/${stat.season_id}/${seasonType}`}
+            : <Link to={`/players/${this.props.match.params.id}/gamelog/${seasonStats.season_id}/${seasonType}`}
               onClick={() => this.props.setPlayerGameLog([], seasonType)}>
-              {stat.season_id}
+              {seasonStats.season_id}
             </Link> || '-'}
         </Table.Cell>
         {cells}
