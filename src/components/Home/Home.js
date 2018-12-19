@@ -20,14 +20,13 @@ const Home = props => {
     return <h3 className={`home-letters${letter === props.chosenLetter ? ' chosen' : ''}`} key={letter}>{letter}</h3>;
   });
 
-  let sortedPlayers = Object.keys(props.players);
-  sortedPlayers.sort((a, b) => props.players[a].title.localeCompare(props.players[b].title));
-  let rows = sortedPlayers.map((id, i) => {
+  let sortedPlayers = props.players;
+  let rows = sortedPlayers.map((player, i) => {
     return (
-      <Table.Row key={props.players[id].key}>
+      <Table.Row key={player.key}>
         <Table.Cell>
-          <Link to={`/players/${id}`} onClick={() => clearPlayerInfo(props)}>
-            {props.players[id].title}
+          <Link to={`/players/${player.id}`} onClick={() => clearPlayerInfo(props)}>
+            {player.lastFirst}
           </Link>
         </Table.Cell>
       </Table.Row>
@@ -54,7 +53,7 @@ const Home = props => {
 
 Home.propTypes = {
   chosenLetter: PropTypes.string,
-  players: PropTypes.object,
+  players: PropTypes.array,
   setCurrentPlayer: PropTypes.func,
   setPlayerBio: PropTypes.func
 };

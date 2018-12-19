@@ -59,9 +59,7 @@ class ComparePlayers extends Component {
 
 const mapStateToProps = state => {
   return {
-    players: Object.keys(state.players.players).map(id => {
-      return { id, title: state.players.players[id].title, key: state.players.players[id].key };
-    })
+    players: state.players.players
   };
 };
 

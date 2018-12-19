@@ -7,7 +7,7 @@ export const initialPlayersState = {
   highlightWL: true,
   minIndex: 6,
   missingFields: {},
-  players: {},
+  players: [],
   playerBio: {},
   playerName: '',
   postSeason: {
