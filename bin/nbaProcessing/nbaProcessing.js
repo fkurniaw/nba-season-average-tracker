@@ -6,7 +6,8 @@ const allPlayers = (Season, res) => {
   // NOTE: user-agent must be changed to Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36
   nba.stats.allPlayers({ Season, IsOnlyCurrentSeason: '0', LeagueId: '00' }).then(nbaRes => {
     res.send(nbaRes.CommonAllPlayers.map(player => {
-      return { id: player.person_id, firstLast: player.display_first_last, lastFirst: player.display_last_comma_first };
+      const split = player.display_last_comma_first.split(', ');
+      return { id: player.person_id, lastFirst: player.display_last_comma_first, last: split[0], first: split[1] };
     }));
   }).catch(err => {
     console.info(err);

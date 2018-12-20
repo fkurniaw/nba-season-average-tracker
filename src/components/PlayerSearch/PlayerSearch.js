@@ -78,7 +78,7 @@ class PlayerSearch extends Component {
       Sources.getPlayers('2018').then(res => {
         let players = [];
         res.data.forEach((player, i) => {
-          players.push({ 'title': player.firstLast, lastFirst: player.lastFirst, key: `${player.firstLast}-${i}`, id: `${player.id}` });
+          players.push({ 'title': `${player.first} ${player.last}`, lastFirst: player.lastFirst, key: `${player.first} ${player.last}-${i}`, id: `${player.id}` });
         });
         this.props.setAllPlayers(players);
       }).catch(err => {
