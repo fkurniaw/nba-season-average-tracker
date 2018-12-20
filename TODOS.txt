@@ -2,4 +2,6 @@
 2. Add universal styling for player options in PlayerSearch and ComparePlayers
 3. Clear player information when navigating to another player
 4. Alphabetize players on home screen
-5. Add asynchronous rendering for home screen
+5. Only display players falling under selected letter for home screen
+6. Render players on home screen asynchronously
+7. Add sorting by draft class
