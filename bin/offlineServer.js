@@ -43,16 +43,16 @@ const getPlayerBio = (playerID, res) => {
 };
 
 const getPlayerGameLog = (playerID, season, res) => {
-  const playerIdMap = { '977': 'Kobe', '76375': 'Wilt', '893': 'Michael' }; // for offline testing
-  let gameLogDir = path.join(__dirname, '/sampleData/gameLog', `${playerIdMap[playerID]}${season}Game.json`);
+  let gameLogDir = path.join(__dirname, '/sampleData/gameLog', `${PlayerMap[playerID]}${season}Game.json`);
   fs.readFile(gameLogDir, 'utf8', (err, data) => {
     if (err && err.code === 'ENOENT') console.error('Invalid filename provided');
     try {
       var gameLog = JSON.parse(data);
       gameLog.PlayerGameLog.reverse();
-      const { averages, totals } = cumulativeFiltering(gameLog.PlayerGameLog);
+      const { averages, totals, missingFields } = cumulativeFiltering(gameLog.PlayerGameLog);
       gameLog.CumulativeAverageGameLog = averages;
       gameLog.CumulativeTotalGameLog = totals;
+      gameLog.missingFields = missingFields;
       return res.send(gameLog);
     } catch (err) { console.info(err); }
   });
