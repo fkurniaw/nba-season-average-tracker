@@ -2,25 +2,22 @@ const fs = require('fs');
 const path = require('path');
 const cumulativeFiltering = require(path.join(__dirname, '/gameLogFiltering', '/cumulativeSeasonAverageFiltering.js'));
 
+const PlayerMap = {
+  '977': 'Kobe',
+  '893': 'Jordan',
+  '2544': 'LeBron',
+  '76375': 'Wilt',
+  '76003': 'Kareem'
+};
+
 const playerStats = (playerID, res) => {
-  switch (playerID) {
-    case '977':
-      return res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsKobe.json'));
-    case '893':
-      return res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsJordan.json'));
-    case '2544':
-      return res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsLeBron.json'));
-    case '76375':
-      return res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsWilt.json'));
-    case '76003':
-      return res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsKareem.json'));
-    default:
-      return res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsLeBron.json'));
-  }
+  if (PlayerMap[playerID]) res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', `playerStats${PlayerMap[playerID]}.json`));
+  else res.sendFile(path.join(__dirname, 'sampleData/playerStatsCareer', 'playerStatsLeBron.json'));
 };
 
 const getPlayerBio = (playerID, res) => {
-  fs.readFile(path.join(__dirname, 'sampleData', 'playerBio', `${playerID === '893' ? 'Michael' : 'Kobe'}Bio.json`), (err, data) => {
+  let playerName = PlayerMap[playerID] ? PlayerMap[playerID] : 'Kobe';
+  fs.readFile(path.join(__dirname, 'sampleData', 'playerBio', `${playerName}Bio.json`), (err, data) => {
     if (err && err.code === 'ENOENT') console.error('Invalid filename provided');
     try {
       var playerBio = JSON.parse(data);
