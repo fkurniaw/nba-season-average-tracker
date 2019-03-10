@@ -6,7 +6,7 @@ Useful for determining their peak performance in the middle of a season.
 ![NBA Cumulative Season Average](NBA-Preview.png)
 
 ### Running
-`npm run start:dev` to run react app\
+`npm run start:web` to run react app\
 `npm run start:server` to run node.js backend
 `npm run start:offline` to run offline server (using nba player data from sample data) 
 
@@ -36,7 +36,7 @@ Server runs on localhost:8080
 
 ### scripts
 - `npm run lint`
-- `npm run start:dev`
+- `npm run start:web`
 - `npm run start:server`
 - `npm run test`
 - `npm run build-webpack`
