@@ -29,7 +29,7 @@
   "scripts": {
     "lint": "eslint src",
     "start": "node ./bin/server",
-    "start:dev": "webpack-dev-server --mode development --open --hot --inline --env.SERVER_URL=http://localhost:8080/",
+    "start:web": "webpack-dev-server --mode development --open --hot --inline --env.SERVER_URL=http://localhost:8080/",
     "start:server": "nodemon ./bin/server",
     "test": "react-scripts test --env=jsdom",
     "build": "react-scripts build",
