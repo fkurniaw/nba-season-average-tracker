@@ -6,40 +6,22 @@ Useful for determining their peak performance in the middle of a season.
 ![NBA Cumulative Season Average](NBA-Preview.png)
 
 ### Running
-`npm run start:web` to run react app\
-`npm run start:server` to run node.js backend
-`npm run start:offline` to run offline server (using nba player data from sample data) 
+`yarn start:web` to run react app\
+`yarn start:server` to run node.js backend
+`yarn start:offline` to run offline server (using nba player data from sample data) 
 
 Website runs on localhost:3000\
 Server runs on localhost:8080
 
 ### Installing npm packages
-`npm i`
-
-#### All npm packages
-- `npm install --save create-react-app`
-- `npm install --save react-router-dom`
-- `npm install --save redux`
-- `npm install --save react-redux`
-- `npm install --save eslint`
-- `npm install --save axios`
-- `npm install --save semantic-ui-React`
-- `npm install --save express`
-- `npm install --save body-parser`
-- `npm install --save morgan`
-- `npm install --save fs`
-- `npm install --save react-google-charts`
-    ##### **if cli is installed globally, need to install sequelize globally**
-    - `npm install -g sequelize-cli`
-    - `npm install -g sequelize`
-    - `npm install --save sequelize pg pg-hstore`
+`yarn install`
 
 ### scripts
-- `npm run lint`
-- `npm run start:web`
-- `npm run start:server`
-- `npm run test`
-- `npm run build-webpack`
+- `yarn lint`
+- `yarn start:web`
+- `yarn start:server`
+- `yarn test`
+- `yarn build-webpack`
 
 ### ESLINT
 Using ESLint standard

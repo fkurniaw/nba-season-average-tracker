@@ -19,33 +19,66 @@ const links = ['Home', 'SearchPlayer', 'ComparePlayers'];
 const headerNames = ['Home', 'Search Player', 'Compare Players'];
 
 const WrappedHeader = withRouter(({ history }) => (
-  <Header baseUrl={baseUrl} headerNames={headerNames} links={links} history={history}/>
+    <Header
+        baseUrl={baseUrl}
+        headerNames={headerNames}
+        links={links}
+        history={history}
+    />
 ));
 
-const App = props => { // TODO: add nested routes for game log
-  return (
-    <Provider store={store}>
-      <BrowserRouter baseName={baseUrl}>
-        <div className="App">
-          <WrappedHeader />
-          <div className='App-contents'>
-            <Switch>
-              <Route exact path={`/${links[0]}`} component={Home}/>
-              <Route exact path={`/${links[2]}`} component={ComparePlayers}/>
-              <Route exact path={`/players/:id`}
-                render={({ match }) => <div><PlayerBio id={match.params.id}/><PlayerStats id={match.params.id} match={match}/></div>}/>
-              <Route exact path={`/players/:id/gamelog/:season/:seasonType`}
-                render={({ match }) => (
-                  <div>
-                    <PlayerBio id={match.params.id}/>
-                    <PlayerGameLog id={match.params.id} match={match} seasonType={match.params.seasonType}/>
-                  </div>)} />
-            </Switch>
-          </div>
-        </div>
-      </BrowserRouter>
-    </Provider>
-  );
+const App = props => {
+    // TODO: add nested routes for game log
+    return (
+        <Provider store={store}>
+            <BrowserRouter baseName={baseUrl}>
+                <div className="App">
+                    <WrappedHeader />
+                    <div className="App-contents">
+                        <Switch>
+                            <Route
+                                exact
+                                path={`/${links[0]}`}
+                                component={Home}
+                            />
+                            <Route
+                                exact
+                                path={`/${links[2]}`}
+                                component={ComparePlayers}
+                            />
+                            <Route
+                                exact
+                                path={`/players/:id`}
+                                render={({ match }) => (
+                                    <div>
+                                        <PlayerBio id={match.params.id} />
+                                        <PlayerStats
+                                            id={match.params.id}
+                                            match={match}
+                                        />
+                                    </div>
+                                )}
+                            />
+                            <Route
+                                exact
+                                path={`/players/:id/gamelog/:season/:seasonType`}
+                                render={({ match }) => (
+                                    <div>
+                                        <PlayerBio id={match.params.id} />
+                                        <PlayerGameLog
+                                            id={match.params.id}
+                                            match={match}
+                                            seasonType={match.params.seasonType}
+                                        />
+                                    </div>
+                                )}
+                            />
+                        </Switch>
+                    </div>
+                </div>
+            </BrowserRouter>
+        </Provider>
+    );
 };
 
 export default App;

@@ -1,9 +1,11 @@
 {
-    "extends": ["standard", "plugin:react/recommended", "plugin:import/errors"],
+    "extends": ["standard", "plugin:react/recommended", "plugin:import/errors", "prettier", "prettier/standard"],
+    "plugins": ["prettier"],
     "rules": {
       "arrow-parens": ["error", "as-needed"],
       "object-curly-spacing": ["error", "always"],
       "no-console": ["error", { "allow": ["warn", "error", "info"] }],
+      "prettier/prettier": "error",
       "space-before-function-paren": ["error", "never"],
       "semi": [2, "always"],
       "react/jsx-wrap-multilines": ["error", {
