@@ -18,7 +18,7 @@ function onSearchChange(e) {
 }
 
 function filterResults(players, currentInput, setCurrentPlayer, setPlayerBio) {
-    let results = [];
+    const results = [];
     for (let i = 0; i < players.length; i++) {
         if (
             players[i].title.toLowerCase().indexOf(currentInput.toLowerCase()) >
@@ -57,6 +57,7 @@ class PlayerSearch extends Component {
         super();
         this.state = { currentInput: '' };
     }
+
     setCurrentPlayer(id, title) {
         this.props.setCurrentPlayer({});
         this.props.setPlayerBio({});
@@ -89,11 +90,12 @@ class PlayerSearch extends Component {
             })
             .catch(err => console.info(err));
     }
+
     componentDidMount() {
         if (this.props.players.length === 0) {
-            Sources.getPlayers('2018')
+            Sources.getPlayers('2019')
                 .then(res => {
-                    let players = [];
+                    const players = [];
                     res.data.forEach((player, i) => {
                         players.push({
                             title: `${player.first} ${player.last}`,
@@ -109,6 +111,7 @@ class PlayerSearch extends Component {
                 });
         }
     }
+
     render() {
         return (
             <Search
