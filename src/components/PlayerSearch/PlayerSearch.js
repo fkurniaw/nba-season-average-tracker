@@ -93,7 +93,7 @@ class PlayerSearch extends Component {
 
     componentDidMount() {
         if (this.props.players.length === 0) {
-            Sources.getPlayers('2019')
+            Sources.getPlayers('2020')
                 .then(res => {
                     const players = [];
                     res.data.forEach((player, i) => {

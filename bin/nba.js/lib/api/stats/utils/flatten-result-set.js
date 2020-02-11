@@ -1,7 +1,7 @@
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
-  value: true
+    value: true,
 });
 exports.default = flattenResultSet;
 /**
@@ -12,22 +12,22 @@ exports.default = flattenResultSet;
  * @return {Promise}
  */
 function flattenResultSet(resultSets) {
-  return new Promise((resolve, reject) => {
-    var flattened = {};
+    return new Promise((resolve, reject) => {
+        var flattened = {};
 
-    resultSets.forEach((result, i) => {
-      flattened[result.name] = result.rowSet.map((row, j) => {
-        var mappedRow = {};
+        resultSets.forEach((result, i) => {
+            flattened[result.name] = result.rowSet.map((row, j) => {
+                var mappedRow = {};
 
-        row.forEach((value, k) => {
-          var key = result.headers[k].toLowerCase();
-          mappedRow[key] = value;
+                row.forEach((value, k) => {
+                    var key = result.headers[k].toLowerCase();
+                    mappedRow[key] = value;
+                });
+
+                return mappedRow;
+            });
         });
 
-        return mappedRow;
-      });
+        return resolve(flattened);
     });
-
-    return resolve(flattened);
-  });
 }

@@ -1,7 +1,7 @@
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
-  value: true
+    value: true,
 });
 exports.data = exports.stats = undefined;
 
@@ -9,7 +9,9 @@ var _api = require('./api');
 
 var _api2 = _interopRequireDefault(_api);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : { default: obj };
+}
 
 var stats = _api2.default.stats;
 var data = _api2.default.data;

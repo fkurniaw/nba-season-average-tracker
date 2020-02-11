@@ -1,7 +1,7 @@
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
-  value: true
+    value: true,
 });
 exports.default = formEndpoint;
 /**
@@ -11,12 +11,13 @@ exports.default = formEndpoint;
  * @return {string} Encoded endpoint.
  */
 function formEndpoint(endpoint) {
-  var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    var params =
+        arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-  Object.keys(params).forEach(k => {
-    if (params.hasOwnProperty(k)) {
-      endpoint = endpoint.split('{{' + k + '}}').join(params[k]);
-    }
-  });
-  return endpoint;
+    Object.keys(params).forEach(k => {
+        if (params.hasOwnProperty(k)) {
+            endpoint = endpoint.split('{{' + k + '}}').join(params[k]);
+        }
+    });
+    return endpoint;
 }

@@ -1,7 +1,7 @@
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
-  value: true
+    value: true,
 });
 exports.work = work;
 
@@ -13,7 +13,9 @@ var _flattenResultSet = require('./flatten-result-set');
 
 var _flattenResultSet2 = _interopRequireDefault(_flattenResultSet);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Make a request, parse & flatten the response and return it.
@@ -23,21 +25,36 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @return {Function} Flattened API response
  */
 function get(endpoint, query, cb) {
-  console.info('sending nba request');
-  (0, _fetch2.default)(endpoint, { query: query }).then(res => {
-    console.info('received body');
-    return res.body;
-  }).then(body => {
-    return JSON.parse(body);
-  }).then(json => {
-    return (0, _flattenResultSet2.default)(json.resultSets || [json.resultSet]);
-  }).then(flattened => {
-    return cb(null, flattened);
-  }).catch(err => {
-    return cb(Object.assign(err, {
-      body: err.statusCode && err.statusMessage && err.response && err.response.body ? err.response.body : err.message
-    }));
-  });
+    console.info('sending nba request');
+    (0, _fetch2.default)(endpoint, { query: query })
+        .then(res => {
+            console.info('received body');
+            return res.body;
+        })
+        .then(body => {
+            return JSON.parse(body);
+        })
+        .then(json => {
+            return (0, _flattenResultSet2.default)(
+                json.resultSets || [json.resultSet]
+            );
+        })
+        .then(flattened => {
+            return cb(null, flattened);
+        })
+        .catch(err => {
+            return cb(
+                Object.assign(err, {
+                    body:
+                        err.statusCode &&
+                        err.statusMessage &&
+                        err.response &&
+                        err.response.body
+                            ? err.response.body
+                            : err.message,
+                })
+            );
+        });
 }
 
 /**
@@ -48,24 +65,24 @@ function get(endpoint, query, cb) {
  * @return {Function|Promise} Request response / error
  */
 function work(constants, query, cb) {
-  if (typeof query === 'function') {
-    cb = query;
-    query = null;
-  }
+    if (typeof query === 'function') {
+        cb = query;
+        query = null;
+    }
 
-  query = Object.assign(constants.defaults, query || {});
+    query = Object.assign(constants.defaults, query || {});
 
-  var doRequest = function doRequest(handleResponse, handleError) {
-    return get(constants.endpoint, query, (err, res) => {
-      if (err) return handleError(err);
-      return handleResponse(res);
-    });
-  };
+    var doRequest = function doRequest(handleResponse, handleError) {
+        return get(constants.endpoint, query, (err, res) => {
+            if (err) return handleError(err);
+            return handleResponse(res);
+        });
+    };
 
-  if (cb) {
-    return doRequest(res => {
-      return cb(null, res);
-    }, cb);
-  }
-  return new Promise(doRequest);
+    if (cb) {
+        return doRequest(res => {
+            return cb(null, res);
+        }, cb);
+    }
+    return new Promise(doRequest);
 }

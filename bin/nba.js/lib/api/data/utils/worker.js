@@ -1,7 +1,7 @@
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
-  value: true
+    value: true,
 });
 exports.work = work;
 
@@ -9,7 +9,9 @@ var _fetch = require('./fetch');
 
 var _fetch2 = _interopRequireDefault(_fetch);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Make the request to the API, parse and format the JSON, and return it.
@@ -17,23 +19,36 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @param  {Function} cb - Error-first callback.
  */
 function get(endpoint, cb) {
-  (0, _fetch2.default)(endpoint).then(res => {
-    return res.body;
-  }).then(body => {
-    return JSON.parse(body);
-  }).then(json => {
-    if (json.hasOwnProperty('_internal')) {
-      delete json._internal;
-    }
+    (0, _fetch2.default)(endpoint)
+        .then(res => {
+            return res.body;
+        })
+        .then(body => {
+            return JSON.parse(body);
+        })
+        .then(json => {
+            if (json.hasOwnProperty('_internal')) {
+                delete json._internal;
+            }
 
-    return json;
-  }).then(json => {
-    return cb(null, json);
-  }).catch(err => {
-    return cb(Object.assign(err, {
-      body: err.statusCode && err.statusMessage && err.response && err.response.body ? err.response.body : err.message
-    }));
-  });
+            return json;
+        })
+        .then(json => {
+            return cb(null, json);
+        })
+        .catch(err => {
+            return cb(
+                Object.assign(err, {
+                    body:
+                        err.statusCode &&
+                        err.statusMessage &&
+                        err.response &&
+                        err.response.body
+                            ? err.response.body
+                            : err.message,
+                })
+            );
+        });
 }
 
 /**
@@ -44,17 +59,17 @@ function get(endpoint, cb) {
  * @return {Function|Promise} Error-first callback or Promise containing JSON response.
  */
 function work(endpoint, cb) {
-  var doRequest = function doRequest(handleResponse, handleError) {
-    return get(endpoint, (err, res) => {
-      if (err) return handleError(err);
-      return handleResponse(res);
-    });
-  };
+    var doRequest = function doRequest(handleResponse, handleError) {
+        return get(endpoint, (err, res) => {
+            if (err) return handleError(err);
+            return handleResponse(res);
+        });
+    };
 
-  if (cb) {
-    return doRequest(res => {
-      return cb(null, res);
-    }, cb);
-  }
-  return new Promise(doRequest);
+    if (cb) {
+        return doRequest(res => {
+            return cb(null, res);
+        }, cb);
+    }
+    return new Promise(doRequest);
 }
